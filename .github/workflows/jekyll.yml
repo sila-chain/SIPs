@@ -33,10 +33,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout EIPs
+      - name: Checkout SIPs
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          repository: ethereum/EIPs
+          repository: sila/SIPs
           path: ''
       - name: Merge Repos
         uses: ./.github/actions/merge-repos

@@ -2,13 +2,13 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  {% if page.layout == "eip" %}
+  {% if page.layout == "sip" %}
     {% if page.category == "ERC" %}
-      <title>ERC-{{ page.eip }}: {{ page.title | escape }}</title>
-      <meta property="og:title" content="ERC-{{ page.eip }}: {{ page.title | escape }}" />
+      <title>ERC-{{ page.sip }}: {{ page.title | escape }}</title>
+      <meta property="og:title" content="ERC-{{ page.sip }}: {{ page.title | escape }}" />
     {% else %}
-      <title>EIP-{{ page.eip }}: {{ page.title | escape }}</title>
-      <meta property="og:title" content="EIP-{{ page.eip }}: {{ page.title | escape }}" />
+      <title>SIP-{{ page.sip }}: {{ page.title | escape }}</title>
+      <meta property="og:title" content="SIP-{{ page.sip }}: {{ page.title | escape }}" />
     {% endif %}
     <meta name="description" content="{{page.description | escape }}" />
     <meta property="og:description" content="{{page.description | escape }}" />
@@ -29,9 +29,9 @@
   <meta property="og:url" content="{{site.url}}{{page.url}}" />
   <meta property="og:site_name" content="{{site.title}}" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="{{site.url}}/assets/images/eip-og-image.png" />
+  <meta property="og:image" content="{{site.url}}/assets/images/sip-og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="{{site.url}}/assets/images/eip-og-image.png" />
+  <meta name="twitter:image" content="{{site.url}}/assets/images/sip-og-image.png" />
   <meta name="twitter:site" content="@{{site.twitter_username}}" />
   <script type="application/ld+json">
     {

@@ -23,6 +23,6 @@ gem "wdm", "~> 0.1.1" if Gem.win_platform?
 
 gem "html-proofer", '>=5.0.7'
 
-gem "eip_validator", ">=0.8.2"
+gem "sip_validator", git: "https://github.com/sila-chain/sip_validator.git", tag: "v0.8.2-sila.1"
 
 gem "webrick", "~> 1.8" # needed for macOS builds

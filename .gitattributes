@@ -3,5 +3,5 @@
 *.sol linguist-language=Solidity
 
 # Force Linux line endings on all files
-# Necessary for running eipw locally
+# Necessary for running sipw locally
 * text=auto eol=lf

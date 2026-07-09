@@ -3,5 +3,5 @@ layout: page
 title: All
 ---
 
-{% assign eips=site.pages|where_exp:"page","page.url contains '/EIPS/'" %}
-{% include eiptable.html eips=eips %}
+{% assign sips=site.pages|where_exp:"page","page.url contains '/SIPS/'" %}
+{% include siptable.html sips=sips %}

@@ -1,4 +1,4 @@
-#### EIP Type / Category ####
+#### SIP Type / Category ####
 
 # Type
 t-informational: this?.new?.type == "Informational" && this?.old?.status != "Living"
@@ -10,8 +10,8 @@ t-networking: this?.new?.category == "Networking" && this?.old?.status != "Livin
 t-interface: this?.new?.category == "Interface" && this?.old?.status != "Living"
 t-erc: this?.new?.category == "ERC" && this?.old?.status != "Living"
 
-# Living EIPs & EIP Template
-t-process: this?.old?.status == "Living" || this?.old?.title == "<The EIP title is a few words, not a complete sentence>"
+# Living SIPs & SIP Template
+t-process: this?.old?.status == "Living" || this?.old?.title == "<The SIP title is a few words, not a complete sentence>"
 
 # Status
 s-draft: this?.new?.status == "Draft"

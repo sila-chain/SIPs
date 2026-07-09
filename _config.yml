@@ -13,13 +13,13 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Ethereum Improvement Proposals
+title: Sila Improvement Proposals
 description: >-
-  Ethereum Improvement Proposals (EIPs) describe standards for the Ethereum
+  Sila Improvement Proposals (SIPs) describe standards for the Sila
   platform, such as core protocol specifications.
-url: "https://eips.ethereum.org"
-github_username:  ethereum
-repository: ethereum/EIPs
+url: "https://sips.sila.org"
+github_username:  sila
+repository: sila/SIPs
 lang: en
 timezone: UTC
 
@@ -38,7 +38,7 @@ markdown: kramdown
 theme: minima
 kramdown:
   parse_block_html: false
-  # This is the default, but be explicit as some EIPs depend on it
+  # This is the default, but be explicit as some SIPs depend on it
   auto_ids: true
   # This is to ensure more deterministic behaviour
   auto_id_stripping: true
@@ -49,9 +49,9 @@ permalink: /:slug
 defaults:
   -
     scope:
-      path: "EIPS"
+      path: "SIPS"
     values:
-      layout: "eip"
+      layout: "sip"
 
 exclude:
   - .github
@@ -62,11 +62,11 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - eip-template.md
+  - sip-template.md
   - ISSUE_TEMPLATE.md
   - PULL_REQUEST_TEMPLATE.md
   - README.md
-  
+
 include:
   - LICENSE
 

@@ -41,10 +41,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Checkout EIPs
+      - name: Checkout SIPs
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          repository: ethereum/EIPs
+          repository: sila/SIPs
           path: ''
       - name: Merge Repos
         uses: ./.github/actions/merge-repos
@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout EIP Repository
+      - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
 
       - name: Link Checker
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout EIP Repository
+      - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
 
       - name: Get Changed Files
@@ -112,28 +112,28 @@ jobs:
           path: ${{ env.CHANGED_FILES }}
           skip: .git,Gemfile.lock,**/*.png,**/*.gif,**/*.jpg,**/*.svg,.codespell-whitelist,vendor,_site,_config.yml,style.css
 
-  eipw-validator:
-    name: EIP Walidator
+  sipw-validator:
+    name: SIP Walidator
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout EIP Repository
+      - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
       - name: Merge Repos
         uses: ./.github/actions/merge-repos
 
-      - uses: ethereum/eipw-action@be3fa642ec311d0b8e1fdb811e5c9b4ada3d3d93
-        id: eipw
+      - uses: sila/sipw-action@be3fa642ec311d0b8e1fdb811e5c9b4ada3d3d93
+        id: sipw
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           unchecked: 1, 5069, 5757
-          options-file: config/eipw.toml
+          options-file: config/sipw.toml
 
   markdownlint:
     name: Markdown Linter
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout EIP Repository
+      - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
 
       - name: Get Changed Files
@@ -141,7 +141,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          gh pr diff ${{ github.event.number }} --name-only | grep -E -x '[^/]+\.md|EIPS/eip-[0-9]+\.md' >> $GITHUB_ENV
+          gh pr diff ${{ github.event.number }} --name-only | grep -E -x '[^/]+\.md|SIPS/sip-[0-9]+\.md' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
