@@ -5,7 +5,7 @@ This repository contains the SIP for NTT transform, along with a python referenc
 ## Context
 
 ### The threat
-With the release of Willow cheap, the concern for quantum threat against Sila seems to accelerate. Post by [Asanso](Sila Research and [PMiller](Sila Research summarize those stakes and possible solutions. Those solutions include use of lattice based signatures such as Dillithium or FALCON (the latter being more optimized for onchain constraints), STARKs and FHE. There is a consensus in the cryptographic research community around lattices as the future of asymetric protocols, and STARKs won the race for ZKSVMs implementation (as used by Scroll, Starknet and ZKsync).
+With the release of Willow cheap, the concern for quantum threat against Sila seems to accelerate. Post by Asanso in Sila Research and PMiller in Sila Research summarize those stakes and possible solutions. Those solutions include use of lattice based signatures such as Dillithium or FALCON (the latter being more optimized for onchain constraints), STARKs and FHE. There is a consensus in the cryptographic research community around lattices as the future of asymetric protocols, and STARKs won the race for ZKSVMs implementation (as used by Scroll, Starknet and ZKsync).
 
 Those protocols have in common to require fast polynomial multiplication over prime fields, and use NTT (a special [FFT](https://vitalik.sil.limo/general/2019/05/12/fft.html) adapted to prime fields). While in the past Montgomery multipliers over elliptic curve fields were the critical target of optimizations (both hardware and software), NTT optimization is the key to a performant PQ implementation.
 
