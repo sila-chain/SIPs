@@ -44,26 +44,22 @@ jobs:
       - name: Checkout SIPs
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          repository: sila/SIPs
+          repository: sila-chain/SIPs
           path: ''
       - name: Merge Repos
         uses: ./.github/actions/merge-repos
       - name: Setup Ruby
         uses: ruby/setup-ruby@fb404b9557c186e349162b0d8efb06e2bc36edea # v1.232.0
         with:
-          ruby-version: '3.1' # Not needed with a .ruby-version file
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          cache-version: 0 # Increment this number if you need to re-download cached gems
+          ruby-version: '3.1'
+          bundler-cache: true
+          cache-version: 0
       - name: Build with Jekyll
-        run: bundle exec jekyll build
-        env:
-          JEKYLL_ENV: production
-
-      - name: Build Website
         run: |
           bundle exec jekyll doctor
           bundle exec jekyll build
-
+        env:
+          JEKYLL_ENV: production
       - name: HTML Proofer
         run: bundle exec htmlproofer --allow-missing-href --disable-external --assume-extension '.html' --log-level=:info --cache='{"timeframe":{"external":"6w"}}' --checks 'Links,Images,Scripts,OpenGraph' --no-check-sri --ignore-empty-alt --no-enforce_https ./_site
       - name: DNS Validator
@@ -122,7 +118,7 @@ jobs:
       - name: Merge Repos
         uses: ./.github/actions/merge-repos
 
-      - uses: sila/sipw-action@be3fa642ec311d0b8e1fdb811e5c9b4ada3d3d93
+      - uses: sila-chain/sipw-action@e853dd2cd181f6830eb74474f09898e773c30476
         id: sipw
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
