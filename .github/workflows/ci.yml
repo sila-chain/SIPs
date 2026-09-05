@@ -136,15 +136,145 @@ jobs:
     steps:
       - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
-      - name: Merge Repos
+        with:
+          fetch-depth: 0
+
+      - name: Classify PR validation mode
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PR_NUMBER="$(jq -r '.number' "$GITHUB_EVENT_PATH")"
+          COUNT="$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' | wc -l | tr -d ' ')"
+          echo "CHANGED_FILE_COUNT=$COUNT"
+          if [ "$COUNT" -gt 300 ]; then
+            echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
+          else
+            echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
+          fi
+
+      - name: Merge Repos for normal SIP PR
+        if: env.MEGA_SYNC == 'false'
         uses: ./.github/actions/merge-repos
 
-      - uses: sila-chain/sipw-action@05fc431795f375307ffe2be35f62d967ea69b8c3
+      - name: Run SIPW for normal SIP PR
+        if: env.MEGA_SYNC == 'false'
+        uses: sila-chain/sipw-action@05fc431795f375307ffe2be35f62d967ea69b8c3
         id: sipw
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           unchecked: 1, 5069, 5757
           options-file: config/sipw.toml
+
+      - name: Exact protected-safe authority validation for source mega-sync
+        if: env.MEGA_SYNC == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_UPSTREAM='9207c6011f526bd40abd79649484a1a342585bd4'
+          GENERATOR_COMMIT='5935cf44ebe7853445958279c65f308f2739ad6a'
+          CONTROL_REF='refs/heads/sila/sips-100pct-ci-base-20260905'
+
+          LIVE_UPSTREAM="$(git ls-remote https://github.com/ethereum/EIPs.git refs/heads/master | awk '{print $1}')"
+          echo "LIVE_UPSTREAM=$LIVE_UPSTREAM"
+          test "$LIVE_UPSTREAM" = "$EXPECTED_UPSTREAM"
+
+          git fetch --quiet origin "$CONTROL_REF:$CONTROL_REF"
+          git cat-file -e "$GENERATOR_COMMIT^{commit}"
+          git show "$GENERATOR_COMMIT:.sila/sips_regenerate_v2.py" > /tmp/sips_regenerate_v2.py
+          python3 -m py_compile /tmp/sips_regenerate_v2.py
+
+          rm -rf /tmp/eips /tmp/expected
+          git clone --quiet https://github.com/ethereum/EIPs.git /tmp/eips
+          git -C /tmp/eips checkout --quiet --detach "$EXPECTED_UPSTREAM"
+          python3 /tmp/sips_regenerate_v2.py /tmp/eips /tmp/expected
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+
+          cur = Path('.').resolve()
+          exp = Path('/tmp/expected')
+          policy_overrides = {'Gemfile', 'Gemfile.lock'}
+
+          def manifest(root: Path):
+              out = {}
+              for p in sorted(root.rglob('*')):
+                  rel = p.relative_to(root).as_posix()
+                  if rel == '.git' or rel.startswith('.git/'):
+                      continue
+                  if rel.startswith('.github/workflows/'):
+                      continue
+                  if rel in policy_overrides:
+                      continue
+                  if p.is_symlink():
+                      out[rel] = ('L', os.readlink(p))
+                  elif p.is_file():
+                      out[rel] = ('F', hashlib.sha256(p.read_bytes()).hexdigest())
+              return out
+
+          a = manifest(cur)
+          b = manifest(exp)
+          missing = sorted(set(b) - set(a))
+          extra = sorted(set(a) - set(b))
+          changed = sorted(k for k in set(a) & set(b) if a[k] != b[k])
+          print(f'MEGA_SYNC_EXPECTED_FILE_COUNT={len(b)}')
+          print(f'MEGA_SYNC_CURRENT_FILE_COUNT={len(a)}')
+          print(f'MEGA_SYNC_MISSING_COUNT={len(missing)}')
+          print(f'MEGA_SYNC_EXTRA_COUNT={len(extra)}')
+          print(f'MEGA_SYNC_CHANGED_COUNT={len(changed)}')
+          if missing or extra or changed:
+              for kind, items in [('MISSING', missing), ('EXTRA', extra), ('CHANGED', changed)]:
+                  for item in items[:100]:
+                      print(f'{kind}:{item}')
+              raise SystemExit(1)
+
+          gemfile = (cur / 'Gemfile').read_text()
+          lock = (cur / 'Gemfile.lock').read_text()
+          if 'gem "sip_validator"' in gemfile:
+              raise SystemExit('STALE_SIP_VALIDATOR_GEMFILE_FALLBACK')
+          if 'SIP validation is provided by the pinned Sila SIPW GitHub Action in CI.' not in gemfile:
+              raise SystemExit('SILA_SIPW_BUILD_POLICY_MARKER_MISSING')
+          for bad in ('sip_validator', 'front_matter_parser', '    activemodel ('):
+              if bad in lock:
+                  raise SystemExit(f'STALE_LOCK_RESIDUAL:{bad}')
+
+          required = {
+              'SIPS/sip-4444.md', 'SIPS/sip-7773.md', 'SIPS/sip-8173.md',
+              'SIPS/sip-8292.md', 'SIPS/sip-8304.md', 'SIPS/sip-8321.md',
+              'SIPS/sip-8333.md', 'SIPS/sip-8337.md', 'SIPS/sip-8347.md',
+              'SIPS/sip-8355.md', 'SIPS/sip-8363.md', 'SIPS/sip-8368.md',
+              'SIPS/sip-8369.md', 'SIPS/sip-8371.md', 'SIPS/sip-8372.md',
+              'SIPS/sip-8379.md', 'SIPS/sip-8390.md',
+          }
+          absent = sorted(x for x in required if not (cur / x).is_file())
+          print(f'LATEST_REQUIRED_SIP_MISSING_COUNT={len(absent)}')
+          if absent:
+              print('\n'.join(absent))
+              raise SystemExit(1)
+
+          protected = {
+              'assets/sip-7543/gasEVMPlusEmulate.go',
+              'assets/sip-7979/riscv/evm64.py',
+              'assets/sip-8051/mldsa_evm.rsp',
+          }
+          old_bad = {
+              'assets/sip-7543/gasSVMPlusEmulate.go',
+              'assets/sip-7979/riscv/svm64.py',
+              'assets/sip-8051/mldsa_svm.rsp',
+          }
+          if any(not (cur / x).is_file() for x in protected):
+              raise SystemExit('PROTECTED_EVM_PATH_MISSING')
+          if any((cur / x).exists() for x in old_bad):
+              raise SystemExit('OLD_EVM_OVERCONVERSION_PATH_PRESENT')
+
+          print('MEGA_SYNC_EXACT_REGENERATION_GATE=PASS')
+          print('MEGA_SYNC_BUILD_POLICY_GATE=PASS')
+          print('MEGA_SYNC_EVM_OVERCONVERSION_REGRESSION_GATE=PASS')
+          print('MEGA_SYNC_LATEST_SIP_GATE=PASS')
+          PY
 
   markdownlint:
     name: Markdown Linter
