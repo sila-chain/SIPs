@@ -1,0 +1,52 @@
+name: Pure Sila CI Policy Bootstrap
+
+on:
+  push:
+    branches:
+      - sila/sips-pure-identity-20260905
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: sila/sips-pure-identity-20260905
+          fetch-depth: 0
+      - name: Convert CI authority to pure Sila policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/ci.yml')
+          s = p.read_text()
+          s = s.replace('Exact protected-safe authority validation for source mega-sync', 'Exact pure-Sila authority validation for source mega-sync', 1)
+          s = s.replace("GENERATOR_COMMIT='b9c063e02ee8d88d320513a57b5c7420584527a2'", "GENERATOR_COMMIT='5c18e6a2a61680422a59beadfbfdb4e0f2a26a35'", 1)
+          s = s.replace("CONTROL_REF='refs/heads/sila/sips-100pct-ci-base-20260905'", "CONTROL_REF='refs/heads/sila/sips-pure-identity-generator-20260905'", 1)
+          old = ("          protected = {\n" "              'assets/sip-7543/gasEVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/evm64.py',\n" "              'assets/sip-8051/mldsa_evm.rsp',\n" "          }\n" "          old_bad = {\n" "              'assets/sip-7543/gasSVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/svm64.py',\n" "              'assets/sip-8051/mldsa_svm.rsp',\n" "          }\n" "          if any(not (cur / x).is_file() for x in protected):\n" "              raise SystemExit('PROTECTED_EVM_PATH_MISSING')\n" "          if any((cur / x).exists() for x in old_bad):\n" "              raise SystemExit('OLD_EVM_OVERCONVERSION_PATH_PRESENT')\n")
+          new = ("          pure_required = {\n" "              'assets/sip-7543/gasSVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/svm64.py',\n" "              'assets/sip-8051/mldsa_svm.rsp',\n" "              'assets/sip-8052/kat_silfalcon512.rsp',\n" "              'assets/sip-1884/sila_processing.png',\n" "              'assets/sip-3607/sila.diff',\n" "          }\n" "          legacy_forbidden = {\n" "              'assets/sip-7543/gasEVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/evm64.py',\n" "              'assets/sip-8051/mldsa_evm.rsp',\n" "              'assets/sip-8052/kat_ethfalcon512.rsp',\n" "              'assets/sip-1884/geth_processing.png',\n" "              'assets/sip-3607/geth.diff',\n" "          }\n" "          if any(not (cur / x).is_file() for x in pure_required):\n" "              raise SystemExit('PURE_SILA_REQUIRED_PATH_MISSING')\n" "          if any((cur / x).exists() for x in legacy_forbidden):\n" "              raise SystemExit('LEGACY_IDENTITY_PATH_PRESENT')\n")
+          assert old in s
+          s = s.replace(old, new, 1)
+          old2 = ("          native_required_paths = {\n" "              'assets/sip-3267/contracts/SRC1155/ISRC1155.sol',\n" "              'assets/sip-3267/contracts/SRC1155/ISRC1155TokenReceiver.sol',\n" "              'assets/sip-7543/gasEVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/evm64.py',\n" "              'assets/sip-8051/mldsa_evm.rsp',\n" "          }\n" "          native_forbidden_paths = {\n" "              'assets/sip-3267/contracts/SRC1155/IERC1155.sol',\n" "              'assets/sip-3267/contracts/SRC1155/IERC1155TokenReceiver.sol',\n" "              'assets/sip-7543/gasSVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/svm64.py',\n" "              'assets/sip-8051/mldsa_svm.rsp',\n" "          }\n")
+          new2 = ("          native_required_paths = {\n" "              'assets/sip-3267/contracts/SRC1155/ISRC1155.sol',\n" "              'assets/sip-3267/contracts/SRC1155/ISRC1155TokenReceiver.sol',\n" "              'assets/sip-7543/gasSVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/svm64.py',\n" "              'assets/sip-8051/mldsa_svm.rsp',\n" "              'assets/sip-8052/kat_silfalcon512.rsp',\n" "          }\n" "          native_forbidden_paths = {\n" "              'assets/sip-3267/contracts/SRC1155/IERC1155.sol',\n" "              'assets/sip-3267/contracts/SRC1155/IERC1155TokenReceiver.sol',\n" "              'assets/sip-7543/gasEVMPlusEmulate.go',\n" "              'assets/sip-7979/riscv/evm64.py',\n" "              'assets/sip-8051/mldsa_evm.rsp',\n" "              'assets/sip-8052/kat_ethfalcon512.rsp',\n" "          }\n")
+          assert old2 in s
+          s = s.replace(old2, new2, 1)
+          s = s.replace("print('MEGA_SYNC_EVM_OVERCONVERSION_REGRESSION_GATE=PASS')", "print('MEGA_SYNC_PURE_SILA_PATH_GATE=PASS')", 1)
+          s = s.replace('- Required external technical identifiers remain protected.', '- Legacy Ethereum/EVM technical identifiers are rejected; Sila-native equivalents are required.', 1)
+          p.write_text(s)
+          PY
+          grep -F "GENERATOR_COMMIT='5c18e6a2a61680422a59beadfbfdb4e0f2a26a35'" .github/workflows/ci.yml
+          grep -F "MEGA_SYNC_PURE_SILA_PATH_GATE=PASS" .github/workflows/ci.yml
+          grep -F "kat_silfalcon512.rsp" .github/workflows/ci.yml
+          git rm .github/workflows/pure-ci-policy-fix.yml
+          git config user.name 'SILA Network'
+          git config user.email 'pssd500@gmail.com'
+          git add .github/workflows/ci.yml
+          git diff --cached --check
+          git commit -m 'ci: enforce pure Sila regeneration and path policy'
+          git push origin HEAD:sila/sips-pure-identity-20260905
