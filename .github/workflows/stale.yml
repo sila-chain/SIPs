@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   stale:
-    if: github.repository == 'sila/sips'
+    if: github.repository == 'sila-chain/SIPs'
     runs-on: ubuntu-latest
     name: Mark Stale Issues
     steps:
