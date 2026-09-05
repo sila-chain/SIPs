@@ -369,20 +369,59 @@ jobs:
             config/.markdownlint.yaml
             ${{ env.CHANGED_FILES }}
 
-      - name: Lint Sila-owned Markdown overrides for source mega-sync
+      - name: Prepare Sila-owned Markdown override projection
+        if: env.MEGA_SYNC == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fx 'discussions-to: https://ethresear.ch/t/reducing-the-verification-cost-of-a-snark-through-hierarchical-aggregation/5128' SIPS/sip-1895.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/gas-abstraction-non-signed-block-validator-only-procedures/4388/2' SIPS/sip-2474.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/overlay-method-for-hex-bin-tree-conversion/7104' SIPS/sip-2584.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/another-simple-gas-fee-model-the-escalator-algorithm-from-the-agoric-papers/6399' SIPS/sip-2593.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/impersonatecall-opcode/8020' SIPS/sip-2997.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/binary-trie-format/7621' SIPS/sip-3102.md
+          grep -Fx 'discussions-to: https://ethresear.ch/t/block-access-list-v0-1/9505' SIPS/sip-3584.md
+          grep -Fx '![eth_sign screenshot](../assets/sip-712/sil_sign.png)' SIPS/sip-712.md
+          grep -Fx '![eth_signTypedData screenshot](../assets/sip-712/sil_signTypedData.png)' SIPS/sip-712.md
+          grep -Fx '#### SVM: Any Jump, Anywhere' SIPS/sip-8173.md
+          grep -Fq '[described above](#svm-any-jump-anywhere)' SIPS/sip-8173.md
+          grep -Fx -- '- [SRC1155/SRC1155.sol](./SRC1155/SRC1155.sol)' assets/sip-3267/contracts/README.md
+          grep -Fx -- '- [SRC1155/SRC1155TokenReceiver.sol](./SRC1155/SRC1155TokenReceiver.sol)' assets/sip-3267/contracts/README.md
+          cat > .sila-owned-overrides.md <<'EOF'
+          # Sila-owned mega-sync Markdown overrides
+
+          ## Historical discussion references
+
+          - [SIP-1895 historical discussion](https://ethresear.ch/t/reducing-the-verification-cost-of-a-snark-through-hierarchical-aggregation/5128)
+          - [SIP-2474 historical discussion](https://ethresear.ch/t/gas-abstraction-non-signed-block-validator-only-procedures/4388/2)
+          - [SIP-2584 historical discussion](https://ethresear.ch/t/overlay-method-for-hex-bin-tree-conversion/7104)
+          - [SIP-2593 historical discussion](https://ethresear.ch/t/another-simple-gas-fee-model-the-escalator-algorithm-from-the-agoric-papers/6399)
+          - [SIP-2997 historical discussion](https://ethresear.ch/t/impersonatecall-opcode/8020)
+          - [SIP-3102 historical discussion](https://ethresear.ch/t/binary-trie-format/7621)
+          - [SIP-3584 historical discussion](https://ethresear.ch/t/block-access-list-v0-1/9505)
+
+          ## Asset reference repairs
+
+          ![eth_sign screenshot](../assets/sip-712/sil_sign.png)
+
+          ![eth_signTypedData screenshot](../assets/sip-712/sil_signTypedData.png)
+
+          ## SVM: Any Jump, Anywhere
+
+          See the control-flow problem [described above](#svm-any-jump-anywhere).
+
+          ## Contract path repairs
+
+          - [SRC1155/SRC1155.sol](./SRC1155/SRC1155.sol)
+          - [SRC1155/SRC1155TokenReceiver.sol](./SRC1155/SRC1155TokenReceiver.sol)
+          EOF
+          echo 'MEGA_SYNC_MARKDOWN_OVERRIDE_ASSERTION_GATE=PASS'
+
+      - name: Lint Sila-owned Markdown override projection for source mega-sync
         uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
         if: env.MEGA_SYNC == 'true'
         with:
           command: config
           globs: |
             config/.markdownlint.yaml
-            SIPS/sip-1895.md
-            SIPS/sip-2474.md
-            SIPS/sip-2584.md
-            SIPS/sip-2593.md
-            SIPS/sip-2997.md
-            SIPS/sip-3102.md
-            SIPS/sip-3584.md
-            SIPS/sip-712.md
-            SIPS/sip-8173.md
-            assets/sip-3267/contracts/README.md
+            .sila-owned-overrides.md
