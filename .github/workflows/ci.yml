@@ -317,6 +317,7 @@ jobs:
 
           url_re = re.compile(r'https?://[^\s\)\]\}\>\"\']+')
           protected_identity_res = [
+              re.compile(r'github\.com/ethereum/go-ethereum(?:/[A-Za-z0-9_.-]+)*', re.IGNORECASE),
               re.compile(r'go-ethereum', re.IGNORECASE),
               re.compile(r'openethereum-evm', re.IGNORECASE),
               re.compile(r'Py-EVM', re.IGNORECASE),
