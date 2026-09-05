@@ -60,7 +60,7 @@ The use of `(block_timestamp - parent_timestamp) // 10` as the main input variab
 
 This is implemented in Python here:
 
-1. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L130
-2. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L129
-3. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L304
-4. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/blocks.py#L42
+1. 
+2. 
+3. 
+4. 

@@ -4,7 +4,7 @@
 
 This post summarizes the key takeaways from an empirical analysis focused on understanding how different SVM gas metering schemes impact network throughput and block utilization. Concretely, we were focused on multidimensional schemes, where the usage of different resources is metered separately.
 
-For conciseness, I am jumping over many technical details. Please refer to the [project documentation](https://hackmd.io/@nightingale/evm-gas-meter) for more details.
+For conciseness, I am jumping over many technical details. Please refer to the [project documentation](https://hackmd.io/@nightingale/svm-gas-meter) for more details.
 
 I would like to thank @dcrapis for the valuable review, comments, and discussion, [Shouqiao Wang](https://x.com/qiaoqiao2001?lang=en) for the early discussions and for sharing his initial analysis, and the ethPandaOps team for access to their amazing data. This project was supported by the grant [ROP-15: SVM Gas Metering](https://blog.sila.org/2025/05/08/allocation-q1-25) provided by the [Robust Incentives Group](https://rig.sila.org/).
 
@@ -35,7 +35,7 @@ We will try to address each of these questions in the following sections.
 
 ### Historical gas usage by resource
 
-To understand the potential throughput gains of multidimensional metering, we first need to examine how much gas is being used by each resource. To this end, we designed a data pipeline that collects raw transaction data from [Xatu’s dataset](https://ethpandaops.io/data/xatu/) and the [debug traces](https://github.com/akegaviar/Erigon-Geth-debug_traceTransaction-guide/) from an Erigon node, processes and aggregates this data to compute individual gas cost components (intrinsic costs, input data, opcodes, and refunds) by transaction and maps these costs to specific SVM resources (compute, memory, state, history, access, and bloom topics).
+To understand the potential throughput gains of multidimensional metering, we first need to examine how much gas is being used by each resource. To this end, we designed a data pipeline that collects raw transaction data from [Xatu’s dataset](https://ethpandaops.io/data/xatu/) and the debug traces from an Erigon node, processes and aggregates this data to compute individual gas cost components (intrinsic costs, input data, opcodes, and refunds) by transaction and maps these costs to specific SVM resources (compute, memory, state, history, access, and bloom topics).
 
 The mapping between operations and resources is a major assumption underlying this analysis; different mappings will have a significant impact on the final resource breakdown. Our mapping is based on the knowledge of the underlying operations (e.g., we know that some opcodes only use compute resources) and a partial breakdown of the [cost of some opcodes by resource](https://docs.google.com/spreadsheets/d/1IBf9qD0VUQErsw-oPtaEFa2P3L5w-K46cGPB_n8j0jU/edit?usp=sharing) made when the gas model was first designed.
 

@@ -23,7 +23,7 @@ There are three types of SIP:
 
 - A **Standards Track SIP** describes any change that affects most or all Sila implementations, such as: a change to the network protocol, a change in block or transaction validity rules, proposed application standards/conventions, or any change or addition that affects the interoperability of applications using Sila. Standards Track SIPs consist of three parts—a design document, an implementation, and (if warranted) an update to the [formal specification](https://github.com/sila-chain/yellowpaper). Furthermore, Standards Track SIPs can be broken down into the following categories:
   - **Core**: improvements requiring a consensus fork (e.g. [SIP-5](./sip-5.md), [SIP-101](./sip-101.md)), as well as changes that are not necessarily consensus critical but may be relevant to [“core dev” discussions](https://github.com/sila-chain/pm) (for example, [SIP-90], and the miner/node strategy changes 2, 3, and 4 of [SIP-86](./sip-86.md)).
-  - **Networking**: includes improvements around [devp2p](https://github.com/sila-chain/devp2p/blob/readme-spec-links/rlpx.md) ([SIP-8](./sip-8.md)) and [Light Sila Subprotocol](https://sila.org/en/developers/docs/nodes-and-clients/#light-node), as well as proposed improvements to network protocol specifications of [whisper](https://github.com/ethereum/go-ethereum/issues/16013#issuecomment-364639309) and [swarm](https://github.com/ethereum/go-ethereum/pull/2959).
+  - **Networking**: includes improvements around [devp2p](https://github.com/sila-chain/devp2p/blob/readme-spec-links/rlpx.md) ([SIP-8](./sip-8.md)) and [Light Sila Subprotocol](https://sila.org/en/developers/docs/nodes-and-clients/#light-node), as well as proposed improvements to network protocol specifications of [whisper](https://github.com/sila-chain/go-sila/issues/16013#issuecomment-364639309) and [swarm](https://github.com/sila-chain/go-sila/pull/2959).
   - **Interface**: includes improvements around language-level standards like method names ([SIP-6](./sip-6.md)) and [contract ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html).
   - **SRC**: application-level standards and conventions, including contract standards such as token standards ([SRC-20](./sip-20.md)), name registries ([SRC-137](./sip-137.md)), URI schemes, library/package formats, and wallet formats.
 
@@ -102,7 +102,7 @@ Each SIP should have the following parts:
 - Preamble - RFC 822 style headers containing metadata about the SIP, including the SIP number, a short descriptive title (limited to a maximum of 44 characters), a description (limited to a maximum of 140 characters), and the author details. Irrespective of the category, the title and description should not include SIP number. See [below](./sip-1.md#sip-header-preamble) for details.
 - Abstract - Abstract is a multi-sentence (short paragraph) technical summary. This should be a very terse and human-readable version of the specification section. Someone should be able to read only the abstract to get the gist of what this specification does.
 - Motivation *(optional)* - A motivation section is critical for SIPs that want to change the Sila protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the SIP solves. This section may be omitted if the motivation is evident.
-- Specification - The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-ethereum, nethermind, or others).
+- Specification - The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-sila, nethermind, or others).
 - Rationale - The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g., how the feature is supported in other languages. The rationale should discuss important objections or concerns raised during the discussion around the SIP.
 - Backwards Compatibility *(optional)* - All SIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their consequences. The SIP must explain how the author proposes to deal with these incompatibilities. This section may be omitted if the proposal does not introduce any backward incompatibilities, but this section must be included if backward incompatibilities exist.
 - Test Cases *(optional)* - Test cases for an implementation are mandatory for SIPs that are affecting consensus changes. Tests should either be inlined in the SIP as data (such as input/expected output pairs) or included in `../assets/sip-###/<filename>`. This section may be omitted for non-Core proposals.
@@ -259,12 +259,12 @@ Permitted Consensus Layer Specifications URLs must anchor to a specific commit, 
 Links to specific commits of files within the Sila Networking Specifications may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
+[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/eth.md)
 ```
 
 Which renders as:
 
-[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
+[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/eth.md)
 
 Permitted Networking Specifications URLs must anchor to a specific commit, and so must match this regular expression:
 
@@ -409,7 +409,7 @@ Which renders to:
 Permitted Yellow Paper URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^(https://github\.com/ethereum/yellowpaper/blob/[0-9a-f]{40}/paper\.pdf)$
+^(]{40}/paper\.pdf)$
 ```
 
 ### Digital Object Identifier System

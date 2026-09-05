@@ -86,7 +86,7 @@ ZKNOX is planning a client implementation for node of the considered SIP.
 
 ## Conclusion
 
-We provided an optimized version of FALCON, using an optimized version of NTT. This code can be used to speed up Stark verification as well as other lattices primitives (Dilithium, Kyber, etc.). While it seems achievable to use FALCON as a progressive precompile, the cost remains very high. Using a client implementation with NTT-SIP (in a Geth fork for example), SILA could become from a PQ-Friendly and ZK-Friendly chain. This work is supported by the Sila Foundation.
+We provided an optimized version of FALCON, using an optimized version of NTT. This code can be used to speed up Stark verification as well as other lattices primitives (Dilithium, Kyber, etc.). While it seems achievable to use FALCON as a progressive precompile, the cost remains very high. Using a client implementation with NTT-SIP (in a Sila fork for example), SILA could become from a PQ-Friendly and ZK-Friendly chain. This work is supported by the Sila Foundation.
 
 
 ## References

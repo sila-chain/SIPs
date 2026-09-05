@@ -31,7 +31,7 @@ Per-spec NNLS fits of `test_runtime_ms` against `opcount`, one row per (target o
 | `besu` | 3652 | 0.7121 | 1.517e-05 | 1.00e-03 | [1.487e-05, 1.547e-05] |
 | `erigon` | 231 | 0.8953 | 1.012e-05 | 1.00e-03 | [9.693e-06, 1.054e-05] |
 | `ethrex` | 1562 | 0.8405 | 9.341e-06 | 1.00e-03 | [9.109e-06, 9.565e-06] |
-| `geth` | 4092 | 0.798 | 9.484e-06 | 1.00e-03 | [9.331e-06, 9.646e-06] |
+| `sila` | 4092 | 0.798 | 9.484e-06 | 1.00e-03 | [9.331e-06, 9.646e-06] |
 | `nethermind` | 1155 | 0.6416 | 7.747e-06 | 1.00e-03 | [7.305e-06, 8.208e-06] |
 | `reth` | 99 | 0.8305 | 7.01e-06 | 1.00e-03 | [6.317e-06, 7.706e-06] |
 
@@ -113,7 +113,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -200,7 +200,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.7859 | 1.656e-05 | 1.00e-03 | [1.628e-05, 1.683e-05] |
 | `erigon` | 231 | 0.8208 | 1.105e-05 | 1.00e-03 | [1.025e-05, 1.17e-05] |
 | `ethrex` | 1562 | 0.8416 | 9.448e-06 | 1.00e-03 | [9.222e-06, 9.67e-06] |
-| `geth` | 4092 | 0.8293 | 1.015e-05 | 1.00e-03 | [9.992e-06, 1.031e-05] |
+| `sila` | 4092 | 0.8293 | 1.015e-05 | 1.00e-03 | [9.992e-06, 1.031e-05] |
 | `nethermind` | 1155 | 0.8646 | 1.32e-05 | 1.00e-03 | [1.29e-05, 1.351e-05] |
 | `reth` | 99 | 0.8431 | 8.962e-06 | 1.00e-03 | [8.178e-06, 9.826e-06] |
 
@@ -282,7 +282,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -369,7 +369,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8417 | 1.955e-05 | 1.00e-03 | [1.928e-05, 1.984e-05] |
 | `erigon` | 231 | 0.8884 | 1.219e-05 | 1.00e-03 | [1.166e-05, 1.262e-05] |
 | `ethrex` | 1562 | 0.8376 | 1.036e-05 | 1.00e-03 | [1.011e-05, 1.063e-05] |
-| `geth` | 4092 | 0.8334 | 1.157e-05 | 1.00e-03 | [1.14e-05, 1.174e-05] |
+| `sila` | 4092 | 0.8334 | 1.157e-05 | 1.00e-03 | [1.14e-05, 1.174e-05] |
 | `nethermind` | 1155 | 0.8847 | 1.011e-05 | 1.00e-03 | [9.904e-06, 1.031e-05] |
 | `reth` | 99 | 0.8527 | 7.02e-06 | 1.00e-03 | [6.409e-06, 7.626e-06] |
 
@@ -451,7 +451,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -536,7 +536,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8314 | 1.784e-05 | 1.00e-03 | [1.759e-05, 1.81e-05] |
 | `erigon` | 231 | 0.8406 | 1.177e-05 | 1.00e-03 | [1.128e-05, 1.221e-05] |
 | `ethrex` | 1562 | 0.8405 | 8.857e-06 | 1.00e-03 | [8.66e-06, 9.061e-06] |
-| `geth` | 4092 | 0.834 | 1.108e-05 | 1.00e-03 | [1.091e-05, 1.126e-05] |
+| `sila` | 4092 | 0.834 | 1.108e-05 | 1.00e-03 | [1.091e-05, 1.126e-05] |
 | `nethermind` | 1155 | 0.8955 | 1.122e-05 | 1.00e-03 | [1.102e-05, 1.142e-05] |
 | `reth` | 99 | 0.8484 | 9.667e-06 | 1.00e-03 | [8.782e-06, 1.059e-05] |
 
@@ -618,7 +618,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -703,7 +703,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8029 | 1.454e-05 | 1.00e-03 | [1.43e-05, 1.477e-05] |
 | `erigon` | 231 | 0.7683 | 1.167e-05 | 1.00e-03 | [1.111e-05, 1.226e-05] |
 | `ethrex` | 1562 | 0.8369 | 6.94e-06 | 1.00e-03 | [6.752e-06, 7.112e-06] |
-| `geth` | 4092 | 0.8343 | 1.014e-05 | 1.00e-03 | [9.99e-06, 1.028e-05] |
+| `sila` | 4092 | 0.8343 | 1.014e-05 | 1.00e-03 | [9.99e-06, 1.028e-05] |
 | `nethermind` | 1155 | 0.9198 | 1.033e-05 | 1.00e-03 | [1.015e-05, 1.051e-05] |
 | `reth` | 99 | 0.8313 | 8.048e-06 | 1.00e-03 | [7.341e-06, 8.779e-06] |
 
@@ -785,7 +785,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -870,7 +870,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8188 | 1.452e-05 | 1.00e-03 | [1.428e-05, 1.476e-05] |
 | `erigon` | 231 | 0.7559 | 9.076e-06 | 1.00e-03 | [8.568e-06, 9.67e-06] |
 | `ethrex` | 1562 | 0.8289 | 5.599e-06 | 1.00e-03 | [5.462e-06, 5.734e-06] |
-| `geth` | 4092 | 0.8316 | 8.187e-06 | 1.00e-03 | [8.061e-06, 8.308e-06] |
+| `sila` | 4092 | 0.8316 | 8.187e-06 | 1.00e-03 | [8.061e-06, 8.308e-06] |
 | `nethermind` | 1155 | 0.9012 | 6.91e-06 | 1.00e-03 | [6.797e-06, 7.034e-06] |
 | `reth` | 99 | 0.8596 | 6.34e-06 | 1.00e-03 | [5.802e-06, 6.885e-06] |
 
@@ -952,7 +952,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1039,7 +1039,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8466 | 2.015e-05 | 1.00e-03 | [1.987e-05, 2.045e-05] |
 | `erigon` | 231 | 0.895 | 1.286e-05 | 1.00e-03 | [1.23e-05, 1.33e-05] |
 | `ethrex` | 1562 | 0.8344 | 1.055e-05 | 1.00e-03 | [1.032e-05, 1.081e-05] |
-| `geth` | 4092 | 0.8316 | 1.216e-05 | 1.00e-03 | [1.199e-05, 1.234e-05] |
+| `sila` | 4092 | 0.8316 | 1.216e-05 | 1.00e-03 | [1.199e-05, 1.234e-05] |
 | `nethermind` | 1155 | 0.9335 | 1.103e-05 | 1.00e-03 | [1.085e-05, 1.121e-05] |
 | `reth` | 99 | 0.8675 | 7.022e-06 | 1.00e-03 | [6.457e-06, 7.574e-06] |
 
@@ -1121,7 +1121,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1206,7 +1206,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8303 | 1.876e-05 | 1.00e-03 | [1.846e-05, 1.901e-05] |
 | `erigon` | 231 | 0.8949 | 1.247e-05 | 1.00e-03 | [1.192e-05, 1.293e-05] |
 | `ethrex` | 1562 | 0.8394 | 8.982e-06 | 1.00e-03 | [8.76e-06, 9.192e-06] |
-| `geth` | 4092 | 0.831 | 1.156e-05 | 1.00e-03 | [1.139e-05, 1.175e-05] |
+| `sila` | 4092 | 0.831 | 1.156e-05 | 1.00e-03 | [1.139e-05, 1.175e-05] |
 | `nethermind` | 1155 | 0.9136 | 1.238e-05 | 1.00e-03 | [1.217e-05, 1.258e-05] |
 | `reth` | 99 | 0.8589 | 1.058e-05 | 1.00e-03 | [9.658e-06, 1.152e-05] |
 
@@ -1288,7 +1288,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1373,7 +1373,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8109 | 1.537e-05 | 1.00e-03 | [1.514e-05, 1.563e-05] |
 | `erigon` | 231 | 0.8778 | 1.195e-05 | 1.00e-03 | [1.132e-05, 1.256e-05] |
 | `ethrex` | 1562 | 0.8385 | 7.31e-06 | 1.00e-03 | [7.131e-06, 7.493e-06] |
-| `geth` | 4092 | 0.831 | 1.029e-05 | 1.00e-03 | [1.014e-05, 1.046e-05] |
+| `sila` | 4092 | 0.831 | 1.029e-05 | 1.00e-03 | [1.014e-05, 1.046e-05] |
 | `nethermind` | 1155 | 0.9259 | 1.109e-05 | 1.00e-03 | [1.091e-05, 1.128e-05] |
 | `reth` | 99 | 0.8422 | 8.753e-06 | 1.00e-03 | [7.994e-06, 9.546e-06] |
 
@@ -1455,7 +1455,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1540,7 +1540,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8117 | 1.549e-05 | 1.00e-03 | [1.524e-05, 1.573e-05] |
 | `erigon` | 231 | 0.8938 | 9.202e-06 | 1.00e-03 | [8.769e-06, 9.614e-06] |
 | `ethrex` | 1562 | 0.8276 | 4.542e-06 | 1.00e-03 | [4.42e-06, 4.651e-06] |
-| `geth` | 4092 | 0.8289 | 8.62e-06 | 1.00e-03 | [8.492e-06, 8.756e-06] |
+| `sila` | 4092 | 0.8289 | 8.62e-06 | 1.00e-03 | [8.492e-06, 8.756e-06] |
 | `nethermind` | 1155 | 0.9146 | 8.104e-06 | 1.00e-03 | [7.961e-06, 8.245e-06] |
 | `reth` | 99 | 0.8655 | 6.348e-06 | 1.00e-03 | [5.832e-06, 6.881e-06] |
 
@@ -1622,7 +1622,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1709,7 +1709,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8315 | 2.338e-05 | 1.00e-03 | [2.307e-05, 2.371e-05] |
 | `erigon` | 231 | 0.9041 | 1.823e-05 | 1.00e-03 | [1.752e-05, 1.893e-05] |
 | `ethrex` | 1562 | 0.8367 | 1.361e-05 | 1.00e-03 | [1.327e-05, 1.394e-05] |
-| `geth` | 4092 | 0.8376 | 1.65e-05 | 1.00e-03 | [1.626e-05, 1.674e-05] |
+| `sila` | 4092 | 0.8376 | 1.65e-05 | 1.00e-03 | [1.626e-05, 1.674e-05] |
 | `nethermind` | 1155 | 0.9297 | 1.328e-05 | 1.00e-03 | [1.308e-05, 1.348e-05] |
 | `reth` | 99 | 0.8579 | 9.424e-06 | 1.00e-03 | [8.543e-06, 1.031e-05] |
 
@@ -1791,7 +1791,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -1878,7 +1878,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8484 | 3.576e-05 | 1.00e-03 | [3.528e-05, 3.625e-05] |
 | `erigon` | 231 | 0.8873 | 2.615e-05 | 1.00e-03 | [2.481e-05, 2.722e-05] |
 | `ethrex` | 1562 | 0.8258 | 2.265e-05 | 1.00e-03 | [2.212e-05, 2.319e-05] |
-| `geth` | 4092 | 0.8357 | 2.385e-05 | 1.00e-03 | [2.35e-05, 2.42e-05] |
+| `sila` | 4092 | 0.8357 | 2.385e-05 | 1.00e-03 | [2.35e-05, 2.42e-05] |
 | `nethermind` | 1155 | 0.9081 | 3.349e-05 | 1.00e-03 | [3.286e-05, 3.411e-05] |
 | `reth` | 99 | 0.8533 | 1.684e-05 | 1.00e-03 | [1.539e-05, 1.832e-05] |
 
@@ -1960,7 +1960,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2047,7 +2047,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.7664 | 9.826e-05 | 1.00e-03 | [9.736e-05, 9.917e-05] |
 | `erigon` | 924 | 0.8081 | 7.638e-05 | 1.00e-03 | [7.385e-05, 7.867e-05] |
 | `ethrex` | 6248 | 0.6558 | 1.303e-05 | 1.00e-03 | [1.131e-05, 1.468e-05] |
-| `geth` | 16368 | 0.789 | 8.134e-05 | 1.00e-03 | [8.075e-05, 8.201e-05] |
+| `sila` | 16368 | 0.789 | 8.134e-05 | 1.00e-03 | [8.075e-05, 8.201e-05] |
 | `nethermind` | 4620 | 0.6981 | 2.397e-05 | 1.00e-03 | [2.048e-05, 2.753e-05] |
 | `reth` | 396 | 0.5592 | 1.586e-05 | 1.00e-03 | [7.961e-06, 2.429e-05] |
 
@@ -2132,7 +2132,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2220,7 +2220,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.7844 | 0.0001079 | 1.00e-03 | [0.0001071, 0.0001089] |
 | `erigon` | 924 | 0.8265 | 7.606e-05 | 1.00e-03 | [7.33e-05, 7.866e-05] |
 | `ethrex` | 6248 | 0.6561 | 1.316e-05 | 1.00e-03 | [1.136e-05, 1.483e-05] |
-| `geth` | 16368 | 0.794 | 8.142e-05 | 1.00e-03 | [8.081e-05, 8.203e-05] |
+| `sila` | 16368 | 0.794 | 8.142e-05 | 1.00e-03 | [8.081e-05, 8.203e-05] |
 | `nethermind` | 4620 | 0.7005 | 2.444e-05 | 1.00e-03 | [2.1e-05, 2.794e-05] |
 | `reth` | 396 | 0.5698 | 1.625e-05 | 1.00e-03 | [7.498e-06, 2.462e-05] |
 
@@ -2305,7 +2305,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2393,7 +2393,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.7805 | 0.0001103 | 1.00e-03 | [0.0001094, 0.0001112] |
 | `erigon` | 924 | 0.8147 | 7.492e-05 | 1.00e-03 | [7.224e-05, 7.721e-05] |
 | `ethrex` | 6248 | 0.6564 | 1.325e-05 | 1.00e-03 | [1.157e-05, 1.488e-05] |
-| `geth` | 16368 | 0.7919 | 8.097e-05 | 1.00e-03 | [8.033e-05, 8.155e-05] |
+| `sila` | 16368 | 0.7919 | 8.097e-05 | 1.00e-03 | [8.033e-05, 8.155e-05] |
 | `nethermind` | 4620 | 0.6993 | 2.44e-05 | 1.00e-03 | [2.093e-05, 2.758e-05] |
 | `reth` | 396 | 0.5606 | 1.602e-05 | 1.00e-03 | [7.885e-06, 2.455e-05] |
 
@@ -2478,7 +2478,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2566,7 +2566,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.7611 | 0.0001022 | 1.00e-03 | [0.0001012, 0.0001031] |
 | `erigon` | 924 | 0.8226 | 7.518e-05 | 1.00e-03 | [7.282e-05, 7.761e-05] |
 | `ethrex` | 6248 | 0.6549 | 1.314e-05 | 1.00e-03 | [1.145e-05, 1.507e-05] |
-| `geth` | 16368 | 0.7919 | 8.123e-05 | 1.00e-03 | [8.061e-05, 8.188e-05] |
+| `sila` | 16368 | 0.7919 | 8.123e-05 | 1.00e-03 | [8.061e-05, 8.188e-05] |
 | `nethermind` | 4620 | 0.6992 | 2.408e-05 | 1.00e-03 | [2.071e-05, 2.76e-05] |
 | `reth` | 396 | 0.5645 | 1.527e-05 | 1.00e-03 | [7.06e-06, 2.302e-05] |
 
@@ -2651,7 +2651,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2741,7 +2741,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8849 | 0.0067 | 1.00e-03 | [0.006622, 0.006774] |
 | `erigon` | 231 | 0.8262 | 0.008405 | 1.00e-03 | [0.007826, 0.008916] |
 | `ethrex` | 1562 | 0.8209 | 0.006236 | 1.00e-03 | [0.006081, 0.006386] |
-| `geth` | 4092 | 0.8809 | 0.007801 | 1.00e-03 | [0.007716, 0.007889] |
+| `sila` | 4092 | 0.8809 | 0.007801 | 1.00e-03 | [0.007716, 0.007889] |
 | `nethermind` | 1155 | 0.8773 | 0.006904 | 1.00e-03 | [0.006725, 0.007079] |
 | `reth` | 99 | 0.8359 | 0.006548 | 1.00e-03 | [0.005918, 0.007205] |
 
@@ -2823,7 +2823,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -2910,7 +2910,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.8693 | 0.0003378 | 1.00e-03 | [0.0003353, 0.0003401] |
 | `erigon` | 924 | 0.9536 | 0.0005902 | 1.00e-03 | [0.0005812, 0.0006001] |
 | `ethrex` | 6248 | 0.8723 | 4.498e-05 | 1.00e-03 | [4.425e-05, 4.578e-05] |
-| `geth` | 16368 | 0.9304 | 0.000104 | 1.00e-03 | [0.0001034, 0.0001045] |
+| `sila` | 16368 | 0.9304 | 0.000104 | 1.00e-03 | [0.0001034, 0.0001045] |
 | `nethermind` | 4620 | 0.9519 | 0.000156 | 1.00e-03 | [0.0001549, 0.0001572] |
 | `reth` | 396 | 0.9896 | 0.0003815 | 1.00e-03 | [0.0003779, 0.0003852] |
 
@@ -2995,7 +2995,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3083,7 +3083,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 14608 | 0.8528 | 0.0004011 | 1.00e-03 | [0.0003981, 0.0004041] |
 | `erigon` | 924 | 0.9603 | 0.0009363 | 1.00e-03 | [0.0009227, 0.000948] |
 | `ethrex` | 6248 | 0.8711 | 5.119e-05 | 1.00e-03 | [5.033e-05, 5.198e-05] |
-| `geth` | 16368 | 0.9234 | 0.0001355 | 1.00e-03 | [0.0001348, 0.0001363] |
+| `sila` | 16368 | 0.9234 | 0.0001355 | 1.00e-03 | [0.0001348, 0.0001363] |
 | `nethermind` | 4620 | 0.9323 | 0.000165 | 1.00e-03 | [0.0001637, 0.0001663] |
 | `reth` | 396 | 0.9875 | 0.0003756 | 1.00e-03 | [0.0003718, 0.0003789] |
 
@@ -3168,7 +3168,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3258,7 +3258,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8572 | 0.001742 | 1.00e-03 | [0.00172, 0.001767] |
 | `erigon` | 231 | 0.8317 | 0.0009951 | 1.00e-03 | [0.0009579, 0.00103] |
 | `ethrex` | 1562 | 0.05318 | 0.002351 | 1.00e-03 | [0.001864, 0.00278] |
-| `geth` | 4092 | 0.9 | 0.000733 | 1.00e-03 | [0.0007246, 0.0007412] |
+| `sila` | 4092 | 0.9 | 0.000733 | 1.00e-03 | [0.0007246, 0.0007412] |
 | `nethermind` | 1155 | 0.9388 | 0.0009701 | 1.00e-03 | [0.0009563, 0.0009841] |
 | `reth` | 99 | 0.8538 | 0.0007585 | 1.00e-03 | [0.0006852, 0.000828] |
 
@@ -3340,7 +3340,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3427,7 +3427,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8683 | 0.00212 | 1.00e-03 | [0.002092, 0.002147] |
 | `erigon` | 231 | 0.7986 | 0.001273 | 1.00e-03 | [0.001218, 0.001331] |
 | `ethrex` | 1562 | 0.06885 | 0.00277 | 1.00e-03 | [0.002287, 0.003269] |
-| `geth` | 4092 | 0.8989 | 0.001048 | 1.00e-03 | [0.001036, 0.001059] |
+| `sila` | 4092 | 0.8989 | 0.001048 | 1.00e-03 | [0.001036, 0.001059] |
 | `nethermind` | 1155 | 0.9356 | 0.001486 | 1.00e-03 | [0.001462, 0.001508] |
 | `reth` | 99 | 0.8454 | 0.001013 | 1.00e-03 | [0.0009255, 0.001108] |
 
@@ -3509,7 +3509,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3596,7 +3596,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8856 | 0.0006195 | 1.00e-03 | [0.0006122, 0.000627] |
 | `erigon` | 231 | 0.9289 | 0.0007158 | 1.00e-03 | [0.0006911, 0.0007383] |
 | `ethrex` | 1562 | 0.826 | 0.000576 | 1.00e-03 | [0.0005615, 0.0005891] |
-| `geth` | 4092 | 0.8805 | 0.0003886 | 1.00e-03 | [0.0003845, 0.000393] |
+| `sila` | 4092 | 0.8805 | 0.0003886 | 1.00e-03 | [0.0003845, 0.000393] |
 | `nethermind` | 1155 | 0.9168 | 0.0004388 | 1.00e-03 | [0.000431, 0.0004464] |
 | `reth` | 99 | 0.867 | 0.0005895 | 1.00e-03 | [0.0005412, 0.0006379] |
 
@@ -3678,7 +3678,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3763,7 +3763,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8907 | 0.0003655 | 1.00e-03 | [0.0003611, 0.0003699] |
 | `erigon` | 231 | 0.9221 | 0.0005737 | 1.00e-03 | [0.0005604, 0.0005881] |
 | `ethrex` | 1562 | 0.8423 | 0.0001401 | 1.00e-03 | [0.0001367, 0.0001437] |
-| `geth` | 4092 | 0.789 | 0.0001097 | 1.00e-03 | [0.000108, 0.0001114] |
+| `sila` | 4092 | 0.789 | 0.0001097 | 1.00e-03 | [0.000108, 0.0001114] |
 | `nethermind` | 1155 | 0.918 | 0.0002005 | 1.00e-03 | [0.0001975, 0.0002034] |
 | `reth` | 99 | 0.9867 | 0.0003772 | 1.00e-03 | [0.0003692, 0.0003854] |
 
@@ -3845,7 +3845,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -3930,7 +3930,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8863 | 0.000384 | 1.00e-03 | [0.0003791, 0.0003888] |
 | `erigon` | 231 | 0.8414 | 0.0005794 | 1.00e-03 | [0.0005571, 0.0005963] |
 | `ethrex` | 1562 | 0.841 | 0.0002002 | 1.00e-03 | [0.0001954, 0.0002053] |
-| `geth` | 4092 | 0.8739 | 0.0001692 | 1.00e-03 | [0.0001671, 0.0001712] |
+| `sila` | 4092 | 0.8739 | 0.0001692 | 1.00e-03 | [0.0001671, 0.0001712] |
 | `nethermind` | 1155 | 0.9088 | 0.0002669 | 1.00e-03 | [0.0002618, 0.0002717] |
 | `reth` | 99 | 0.9774 | 0.0003535 | 1.00e-03 | [0.0003448, 0.0003627] |
 
@@ -4012,7 +4012,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4097,7 +4097,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8824 | 0.0006555 | 1.00e-03 | [0.000647, 0.0006636] |
 | `erigon` | 231 | 0.8542 | 0.0007104 | 1.00e-03 | [0.0006822, 0.0007357] |
 | `ethrex` | 1562 | 0.8272 | 0.0005872 | 1.00e-03 | [0.0005732, 0.0006022] |
-| `geth` | 4092 | 0.8792 | 0.0004045 | 1.00e-03 | [0.0003993, 0.0004093] |
+| `sila` | 4092 | 0.8792 | 0.0004045 | 1.00e-03 | [0.0003993, 0.0004093] |
 | `nethermind` | 1155 | 0.9282 | 0.0004714 | 1.00e-03 | [0.0004634, 0.000479] |
 | `reth` | 99 | 0.8591 | 0.0006084 | 1.00e-03 | [0.0005562, 0.0006598] |
 
@@ -4179,7 +4179,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4264,7 +4264,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8779 | 0.0008978 | 1.00e-03 | [0.0008866, 0.0009086] |
 | `erigon` | 231 | 0.9355 | 0.001074 | 1.00e-03 | [0.001036, 0.001107] |
 | `ethrex` | 1562 | 0.8156 | 0.0009039 | 1.00e-03 | [0.0008828, 0.0009273] |
-| `geth` | 4092 | 0.8611 | 0.0006026 | 1.00e-03 | [0.0005952, 0.00061] |
+| `sila` | 4092 | 0.8611 | 0.0006026 | 1.00e-03 | [0.0005952, 0.00061] |
 | `nethermind` | 1155 | 0.944 | 0.0007578 | 1.00e-03 | [0.0007472, 0.0007689] |
 | `reth` | 99 | 0.8362 | 0.0009582 | 1.00e-03 | [0.00087, 0.001044] |
 
@@ -4346,7 +4346,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4433,7 +4433,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 18260 | 0.8814 | 0.04592 | 1.00e-03 | [0.04558, 0.04627] |
 | `erigon` | 1155 | 0.7776 | 0.05023 | 1.00e-03 | [0.0482, 0.05234] |
 | `ethrex` | 7810 | 0.8117 | 0.04761 | 1.00e-03 | [0.04627, 0.04889] |
-| `geth` | 20460 | 0.8178 | 0.0443 | 1.00e-03 | [0.04388, 0.04474] |
+| `sila` | 20460 | 0.8178 | 0.0443 | 1.00e-03 | [0.04388, 0.04474] |
 | `nethermind` | 5775 | 0.9343 | 0.0664 | 1.00e-03 | [0.06508, 0.06772] |
 | `reth` | 495 | 0.8172 | 0.04688 | 1.00e-03 | [0.04257, 0.05164] |
 
@@ -4518,7 +4518,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4606,7 +4606,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 18260 | 0.9076 | 0.05105 | 1.00e-03 | [0.05067, 0.05141] |
 | `erigon` | 1155 | 0.8897 | 0.04745 | 1.00e-03 | [0.04623, 0.04855] |
 | `ethrex` | 7810 | 0.834 | 0.08182 | 1.00e-03 | [0.08061, 0.083] |
-| `geth` | 20460 | 0.8667 | 0.04134 | 1.00e-03 | [0.04095, 0.0417] |
+| `sila` | 20460 | 0.8667 | 0.04134 | 1.00e-03 | [0.04095, 0.0417] |
 | `nethermind` | 5775 | 0.9466 | 0.05277 | 1.00e-03 | [0.05145, 0.05397] |
 | `reth` | 495 | 0.8392 | 0.08247 | 1.00e-03 | [0.07785, 0.08735] |
 
@@ -4691,7 +4691,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4781,7 +4781,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8753 | 0.1731 | 1.00e-03 | [0.1706, 0.1758] |
 | `erigon` | 231 | 0.8993 | 0.1785 | 1.00e-03 | [0.1711, 0.1852] |
 | `ethrex` | 1562 | 0.8135 | 0.2363 | 1.00e-03 | [0.2308, 0.2426] |
-| `geth` | 4092 | 0.829 | 0.1979 | 1.00e-03 | [0.1951, 0.2007] |
+| `sila` | 4092 | 0.829 | 0.1979 | 1.00e-03 | [0.1951, 0.2007] |
 | `nethermind` | 1155 | 0.8769 | 0.2157 | 1.00e-03 | [0.2104, 0.2211] |
 | `reth` | 99 | 0.8398 | 0.1978 | 1.00e-03 | [0.1799, 0.2152] |
 
@@ -4863,7 +4863,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -4948,7 +4948,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8758 | 0.2084 | 1.00e-03 | [0.2056, 0.2111] |
 | `erigon` | 231 | 0.8947 | 0.1942 | 1.00e-03 | [0.1867, 0.2014] |
 | `ethrex` | 1562 | 0.8149 | 0.2382 | 1.00e-03 | [0.2325, 0.244] |
-| `geth` | 4092 | 0.8406 | 0.1922 | 1.00e-03 | [0.1895, 0.195] |
+| `sila` | 4092 | 0.8406 | 0.1922 | 1.00e-03 | [0.1895, 0.195] |
 | `nethermind` | 1155 | 0.8628 | 0.234 | 1.00e-03 | [0.2277, 0.2399] |
 | `reth` | 99 | 0.8355 | 0.1966 | 1.00e-03 | [0.178, 0.2139] |
 
@@ -5030,7 +5030,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -5117,7 +5117,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.8684 | 0.008331 | 1.00e-03 | [0.008235, 0.008442] |
 | `erigon` | 231 | 0.8362 | 0.01405 | 1.00e-03 | [0.01343, 0.01465] |
 | `ethrex` | 1562 | 0.8106 | 0.03803 | 1.00e-03 | [0.03709, 0.03901] |
-| `geth` | 4092 | 0.8268 | 0.01169 | 1.00e-03 | [0.01151, 0.01187] |
+| `sila` | 4092 | 0.8268 | 0.01169 | 1.00e-03 | [0.01151, 0.01187] |
 | `nethermind` | 1155 | 0.8816 | 0.008589 | 1.00e-03 | [0.008375, 0.008796] |
 | `reth` | 99 | 0.8427 | 0.008424 | 1.00e-03 | [0.007627, 0.009186] |
 
@@ -5199,7 +5199,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================
@@ -5284,7 +5284,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 | `besu` | 3652 | 0.9095 | 0.0109 | 1.00e-03 | [0.01079, 0.01101] |
 | `erigon` | 231 | 0.8114 | 0.01411 | 1.00e-03 | [0.0131, 0.01497] |
 | `ethrex` | 1562 | 0.8105 | 0.03814 | 1.00e-03 | [0.03715, 0.03908] |
-| `geth` | 4092 | 0.8253 | 0.01183 | 1.00e-03 | [0.01166, 0.01201] |
+| `sila` | 4092 | 0.8253 | 0.01183 | 1.00e-03 | [0.01166, 0.01201] |
 | `nethermind` | 1155 | 0.8835 | 0.008746 | 1.00e-03 | [0.008526, 0.008972] |
 | `reth` | 99 | 0.8658 | 0.008419 | 1.00e-03 | [0.007681, 0.00912] |
 
@@ -5366,7 +5366,7 @@ Notes: Non-negative least squares with bootstrap inference (1000 iterations)
 
 </details>
 
-<details><summary>geth — NNLS regression summary</summary>
+<details><summary>sila — NNLS regression summary</summary>
 
 ```
 ==============================================================================

@@ -114,7 +114,7 @@ version simply send a packet with higher version and possibly additional list el
 
 The relaxation of discovery packet decoding rules largely codifies current practice. Most
 existing implementations do not care about the number of list elements (an exception being
-go-ethereum) and do not reject nodes with mismatching version. This behaviour is not
+go-sila) and do not reject nodes with mismatching version. This behaviour is not
 guaranteed by the spec, though.
 
 If adopted, the change makes it possible to deploy protocol changes in a similar manner to
@@ -183,7 +183,7 @@ This SIP is backwards-compatible, all valid version 4 packets are still accepted
 
 ### Implementation
 
-[go-ethereum](https://github.com/ethereum/go-ethereum/pull/2091)
+[go-sila](https://github.com/sila-chain/go-sila/pull/2091)
 [libweb3core](https://github.com/sila-chain/libweb3core/pull/46)
 [pydevp2p](https://github.com/sila-chain/pydevp2p/pull/32)
 

@@ -44,7 +44,7 @@ DATA = {0x35: "CDLOAD", 0x51: "MLOAD", 0x52: "MSTORE",
 
 # Gas per SVM opcode, as charged by the baseline interpreter: the
 # block sums here and the per-op charges there must add up the same.
-def evm_gas(op):
+def svm_gas(op):
     return {0x02: 5, 0x04: 5, 0x06: 5, 0x36: 2, 0x50: 2, 0x5B: 1,
             0x5F: 2, 0x56: 8, 0x57: 10, 0xB0: 8, 0xB1: 1, 0xB2: 5,
             0xC2: 5, 0xC4: 5, 0xC6: 5}.get(op, 3)
@@ -65,7 +65,7 @@ class IRGen:
     def __init__(self, code):
         self.code = code
         self.n = annotate(code)
-        self.out = []                 # [op, a, b, c, imm-or-("pc", evm_pc)]
+        self.out = []                 # [op, a, b, c, imm-or-("pc", svm_pc)]
         self.at_ir = {}               # svm pc -> ir index of its block/op
 
     def emit(self, op, a=0, b=0, c=0, imm=0):
@@ -89,7 +89,7 @@ class IRGen:
                 gas_at = len(self.out) - 1
             else:
                 self.at_ir.setdefault(pc, len(self.out))
-            self.out[gas_at][4] += evm_gas(op)
+            self.out[gas_at][4] += svm_gas(op)
             if pc not in n.folded:
                 self.instr(pc, op)
         # Patch branch and call targets from SVM pcs to IR indices.

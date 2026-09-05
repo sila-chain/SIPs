@@ -49,9 +49,9 @@ Worst client vs. second-worst client per gas parameter. The `Ratio` column is `w
 | OPCODE_SMOD | besu | 3 | erigon | 2 | 1.50× |
 | OPCODE_ADDMOD | besu | 3 | erigon | 2 | 1.50× |
 | OPCODE_MULMOD | besu | 4 | nethermind | 4 | 1.00× |
-| OPCODE_KECCAK256_BASE | besu | 12 | geth | 9 | 1.33× |
+| OPCODE_KECCAK256_BASE | besu | 12 | sila | 9 | 1.33× |
 | OPCODE_KECCAK256_PER_WORD | nethermind | 3 | besu | 2 | 1.50× |
-| PRECOMPILE_ECRECOVER | erigon | 841 | geth | 781 | 1.08× |
+| PRECOMPILE_ECRECOVER | erigon | 841 | sila | 781 | 1.08× |
 | PRECOMPILE_BLAKE2F_BASE | erigon | 94 | besu | 41 | 2.29× |
 | PRECOMPILE_BLAKE2F_PER_ROUND | besu | 1 | erigon | 1 | 1.00× |
 | PRECOMPILE_BLS_G1ADD | ethrex | 236 | besu | 175 | 1.35× |
@@ -157,13 +157,13 @@ _None._
 | Glue opcode | Affected clients | Affected gas params |
 | --- | --- | --- |
 | `AND` | `erigon` (R²), `ethrex` (R²) | — |
-| `CALLDATALOAD` | `besu` (both), `erigon` (R²), `ethrex` (R²), `geth` (R²), `nethermind` (R²), `reth` (R²) | `OPCODE_ADDMOD`, `OPCODE_MOD`, `OPCODE_MULMOD`, `OPCODE_SMOD` |
+| `CALLDATALOAD` | `besu` (both), `erigon` (R²), `ethrex` (R²), `sila` (R²), `nethermind` (R²), `reth` (R²) | `OPCODE_ADDMOD`, `OPCODE_MOD`, `OPCODE_MULMOD`, `OPCODE_SMOD` |
 | `EXP` | `erigon` (R²), `nethermind` (both) | — |
 | `GT` | `besu` (R²) | `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `JUMP` | `besu` (R²) | `OPCODE_ADDMOD`, `OPCODE_MULMOD` |
 | `JUMPDEST` | `besu` (R²) | `OPCODE_ADDMOD`, `OPCODE_MULMOD`, `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_ECRECOVER`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `JUMPI` | `besu` (R²), `erigon` (R²) | `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
-| `KECCAK256` | `besu` (R²), `erigon` (R²), `ethrex` (both), `geth` (R²), `nethermind` (both), `reth` (both) | — |
+| `KECCAK256` | `besu` (R²), `erigon` (R²), `ethrex` (both), `sila` (R²), `nethermind` (both), `reth` (both) | — |
 | `LT` | `besu` (R²) | — |
 | `MSTORE` | `reth` (R²) | `OPCODE_KECCAK256_BASE`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_ECRECOVER`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `RETURNDATASIZE` | `besu` (R²), `erigon` (R²) | — |

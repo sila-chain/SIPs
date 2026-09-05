@@ -1,5 +1,5 @@
 {
-  "evm_gasfit_version": "0.0.4",
+  "svm_gasfit_version": "0.0.4",
   "run_started_at": "2026-06-10T07:06:25+00:00",
   "inputs": {
     "config": "fit.yaml",
@@ -59,6 +59,6 @@
     "test_transaction_types.py__test_ether_transfers_onchain_receivers[fork_Amsterdam-benchmark_test-transfer_amount_1-case_id_diff_to_nonexistent-benchmark_300M]"
   ],
   "warnings": [
-    "WARNING evm_gasfit: 44 fixtures present in runtimes CSV but missing from opcounts JSON; dropped from analysis (see meta.json for full list)"
+    "WARNING svm_gasfit: 44 fixtures present in runtimes CSV but missing from opcounts JSON; dropped from analysis (see meta.json for full list)"
   ]
 }
