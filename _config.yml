@@ -53,6 +53,11 @@ defaults:
       path: "SIPS"
     values:
       layout: "sip"
+  -
+    scope:
+      path: "SIPS/sip-7730.md"
+    values:
+      render_with_liquid: false
 
 exclude:
   - .github
