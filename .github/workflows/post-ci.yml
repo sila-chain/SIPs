@@ -7,6 +7,12 @@ on:
 
 name: Post CI
 
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
 # This is adapted from https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run (2022-07-17)
 
 jobs:

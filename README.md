@@ -13,7 +13,7 @@ The [status page](https://sips.sila.org/) tracks and lists SIPs, which can be di
 - [Meta SIPs](https://sips.sila.org/meta) are miscellaneous improvements that nonetheless require some sort of consensus.
 - [Informational SIPs](https://sips.sila.org/informational) are non-standard improvements that do not require any form of consensus.
 
-**Before you write an SIP, ideas MUST be thoroughly discussed on [Sila Magicians](https://sila-magicians.org/) or Sila Research in Sila Research. Once consensus is reached, thoroughly read and review [SIP-1](https://sips.sila.org/SIPS/sip-1), which describes the SIP process.**
+**Before you write an SIP, ideas MUST be thoroughly discussed on [Sila Magicians](https://sila-magicians.org/) or Sila Research. Once consensus is reached, thoroughly read and review [SIP-1](https://sips.sila.org/SIPS/sip-1), which describes the SIP process.**
 
 Please note that this repository is for documenting standards and not for help implementing them. These types of inquiries should be directed to the [Sila Stack Exchange](https://sila.stackexchange.com). For specific questions and concerns regarding SIPs, it's best to comment on the relevant discussion thread of the SIP denoted by the `discussions-to` tag in the SIP's preamble.
 

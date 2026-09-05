@@ -1,6 +1,6 @@
 # Going multidimensional - an empirical analysis on gas metering in the SVM
 
-**This document is a copy-paste from this ethresearch post in Sila Research**
+**This document is a copy-paste from this ethresearch post**
 
 This post summarizes the key takeaways from an empirical analysis focused on understanding how different SVM gas metering schemes impact network throughput and block utilization. Concretely, we were focused on multidimensional schemes, where the usage of different resources is metered separately.
 
