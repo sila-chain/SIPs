@@ -2,8 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (1.1.0)
-    activemodel (7.0.7.2)
-      activesupport (= 7.0.7.2)
     activesupport (7.0.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -27,9 +25,6 @@ GEM
       fiber-local
     dnsruby (1.70.0)
       simpleidn (~> 0.2.1)
-    sip_validator (0.8.2)
-      activemodel
-      front_matter_parser (~> 0.1.1)
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
@@ -44,7 +39,6 @@ GEM
     ffi (1.15.5)
     fiber-local (1.0.0)
     forwardable-extended (2.6.0)
-    front_matter_parser (0.1.1)
     gemoji (3.0.1)
     github-pages (228)
       github-pages-health-check (= 1.17.9)
@@ -294,7 +288,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  sip_validator (>= 0.8.2)
   github-pages (= 228)
   html-proofer (>= 5.0.7)
   minima (~> 2.0)
