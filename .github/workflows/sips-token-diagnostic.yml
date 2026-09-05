@@ -1,0 +1,63 @@
+name: Sila SIPs Token Diagnostic
+
+on:
+  push:
+    branches:
+      - sila/sips-100pct-completion-20260905
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Inspect latest official upstream EVM-bearing identifiers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth=1 https://github.com/ethereum/EIPs.git /tmp/eips
+          python3 - <<'PY'
+          from pathlib import Path
+          from collections import defaultdict
+          import re
+
+          root = Path('/tmp/eips')
+          url_re = re.compile(r'https?://[^\s\)\]\}\>\"\']+')
+          token_re = re.compile(r'(?i)(?<![A-Za-z0-9_])[A-Za-z0-9_.+/@-]*evm[A-Za-z0-9_.+/@-]*(?![A-Za-z0-9_])')
+          hits = defaultdict(set)
+          path_hits = set()
+
+          for p in root.rglob('*'):
+              if '.git' in p.parts:
+                  continue
+              rel = p.relative_to(root).as_posix()
+              if re.search(r'(?i)evm', rel):
+                  path_hits.add(rel)
+              if not p.is_file() or p.is_symlink():
+                  continue
+              data = p.read_bytes()
+              if b'\x00' in data:
+                  continue
+              try:
+                  text = data.decode('utf-8')
+              except UnicodeDecodeError:
+                  continue
+              text = url_re.sub(' ', text)
+              for m in token_re.finditer(text):
+                  token = m.group(0).strip('`"\'()[]{}<>,:;')
+                  if token:
+                      hits[token].add(rel)
+
+          print(f'UNIQUE_EVM_TOKEN_COUNT={len(hits)}')
+          print('EVM_TOKEN_INVENTORY_BEGIN')
+          for token in sorted(hits, key=lambda x: x.lower()):
+              files = sorted(hits[token])
+              print(f'{token}\t{len(files)}\t{"|".join(files[:20])}')
+          print('EVM_TOKEN_INVENTORY_END')
+          print(f'EVM_PATH_COUNT={len(path_hits)}')
+          print('EVM_PATH_INVENTORY_BEGIN')
+          for rel in sorted(path_hits):
+              print(rel)
+          print('EVM_PATH_INVENTORY_END')
+          PY
