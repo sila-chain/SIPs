@@ -337,21 +337,43 @@ jobs:
       - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
 
-      - name: Get Changed Files
+      - name: Resolve Markdown validation mode
         id: changed
-        continue-on-error: true
-        run: |
-          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          gh pr diff ${{ github.event.number }} --name-only | grep -E -x '[^/]+\.md|SIPS/sip-[0-9]+\.md' >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PR_NUMBER="$(jq -r '.number' "$GITHUB_EVENT_PATH")"
+          gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' > /tmp/pr-files.txt
+          COUNT="$(wc -l < /tmp/pr-files.txt | tr -d ' ')"
+          echo "CHANGED_FILE_COUNT=$COUNT"
+          if [ "$COUNT" -gt 300 ]; then
+            echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
+          else
+            echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
+            grep -E -x '[^/]+\.md|SIPS/sip-[0-9]+\.md' /tmp/pr-files.txt > /tmp/pr-markdown.txt || true
+            {
+              echo "CHANGED_FILES<<EOF"
+              cat /tmp/pr-markdown.txt
+              echo "EOF"
+            } >> "$GITHUB_ENV"
+          fi
 
-      - name: Lint
+      - name: Lint normal PR Markdown delta
         uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
-        if: steps.changed.outcome == 'success'
+        if: env.MEGA_SYNC == 'false'
         with:
           command: config
           globs: |
             config/.markdownlint.yaml
             ${{ env.CHANGED_FILES }}
+
+      - name: Lint complete SIP Markdown for source mega-sync
+        uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
+        if: env.MEGA_SYNC == 'true'
+        with:
+          command: config
+          globs: |
+            config/.markdownlint.yaml
+            SIPS/**/*.md
