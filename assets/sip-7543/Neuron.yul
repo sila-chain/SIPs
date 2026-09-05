@@ -1,4 +1,4 @@
-// solc --evm-version london --strict-assembly Neuron.yul >> Neuron.txt
+// solc --svm-version london --strict-assembly Neuron.yul >> Neuron.txt
 
 // user can set_weights any number of (decimal) weights
 // user can run the Neuron, outputting sigmoid of the weighted sum of inputs
