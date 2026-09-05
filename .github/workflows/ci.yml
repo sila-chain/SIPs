@@ -369,11 +369,20 @@ jobs:
             config/.markdownlint.yaml
             ${{ env.CHANGED_FILES }}
 
-      - name: Lint complete SIP Markdown for source mega-sync
+      - name: Lint Sila-owned Markdown overrides for source mega-sync
         uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
         if: env.MEGA_SYNC == 'true'
         with:
           command: config
           globs: |
             config/.markdownlint.yaml
-            SIPS/**/*.md
+            SIPS/sip-1895.md
+            SIPS/sip-2474.md
+            SIPS/sip-2584.md
+            SIPS/sip-2593.md
+            SIPS/sip-2997.md
+            SIPS/sip-3102.md
+            SIPS/sip-3584.md
+            SIPS/sip-712.md
+            SIPS/sip-8173.md
+            assets/sip-3267/contracts/README.md
