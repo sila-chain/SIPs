@@ -1,0 +1,209 @@
+name: Sila SIPs Final Authority Audit
+
+on:
+  push:
+    branches:
+      - sila/sips-100pct-completion-20260905
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
+        with:
+          fetch-depth: 0
+          ref: sila/sips-100pct-completion-20260905
+
+      - name: Exact latest-upstream and generated-tree audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_UPSTREAM=9207c6011f526bd40abd79649484a1a342585bd4
+          GENERATOR_COMMIT=bda9b2a5368608c8f1c71c173db73521ffbc4acb
+
+          test ! -e .sila
+          test ! -e .github/workflows/sips-100pct-sync.yml
+          test ! -e .github/workflows/auto-stagnate-bot.yml
+
+          UPSTREAM_HEAD="$(git ls-remote https://github.com/ethereum/EIPs.git refs/heads/master | awk '{print $1}')"
+          echo "UPSTREAM_HEAD=$UPSTREAM_HEAD"
+          test "$UPSTREAM_HEAD" = "$EXPECTED_UPSTREAM"
+
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream https://github.com/ethereum/EIPs.git
+          git fetch --quiet --no-tags upstream "$EXPECTED_UPSTREAM"
+          rm -rf /tmp/eips-upstream /tmp/sila-expected
+          git worktree add --detach /tmp/eips-upstream "$EXPECTED_UPSTREAM"
+
+          git show "$GENERATOR_COMMIT:.sila/sips_regenerate.py" > /tmp/sips_regenerate.py
+          python3 -m py_compile /tmp/sips_regenerate.py
+          python3 /tmp/sips_regenerate.py /tmp/eips-upstream /tmp/sila-expected
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+          import re
+          import sys
+
+          CUR = Path('.').resolve()
+          EXP = Path('/tmp/sila-expected')
+
+          def manifest(root: Path, ignore_workflows: bool):
+              out = {}
+              for p in sorted(root.rglob('*')):
+                  rel = p.relative_to(root).as_posix()
+                  if rel == '.git' or rel.startswith('.git/'):
+                      continue
+                  if ignore_workflows and rel.startswith('.github/workflows/'):
+                      continue
+                  if p.is_symlink():
+                      out[rel] = ('L', os.readlink(p))
+                  elif p.is_file():
+                      out[rel] = ('F', hashlib.sha256(p.read_bytes()).hexdigest())
+              return out
+
+          current = manifest(CUR, True)
+          expected = manifest(EXP, True)
+          missing = sorted(set(expected) - set(current))
+          extra = sorted(set(current) - set(expected))
+          changed = sorted(k for k in set(current) & set(expected) if current[k] != expected[k])
+          print(f'NON_WORKFLOW_EXPECTED_COUNT={len(expected)}')
+          print(f'NON_WORKFLOW_CURRENT_COUNT={len(current)}')
+          print(f'NON_WORKFLOW_MISSING_COUNT={len(missing)}')
+          print(f'NON_WORKFLOW_EXTRA_COUNT={len(extra)}')
+          print(f'NON_WORKFLOW_CHANGED_COUNT={len(changed)}')
+          if missing or extra or changed:
+              print('NON_WORKFLOW_MISMATCH_BEGIN')
+              for kind, items in [('MISSING', missing), ('EXTRA', extra), ('CHANGED', changed)]:
+                  for item in items[:100]:
+                      print(f'{kind}:{item}')
+              print('NON_WORKFLOW_MISMATCH_END')
+              raise SystemExit(1)
+
+          # Workflow and repository-wide identity audit. Third-party URLs are not
+          # interpreted as Sila identity. Protected Ethereum protocol/client refs
+          # are explicitly masked before the residual scan.
+          url_re = re.compile(r'https?://[^\s\)\]\}\>\"\']+')
+          protected = [
+              re.compile(r'github\.com/ethereum/go-ethereum[^\s\)\]\}\>\"\']*'),
+              re.compile(r'github\.com/ethereum/eth2\.0-specs[^\s\)\]\}\>\"\']*'),
+              re.compile(r'github\.com/ethereum/eth2spec[^\s\)\]\}\>\"\']*'),
+              re.compile(r'(?<![A-Za-z0-9_])ethereum/go-ethereum(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])ethereum/eth2\.0-specs(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])ethereum/eth2spec(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])go-ethereum(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])(?:geth|Geth|GETH)(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])eth_[A-Za-z0-9_]+(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])eth2spec(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])eth2\.0-specs(?![A-Za-z0-9_])'),
+          ]
+
+          wrong_owner = []
+          actionable = []
+          workflow_files = []
+          for p in CUR.rglob('*'):
+              if not p.is_file() or p.is_symlink() or '.git' in p.parts:
+                  continue
+              rel = p.relative_to(CUR).as_posix()
+              data = p.read_bytes()
+              if b'\x00' in data:
+                  continue
+              try:
+                  text = data.decode('utf-8')
+              except UnicodeDecodeError:
+                  continue
+
+              if rel.startswith('.github/workflows/'):
+                  workflow_files.append(rel)
+
+              for pat in (
+                  r'github\.com/sila/',
+                  r'raw\.githubusercontent\.com/sila/',
+                  r'(?m)^\s*uses:\s*sila/',
+                  r'(?m)^\s*repository:\s*sila/',
+                  r"github\.repository\s*==\s*['\"]sila/",
+              ):
+                  if re.search(pat, text):
+                      wrong_owner.append(f'{rel}::{pat}')
+
+              scan = text
+              for i, pat in enumerate(protected):
+                  scan = pat.sub(f'__PROTECTED_{i}__', scan)
+
+              # All remaining external URLs are third-party references for this
+              # lexical residual audit. Official owner misuse is checked above.
+              scan = url_re.sub('__URL__', scan)
+
+              pats = [
+                  r'(?<![A-Za-z0-9_])(?:Ethereum|ETHEREUM|ethereum)(?![A-Za-z0-9_])',
+                  r'(?<![A-Za-z0-9_])(?:EIP|EIPs|EIPS|eip|eips)(?![A-Za-z0-9_])',
+                  r'(?<![A-Za-z0-9_])(?:ERC|ERCs|ERCS|erc|ercs)(?![A-Za-z0-9_])',
+                  r'(?<![A-Za-z0-9_])(?:EVM|Evm|evm)(?![A-Za-z0-9_])',
+                  r'(?m)^\s*uses:\s*ethereum/',
+                  r'(?m)^\s*repository:\s*ethereum/',
+              ]
+              for pat in pats:
+                  if re.search(pat, scan):
+                      actionable.append(f'{rel}::{pat}')
+                      break
+
+          print(f'WORKFLOW_FILE_COUNT={len(workflow_files)}')
+          print(f'WRONG_SILA_OWNER_REFERENCE_COUNT={len(wrong_owner)}')
+          print(f'ACTIONABLE_IDENTITY_RESIDUAL_COUNT={len(actionable)}')
+          if wrong_owner:
+              print('WRONG_OWNER_BEGIN')
+              print('\n'.join(wrong_owner[:100]))
+              print('WRONG_OWNER_END')
+          if actionable:
+              print('ACTIONABLE_RESIDUAL_BEGIN')
+              print('\n'.join(actionable[:100]))
+              print('ACTIONABLE_RESIDUAL_END')
+          if wrong_owner or actionable:
+              raise SystemExit(1)
+
+          required = {
+              'SIPS/sip-4444.md',
+              'SIPS/sip-7773.md',
+              'SIPS/sip-8173.md',
+              'SIPS/sip-8292.md',
+              'SIPS/sip-8304.md',
+              'SIPS/sip-8321.md',
+              'SIPS/sip-8333.md',
+              'SIPS/sip-8337.md',
+              'SIPS/sip-8347.md',
+              'SIPS/sip-8355.md',
+              'SIPS/sip-8363.md',
+              'SIPS/sip-8368.md',
+              'SIPS/sip-8369.md',
+              'SIPS/sip-8371.md',
+              'SIPS/sip-8372.md',
+              'SIPS/sip-8379.md',
+              'SIPS/sip-8390.md',
+          }
+          missing_required = sorted(p for p in required if not (CUR / p).is_file())
+          print(f'REQUIRED_LATEST_SIP_MISSING_COUNT={len(missing_required)}')
+          if missing_required:
+              print('\n'.join(missing_required))
+              raise SystemExit(1)
+
+          print('NON_WORKFLOW_EXACT_SOURCE_REGENERATION_GATE=PASS')
+          print('IDENTITY_RESIDUAL_GATE=PASS')
+          print('LATEST_SIP_PRESENCE_GATE=PASS')
+          PY
+
+          grep -Fq 'uses: sila-chain/sip-review-bot@e9399a6005fabe0d4869c75ae16d038dbbb16761' .github/workflows/auto-review-bot.yml
+          grep -Fq 'uses: sila-chain/sipw-action@e853dd2cd181f6830eb74474f09898e773c30476' .github/workflows/ci.yml
+          grep -Fq 'repository: sila-chain/SIPs' .github/workflows/ci.yml
+          grep -Fq 'branches: ["main"]' .github/workflows/jekyll.yml
+          grep -Fq 'repository: sila-chain/SIPs' .github/workflows/jekyll.yml
+          grep -Fq 'https://github.com/sila-chain/SIPs/pull/' .github/workflows/post-ci.yml
+          grep -Fq "github.repository == 'sila-chain/SIPs'" .github/workflows/stale.yml
+
+          ruby -e 'require "yaml"; Dir[".github/workflows/*.{yml,yaml}"].each { |f| YAML.load_file(f); puts "YAML_OK=#{f}" }'
+
+          echo 'FINAL_AUTHORITY_AUDIT=PASS'
