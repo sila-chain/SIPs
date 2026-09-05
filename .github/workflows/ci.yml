@@ -198,6 +198,48 @@ jobs:
           cur = Path('.').resolve()
           exp = Path('/tmp/expected')
           policy_overrides = {'Gemfile', 'Gemfile.lock'}
+          post_regeneration_override_blobs = {
+              'SIPS/sip-1895.md': 'ea1c62030a4221a3fbb4a3af6f14c29896502c6c',
+              'SIPS/sip-2474.md': '07bdc185d3113ce551dc565a5f9ca013d435bc06',
+              'SIPS/sip-2584.md': '64e1e48222b0d01d7ac9076af01f9c0d30aff03d',
+              'SIPS/sip-2593.md': 'e1dde8b2f4ac6b73856e3e4061bce26ee7e9daab',
+              'SIPS/sip-2997.md': '5e8bb27539a84c25212c56af583179249ec6ab2e',
+              'SIPS/sip-3102.md': '4dfc76fc5bcb5d8c7865535e3a09c4b88b10bf3a',
+              'SIPS/sip-3584.md': '164a6b14c352e1bd799b9af6b5902eda08e2e920',
+              'SIPS/sip-712.md': '08b497c9ce50c2cb3fcebed9319d71e35874d8f8',
+              'SIPS/sip-8173.md': '96ffd1aee454f2b8e0ff4e8a311e509b72f88e88',
+              '_config.yml': 'ac0afcd45ca4aded880223e8c7c75327147a7c53',
+              'assets/sip-3267/contracts/README.md': '5c0d6ab21aec59cd63df95fdf1594761b05bc738',
+          }
+          post_regeneration_overrides = set(post_regeneration_override_blobs)
+          excluded_from_regeneration_equality = policy_overrides | post_regeneration_overrides
+
+          def git_blob_sha(data: bytes) -> str:
+              header = f'blob {len(data)}\0'.encode()
+              return hashlib.sha1(header + data).hexdigest()
+
+          override_failures = []
+          for rel, expected_blob in sorted(post_regeneration_override_blobs.items()):
+              current_path = cur / rel
+              generated_path = exp / rel
+              if not current_path.is_file():
+                  override_failures.append(f'MISSING_CURRENT:{rel}')
+                  continue
+              if not generated_path.is_file():
+                  override_failures.append(f'MISSING_GENERATED_AUTHORITY:{rel}')
+                  continue
+              actual_blob = git_blob_sha(current_path.read_bytes())
+              if actual_blob != expected_blob:
+                  override_failures.append(
+                      f'BLOB_DRIFT:{rel}:expected={expected_blob}:actual={actual_blob}'
+                  )
+
+          print(f'MEGA_SYNC_POST_REGENERATION_OVERRIDE_COUNT={len(post_regeneration_overrides)}')
+          print(f'MEGA_SYNC_POST_REGENERATION_OVERRIDE_FAILURE_COUNT={len(override_failures)}')
+          if override_failures:
+              print('\n'.join(override_failures))
+              raise SystemExit(1)
+          print('MEGA_SYNC_POST_REGENERATION_OVERRIDE_GATE=PASS')
 
           def manifest(root: Path):
               out = {}
@@ -207,7 +249,7 @@ jobs:
                       continue
                   if rel.startswith('.github/workflows/'):
                       continue
-                  if rel in policy_overrides:
+                  if rel in excluded_from_regeneration_equality:
                       continue
                   if p.is_symlink():
                       out[rel] = ('L', os.readlink(p))
