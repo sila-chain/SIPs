@@ -1,18 +1,7 @@
-GIT
-  remote: https://github.com/sila-chain/sip_validator.git
-  revision: 7675c8c38b9b5f90335771007d7aa8e302f8b8d0
-  tag: v0.8.2-sila.1
-  specs:
-    sip_validator (0.8.2)
-      activemodel
-      front_matter_parser (~> 0.1.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (1.1.0)
-    activemodel (7.0.7.2)
-      activesupport (= 7.0.7.2)
     activesupport (7.0.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -50,7 +39,6 @@ GEM
     ffi (1.15.5)
     fiber-local (1.0.0)
     forwardable-extended (2.6.0)
-    front_matter_parser (0.1.1)
     gemoji (3.0.1)
     github-pages (228)
       github-pages-health-check (= 1.17.9)
@@ -303,7 +291,6 @@ DEPENDENCIES
   github-pages (= 228)
   html-proofer (>= 5.0.7)
   minima (~> 2.0)
-  sip_validator!
   tzinfo-data
   webrick (~> 1.8)
 
