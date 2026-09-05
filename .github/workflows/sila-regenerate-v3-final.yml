@@ -1,0 +1,93 @@
+name: Sila Regenerate V3 Final
+
+on:
+  push:
+    branches:
+      - sila/sips-100pct-completion-20260905
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completion branch
+        uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
+        with:
+          fetch-depth: 0
+          ref: sila/sips-100pct-completion-20260905
+
+      - name: Regenerate from final Sila-native authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          UPSTREAM_SHA='9207c6011f526bd40abd79649484a1a342585bd4'
+          GENERATOR_COMMIT='b9c063e02ee8d88d320513a57b5c7420584527a2'
+          CONTROL_REF='refs/heads/sila/sips-100pct-ci-base-20260905'
+          LIVE_UPSTREAM="$(git ls-remote https://github.com/ethereum/EIPs.git refs/heads/master | awk '{print $1}')"
+          echo "LIVE_UPSTREAM=$LIVE_UPSTREAM"
+          test "$LIVE_UPSTREAM" = "$UPSTREAM_SHA"
+          git fetch --quiet origin "$CONTROL_REF:$CONTROL_REF"
+          git show "$GENERATOR_COMMIT:.sila/sips_regenerate_v2.py" > /tmp/sips_regenerate_v3.py
+          python3 -m py_compile /tmp/sips_regenerate_v3.py
+          rm -rf /tmp/eips /tmp/generated
+          git clone --quiet https://github.com/ethereum/EIPs.git /tmp/eips
+          git -C /tmp/eips checkout --quiet --detach "$UPSTREAM_SHA"
+          python3 /tmp/sips_regenerate_v3.py /tmp/eips /tmp/generated
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, shutil, re
+          repo = Path('.').resolve(); exp = Path('/tmp/generated').resolve()
+          preserve_exact = {'Gemfile','Gemfile.lock','_config.yml'}
+          preserve_prefixes = ('.github/workflows/',)
+          def preserved(rel): return rel in preserve_exact or any(rel.startswith(x) for x in preserve_prefixes)
+          expected=set()
+          for p in exp.rglob('*'):
+              rel=p.relative_to(exp).as_posix()
+              if preserved(rel): continue
+              if p.is_file() or p.is_symlink():
+                  expected.add(rel); dst=repo/rel; dst.parent.mkdir(parents=True, exist_ok=True)
+                  if dst.is_symlink() or dst.is_file(): dst.unlink()
+                  elif dst.exists() and dst.is_dir(): shutil.rmtree(dst)
+                  if p.is_symlink(): os.symlink(os.readlink(p), dst)
+                  else: shutil.copy2(p,dst)
+          for p in sorted(repo.rglob('*'), key=lambda x:len(x.parts), reverse=True):
+              rel=p.relative_to(repo).as_posix()
+              if rel=='.git' or rel.startswith('.git/') or preserved(rel) or rel=='.github/workflows/sila-regenerate-v3-final.yml': continue
+              if (p.is_file() or p.is_symlink()) and rel not in expected: p.unlink()
+              elif p.is_dir():
+                  try:p.rmdir()
+                  except OSError:pass
+          url_re=re.compile(r'https?://[^\s\)\]\}\>\"\']+')
+          protected=[re.compile(r'Py-EVM',re.I),re.compile(r'openethereum-evm',re.I),re.compile(r'web\+evm',re.I),re.compile(r'\bevmone\b',re.I),re.compile(r'\bEVMC\b'),re.compile(r'\bEVM[0-9]+\b'),re.compile(r'gasEVM[A-Za-z0-9_]*')]
+          research=[]; evm=[]
+          md=list((repo/'SIPS').rglob('*.md'))+list((repo/'assets').rglob('*.md'))
+          for p in md:
+              t=p.read_text(encoding='utf-8')
+              if 'ethresear.ch/' in t: research.append(p.relative_to(repo).as_posix())
+              x=url_re.sub('',t)
+              for rx in protected:x=rx.sub('',x)
+              if re.search(r'(?<![A-Za-z0-9_])(?:EVM|Evm|evm)(?![A-Za-z0-9_])',x): evm.append(p.relative_to(repo).as_posix())
+          sip712=(repo/'SIPS/sip-712.md').read_text(encoding='utf-8')
+          if '\\x19Ethereum Signed Message:' in sip712: raise SystemExit('OLD_SIGNATURE_DOMAIN_PRESENT')
+          if '\\x19Sila Signed Message:' not in sip712: raise SystemExit('SILA_SIGNATURE_DOMAIN_MISSING')
+          print(f'FINAL_ETH_RESEARCH_RESIDUAL_COUNT={len(research)}')
+          print(f'FINAL_ACTIONABLE_EVM_RESIDUAL_COUNT={len(evm)}')
+          if research or evm: raise SystemExit(1)
+          print('FINAL_SILA_SIGNATURE_DOMAIN_GATE=PASS')
+          print('FINAL_SILA_NATIVE_IDENTITY_GATE=PASS')
+          PY
+
+      - name: Commit regenerated candidate and remove temporary workflow
+        shell: bash
+        env:
+          BRANCH: sila/sips-100pct-completion-20260905
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/sila-regenerate-v3-final.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'regenerate: finalize Sila signature-domain identity'
+          git push origin "HEAD:$BRANCH"
