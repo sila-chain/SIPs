@@ -206,6 +206,7 @@ jobs:
           from pathlib import Path
           import hashlib
           import os
+          import re
 
           cur = Path('.').resolve()
           exp = Path('/tmp/expected')
