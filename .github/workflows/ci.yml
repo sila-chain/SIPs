@@ -80,6 +80,7 @@ jobs:
           use-quiet-mode: no
           use-verbose-mode: yes
           check-modified-files-only: yes
+          base-branch: main
 
   codespell:
     name: CodeSpell
@@ -89,24 +90,44 @@ jobs:
       - name: Checkout SIP Repository
         uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
 
-      - name: Get Changed Files
+      - name: Resolve changed-file set
         id: changed
-        continue-on-error: true
-        run: |
-          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          gh pr diff ${{ github.event.number }} --name-only | sed -e 's|$|,|' | xargs -i echo "{}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PR_NUMBER="$(jq -r '.number' "$GITHUB_EVENT_PATH")"
+          gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' > /tmp/pr-files.txt
+          COUNT="$(wc -l < /tmp/pr-files.txt | tr -d ' ')"
+          echo "CHANGED_FILE_COUNT=$COUNT"
+          if [ "$COUNT" -gt 300 ]; then
+            echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
+          else
+            echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
+            {
+              echo "CHANGED_FILES<<EOF"
+              sed -e 's|$|,|' /tmp/pr-files.txt
+              echo "EOF"
+            } >> "$GITHUB_ENV"
+          fi
 
-      - name: Run CodeSpell
+      - name: Run CodeSpell on normal PR delta
         uses: codespell-project/actions-codespell@57beb9f38f49d773d641ac555d1565c3b6a59938
-        if: steps.changed.outcome == 'success'
+        if: env.MEGA_SYNC == 'false'
         with:
           check_filenames: true
           ignore_words_file: config/.codespell-whitelist
           path: ${{ env.CHANGED_FILES }}
-          skip: .git,Gemfile.lock,**/*.png,**/*.gif,**/*.jpg,**/*.svg,.codespell-whitelist,vendor,_site,_config.yml,style.css
+          skip: .git,Gemfile.lock,**/*.png,**/*.gif,**/*.jpg,**/*.svg,**/*.pdf,.codespell-whitelist,vendor,_site,_config.yml,style.css
+
+      - name: Run CodeSpell on CI controls for source mega-sync
+        uses: codespell-project/actions-codespell@57beb9f38f49d773d641ac555d1565c3b6a59938
+        if: env.MEGA_SYNC == 'true'
+        with:
+          check_filenames: true
+          path: .github/workflows
+          skip: .git,vendor,_site
 
   sipw-validator:
     name: SIP Walidator
@@ -118,7 +139,7 @@ jobs:
       - name: Merge Repos
         uses: ./.github/actions/merge-repos
 
-      - uses: sila-chain/sipw-action@e853dd2cd181f6830eb74474f09898e773c30476
+      - uses: sila-chain/sipw-action@05fc431795f375307ffe2be35f62d967ea69b8c3
         id: sipw
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
