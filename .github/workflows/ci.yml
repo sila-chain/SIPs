@@ -417,7 +417,7 @@ jobs:
 
       - name: Lint normal PR Markdown delta
         uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
-        if: env.MEGA_SYNC == 'false'
+        if: env.MEGA_SYNC == 'false' && env.CHANGED_FILES != ''
         with:
           command: config
           globs: |
