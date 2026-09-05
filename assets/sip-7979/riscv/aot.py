@@ -21,7 +21,7 @@ What is NOT counted here: translation itself and validation are
 one-time deploy costs (measured in SIP-8337's native-cost/ assets); this file's output is
 the recurring execution the network pays for.
 
-Width "64" maps each stack slot to one register (SVM64 programs);
+Width "64" maps each stack slot to one register (EVM64 programs);
 width "256" keeps slots as 4x64-bit little-endian limb groups in a
 memory frame, arithmetic inlined or in shared routines.
 
@@ -29,7 +29,7 @@ Subset: what the yul-compiler emits.  A JUMP into a CALLDEST
 (call elimination) and reads below the caller's own arguments are
 valid SIP-7979 but outside this translator; it raises on them.
 
-Placeholder opcodes as in svm64.py / interp.c.
+Placeholder opcodes as in evm64.py / interp.c.
 """
 
 JUMP, JUMPI, JUMPDEST = 0x56, 0x57, 0x5B
@@ -69,7 +69,7 @@ TWIN_OF = {0xC0 + x: x for x in (0x01, 0x02, 0x03, 0x04, 0x06, 0x10, 0x11,
 GAS_LIMIT = 10_000_000_000
 
 
-def svm_gas(op):
+def evm_gas(op):
     """Per-opcode gas as the baseline interpreter charges it: the
     block sums here and the per-op charges there add up the same."""
     return {0x02: 5, 0x04: 5, 0x06: 5, 0x36: 2, 0x50: 2, 0x5B: 1,
@@ -93,7 +93,7 @@ def block_gas(code, notes):
         if pc in leaders:
             leader = pc
             gas[leader] = 0
-        gas[leader] += svm_gas(code[pc])
+        gas[leader] += evm_gas(code[pc])
     return gas
 
 
@@ -207,8 +207,8 @@ class Translator:
         self.asm.append(text + ":")
 
     def translate(self):
-        self.e(".text", ".globl svm_entry")
-        self.label("svm_entry")
+        self.e(".text", ".globl evm_entry")
+        self.label("evm_entry")
         self.prelude()
         code, n = self.code, self.n
         for pc in sorted(n.offset):

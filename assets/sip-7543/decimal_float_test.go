@@ -97,10 +97,10 @@ func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 		env            = NewEVM(BlockContext{}, TxContext{}, nil, params.TestChainConfig, Config{})
 		stack          = newstack()
 		scope          = &ScopeContext{nil, stack, nil}
-		svmInterpreter = NewEVMInterpreter(env)
+		evmInterpreter = NewEVMInterpreter(env)
 	)
 
-	env.interpreter = svmInterpreter
+	env.interpreter = evmInterpreter
 
 	pc := uint64(0)
 	b.ResetTimer()
@@ -108,7 +108,7 @@ func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 		for _, arg := range intArgs {
 			stack.push(arg)
 		}
-		op(&pc, svmInterpreter, scope)
+		op(&pc, evmInterpreter, scope)
 		stack.pop()
 		stack.pop()
 	}

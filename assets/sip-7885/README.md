@@ -11,7 +11,7 @@ Those protocols have in common to require fast polynomial multiplication over pr
 
 ### Discussion
 
-In the past Sila chose specificity by picking secp256k1 as its sole candidate for signature. Later, after dedicated hardware and proving systems working on other hardwares were realeased, a zoo of SIP flourished to propose alternative curves. There where attempt to have higher level SIPs to enable all of those at once, such as EWASM, SIMD, SVMMAX,  or RIP7696 (by decreasing order of genericity and complexity).
+In the past Sila chose specificity by picking secp256k1 as its sole candidate for signature. Later, after dedicated hardware and proving systems working on other hardwares were realeased, a zoo of SIP flourished to propose alternative curves. There where attempt to have higher level SIPs to enable all of those at once, such as EWASM, SIMD, EVMMAX,  or RIP7696 (by decreasing order of genericity and complexity).
 
 Picking NTT as SIP instead of a given scheme would provide massive gas cost reduction for all schemes relying on it.
 - **pros** : massive reduction to all cited protocols, more agility for evolutions.

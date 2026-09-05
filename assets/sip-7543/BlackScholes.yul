@@ -1,4 +1,4 @@
-// solc --svm-version london --strict-assembly BlackScholes.yul >> BlackScholes.txt
+// solc --evm-version london --strict-assembly BlackScholes.yul >> BlackScholes.txt
 
 object "BlackScholes" {
     code {

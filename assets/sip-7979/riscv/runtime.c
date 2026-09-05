@@ -13,7 +13,7 @@
  */
 typedef unsigned long u64;
 
-extern void svm_entry(void);
+extern void evm_entry(void);
 
 unsigned char MEM[1 << 20];            /* SVM memory                   */
 unsigned char FRAME[1024 * 32];        /* 256-bit AOT data stack       */
@@ -82,13 +82,13 @@ asm(".section .text.init, \"ax\"\n"
 
 void zisk_start(void)
 {
-    svm_entry();
-    __rt_trap("fell off the end of svm_entry");
+    evm_entry();
+    __rt_trap("fell off the end of evm_entry");
 }
 #else
 void _start(void)
 {
-    svm_entry();
-    __rt_trap("fell off the end of svm_entry");
+    evm_entry();
+    __rt_trap("fell off the end of evm_entry");
 }
 #endif

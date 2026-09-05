@@ -3,7 +3,7 @@
 Two proposals, one experiment.  Validation of static control flow
 (validator.py in ../yul-compiler) proves every destination
 constant and every instruction at one static stack offset; that makes translation legal — to native code, or to a
-register intermediate code a client can interpret.  SVM64 adds
+register intermediate code a client can interpret.  EVM64 adds
 instructions operating modulo 2^64 — no modes, no prefixes, just
 opcodes, which validation covers for free as table entries under the
 fork rule.  The experiment measures each proposal alone and both
@@ -11,7 +11,7 @@ together, on the same programs, at three execution tiers:
 
 |                     | 256-bit words | 64-bit words |
 |---------------------|---------------|--------------|
-| **Interpreted bytecode** | status quo | SVM64 alone |
+| **Interpreted bytecode** | status quo | EVM64 alone |
 | **Interpreted register IR** | the deployable middle path | |
 | **Compiled AOT**    | validation alone | both        |
 
@@ -31,17 +31,17 @@ so the counts are pure):
     ratios        1.0        1.4/1.1   1.5/2.1  3.3/3.2  4.7/7.0  50.8/19.3
 
 The two kernels bracket the workload space: one arithmetic-heavy
-loop, one call-heavy tree.  Four readings.  SVM64 alone buys
+loop, one call-heavy tree.  Four readings.  EVM64 alone buys
 1.1–1.4x: under a bytecode interpreter, dispatch dominates and cheap
 arithmetic hardly matters.  The register IR — translated once at
 deploy under the validation proofs, then interpreted — buys 1.5–2.1x
-at 256 bits and 3.2–3.3x composed with SVM64: this is the row for
+at 256 bits and 3.2–3.3x composed with EVM64: this is the row for
 consensus clients that will never JIT, and it keeps one dispatch per
 operation, which is why it stops there.  Full AOT removes the
 dispatch too: 4.7–7.0x from validation alone, and 19–51x composed —
 far more than the product of the two, because a stack slot can live
 in a machine register only when its offset is static (validation)
-*and* its value fits the register (SVM64).  The proposals do not
+*and* its value fits the register (EVM64).  The proposals do not
 merely add; they compound.
 
 The translation here is deliberately naive — SVM stack shuffles
@@ -96,7 +96,7 @@ counts here are the recurring execution the network pays for.
 
 ## Files
 
-    svm64.py     SVM64 opcode remap over the yul-compiler
+    evm64.py     EVM64 opcode remap over the yul-compiler
     aot.py       validated bytecode -> RISC-V assembly (both widths)
     ir.py        validated bytecode -> register IR (both widths)
     interp.c     baseline bytecode interpreter, both widths

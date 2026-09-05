@@ -8,7 +8,7 @@
  * checks validation cannot retire — stack overflow, return depth —
  * cost one compare each per call.
  *
- * Compile with -DWIDTH64 for SVM64 programs (registers are single
+ * Compile with -DWIDTH64 for EVM64 programs (registers are single
  * 64-bit words) or without (registers are 256-bit, four little-
  * endian limbs, same arithmetic as the baseline interp.c — the limb
  * helpers are repeated here verbatim so the file stands alone).
@@ -157,7 +157,7 @@ static u64 checked_index(u64 i)
     return i;
 }
 
-void svm_entry(void)
+void evm_entry(void)
 {
     static const void *J[IR_NOPS] = {
         [IR_GAS] = &&op_gas, [IR_LI] = &&op_li, [IR_MV] = &&op_mv,

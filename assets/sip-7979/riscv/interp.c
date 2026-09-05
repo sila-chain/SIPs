@@ -9,11 +9,11 @@
  * interpretation itself costs, so the interpreter must not be a
  * strawman.
  *
- * The SVM64 opcodes are placeholders for measurement: the 64-bit twin
+ * The EVM64 opcodes are placeholders for measurement: the 64-bit twin
  * of an arithmetic opcode x in 0x01..0x1C is 0xC0+x, operating modulo
  * 2^64 with the upper limbs of the result zero; CALLDATALOAD64=0xE0,
  * MLOAD64=0xE1, MSTORE64=0xE2 move words whose value fits 64 bits.
- * Stack items remain 256-bit words: SVM64's saving is arithmetic, not
+ * Stack items remain 256-bit words: EVM64's saving is arithmetic, not
  * item width.
  *
  * Implemented: the instructions the yul-compiler emits, plus
@@ -204,7 +204,7 @@ static const u8 GASTBL[256] = {
 #define NEED(n)  do { if (sp < (n)) __rt_trap("stack underflow"); } while (0)
 #define ROOM(n)  do { if (sp + (n) > STACK_LIMIT) __rt_trap("stack overflow"); } while (0)
 
-void svm_entry(void)
+void evm_entry(void)
 {
     static const void *J[256] = {
         [0 ... 255] = &&op_bad,
@@ -354,7 +354,7 @@ op_return: NEED(2); { u64 i = mem_index(&stk[sp-1], stk[sp-2].w[0]);
     __rt_return(MEM + i, stk[sp-2].w[0]); }
 op_revert: __rt_revert();
 
-/* ---- SVM64 twins: same stack, one-limb arithmetic ------------------- */
+/* ---- EVM64 twins: same stack, one-limb arithmetic ------------------- */
 
 #define BIN64(name, stmt) \
 op_##name: NEED(2); { u64 a = stk[sp-1].w[0], b = stk[sp-2].w[0], r; \

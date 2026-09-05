@@ -2,7 +2,7 @@
 
 Cells:
   interp/256  legacy bytecode on the baseline interpreter — status quo
-  interp/64   SVM64 bytecode on the same interpreter — SVM64 alone
+  interp/64   EVM64 bytecode on the same interpreter — EVM64 alone
   aot/256     validated 7979 bytecode translated to RISC-V — validation alone
   aot/64      both proposals composed
 
@@ -34,7 +34,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "yul-compiler"))
 
 from compile import compile_yul                     # noqa: E402
 from run7979 import execute                         # noqa: E402
-from svm64 import compile_yul64                     # noqa: E402
+from evm64 import compile_yul64                     # noqa: E402
 from aot import Translate64, Translate256           # noqa: E402
 from ir import translate_ir, ir_ops_h               # noqa: E402
 import validator                            # noqa: E402
