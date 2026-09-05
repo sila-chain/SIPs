@@ -48,7 +48,7 @@ Note that in the consensus tree format list entries are hashed as 4 byte _uint32
 
 ```
 class ShortRows(Container):
-    first_map_index: uint32
+    first_map_index: uint32 
     row_index: uint16
     row_lengths, row_data: ByteList
 ```
@@ -110,7 +110,7 @@ class TransactionMeta(Container):
     block_number: uint64
     transaction_hash: Root
     transaction_index: uint64
-    recsipt_hash: Root
+    receipt_hash: Root
 ```
 
 In this case the `Log` container is not initialized and its root is considered to be known as a zero leaf, which distinguishes `TransactionEntry` from log entries.
@@ -127,7 +127,7 @@ class BlockMeta(Container):
     block_hash: Root
     timestamp: uint64
 ```
-Similarly to `TransactionEntry`, the `Log` container root is known zero. Note that the last unused (zero) leaf of `BlockMeta` is also considered known and ensures that a `BlockMeta` is always distinguishable from a `TransactionMeta` which has `recsipt_hash` in the same position that cannot be zero.
+Similarly to `TransactionEntry`, the `Log` container root is known zero. Note that the last unused (zero) leaf of `BlockMeta` is also considered known and ensures that a `BlockMeta` is always distinguishable from a `TransactionMeta` which has `receipt_hash` in the same position that cannot be zero.
 
 ### Proof nodes
 

@@ -10,7 +10,7 @@ Binary Merkle Tree.
 from dataclasses import dataclass, field
 from typing import Callable, Dict
 
-from sila_types.numeric import U256, Uint
+from ethereum_types.numeric import U256, Uint
 
 
 @dataclass

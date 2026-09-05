@@ -15,11 +15,11 @@ The contracts to be deployed are:
 - DefaultDAOInterface
 
 The sources:
-- [ERC1155/ERC1155.sol](./ERC1155/ERC1155.sol)
-- [ERC1155/ERC1155TokenReceiver.sol](./ERC1155/ERC1155TokenReceiver.sol)
-- [ERC1155/ERC1155WithTotals.sol](./ERC1155/ERC1155WithTotals.sol)
-- [ERC1155/IERC1155.sol](./ERC1155/IERC1155.sol)
-- [ERC1155/IERC1155TokenReceiver.sol](./ERC1155/IERC1155TokenReceiver.sol)
+- [SRC1155/SRC1155.sol](./SRC1155/SRC1155.sol)
+- [SRC1155/SRC1155TokenReceiver.sol](./SRC1155/SRC1155TokenReceiver.sol)
+- [SRC1155/SRC1155WithTotals.sol](./SRC1155/SRC1155WithTotals.sol)
+- [SRC1155/IERC1155.sol](./SRC1155/IERC1155.sol)
+- [SRC1155/IERC1155TokenReceiver.sol](./SRC1155/IERC1155TokenReceiver.sol)
 - [BaseBidOnAddresses.sol](./BaseBidOnAddresses.sol)
 - [BaseLock.sol](./BaseLock.sol)
 - [BaseRestorableSalary.sol](./BaseRestorableSalary.sol)

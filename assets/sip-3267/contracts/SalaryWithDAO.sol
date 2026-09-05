@@ -29,7 +29,7 @@ contract SalaryWithDAO is BaseRestorableSalary {
 
     /// Constructor.
     /// @param _daoPlugin The DAO interface.
-    /// @param _uri The ERC-1155 token URI.
+    /// @param _uri The SRC-1155 token URI.
     constructor(DAOInterface _daoPlugin, string memory _uri)
         BaseRestorableSalary(_uri)
     {

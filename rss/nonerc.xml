@@ -5,13 +5,13 @@ layout: null
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sila SIPs</title>
-    <description>All SIPs that are not ERCs</description>
+    <description>All SIPs that are not SRCs</description>
     <link>{{ site.url }}</link>
     <atom:link href="{{ site.url }}/rss/last-call.xml" rel="self" type="application/rss+xml" />
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
     {% assign sips = site.pages | sort: 'sip' %}
     {% for sip in sips %}
-      {% unless sip.category == "ERC" %}
+      {% unless sip.category == "SRC" %}
       {% if sip.status == "Last Call" %}
       {% capture description %}
         <p><strong>SIP #{{ sip.sip }} - {{sip.title }}</strong> is in Last Call status. It is authored by {{ sip.author }} and was originally created {{ sip.created }}. It is in the {{ sip.category }} category of type {{ sip.type }}. Please review and note any changes that should block acceptance.</p>

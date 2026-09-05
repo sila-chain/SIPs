@@ -1,14 +1,14 @@
 """
-This script calculates the Sil2 Weak Subjectivity period as defined by sil2.0-specs: https://github.com/sila/sil2.0-specs/blob/dev/specs/phase0/weak-subjectivity.md
+This script calculates the Sil2 Weak Subjectivity period as defined by eth2.0-specs: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/weak-subjectivity.md
 """
 
-from sil2spec.phase0.sila-mainnet import (
-    uint64, Siler,
-    SIL_TO_GWEI,
-    MAX_DEPOSITS,
-    MAX_EFFECTIVE_BALANCE,
-    SLOTS_PER_EPOCH,
-    config,
+from eth2spec.phase0.sila-mainnet import (
+    uint64, Sila,
+    SIL_TO_GWEI, 
+    MAX_DEPOSITS, 
+    MAX_EFFECTIVE_BALANCE,  
+    SLOTS_PER_EPOCH, 
+    config, 
 )
 
 MIN_VALIDATOR_WITHDRAWABILITY_DELAY = config.MIN_VALIDATOR_WITHDRAWABILITY_DELAY
@@ -18,11 +18,11 @@ CHURN_LIMIT_QUOTIENT = config.CHURN_LIMIT_QUOTIENT
 def get_validator_churn_limit(validator_count: uint64) -> uint64:
     return max(MIN_PER_EPOCH_CHURN_LIMIT, validator_count // CHURN_LIMIT_QUOTIENT)
 
-def compute_weak_subjectivity_period(N: uint64, t: Siler) -> uint64:
+def compute_weak_subjectivity_period(N: uint64, t: Sila) -> uint64:
     """
-    Returns the weak subjectivity period for the current ``state``.
+    Returns the weak subjectivity period for the current ``state``. 
     This computation takes into account the effect of:
-        - validator set churn (bounded by ``get_validator_churn_limit()`` per epoch), and
+        - validator set churn (bounded by ``get_validator_churn_limit()`` per epoch), and 
         - validator balance top-ups (bounded by ``MAX_DEPOSITS * SLOTS_PER_EPOCH`` per epoch).
     A detailed calculation can be found at:
     https://github.com/runtimeverification/beacon-chain-verification/blob/master/weak-subjectivity/weak-subjectivity-analysis.pdf
@@ -48,14 +48,14 @@ def compute_weak_subjectivity_period(N: uint64, t: Siler) -> uint64:
         ws_period += (
             3 * N * D * t // (200 * Delta * (T - t))
         )
-
+    
     return ws_period
 
 print("| Safety Decay | Avg. Val. Balance (SIL) | Val. Count | Weak Sub. Period (Epochs) |")
 print("| ---- | ---- | ---- | ---- |")
 for SAFETY_DECAY in [10]:
-    for balance_sil in range(20, 32+1, 4):
-      average_active_validator_balance = Siler(balance_sil)
+    for balance_eth in range(20, 32+1, 4):
+      average_active_validator_balance = Sila(balance_eth)
       for log_val_count in range(15, 21, 1):
         validator_count = uint64(2**log_val_count)
         weak_subjectivity_period = compute_weak_subjectivity_period(validator_count, average_active_validator_balance)

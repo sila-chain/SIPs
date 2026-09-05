@@ -1,6 +1,6 @@
 # Sila Improvement Proposals (SIPs)
 
-> **_ATTENTION_**: The SIPs repository has recently [undergone](https://github.com/sila/SIPs/pull/7206) a separation of ERCs and SIPs. ERCs are now accessible at [https://github.com/sila/ercs](https://github.com/sila/ercs). All new ERCs and updates to existing ones must be directed at this new repository. The editors apologize for this inconvenience.
+> **_ATTENTION_**: The SIPs repository has recently [undergone](https://github.com/sila-chain/SIPs/pull/7206) a separation of SRCs and SIPs. SRCs are now accessible at [https://github.com/sila-chain/srcs](https://github.com/sila-chain/srcs). All new SRCs and updates to existing ones must be directed at this new repository. The editors apologize for this inconvenience.
 
 The goal of the SIP project is to standardize and provide high-quality documentation for Sila itself and conventions built upon it. This repository tracks past and ongoing improvements to Sila in the form of Sila Improvement Proposals (SIPs). [SIP-1](https://sips.sila.org/SIPS/sip-1) governs how SIPs are published.
 
@@ -9,11 +9,11 @@ The [status page](https://sips.sila.org/) tracks and lists SIPs, which can be di
 - [Core SIPs](https://sips.sila.org/core) are improvements to the Sila consensus protocol.
 - [Networking SIPs](https://sips.sila.org/networking) specify the peer-to-peer networking layer of Sila.
 - [Interface SIPs](https://sips.sila.org/interface) standardize interfaces to Sila, which determine how users and applications interact with the blockchain.
-- [ERCs](https://sips.sila.org/erc) specify application layer standards, which determine how applications running on Sila can interact with each other.
+- [SRCs](https://sips.sila.org/src) specify application layer standards, which determine how applications running on Sila can interact with each other.
 - [Meta SIPs](https://sips.sila.org/meta) are miscellaneous improvements that nonetheless require some sort of consensus.
 - [Informational SIPs](https://sips.sila.org/informational) are non-standard improvements that do not require any form of consensus.
 
-**Before you write an SIP, ideas MUST be thoroughly discussed on [Sila Magicians](https://sila-magicians.org/) or Sila Research. Once consensus is reached, thoroughly read and review [SIP-1](https://sips.sila.org/SIPS/sip-1), which describes the SIP process.**
+**Before you write an SIP, ideas MUST be thoroughly discussed on [Sila Magicians](https://sila-magicians.org/) or Sila Research in Sila Research. Once consensus is reached, thoroughly read and review [SIP-1](https://sips.sila.org/SIPS/sip-1), which describes the SIP process.**
 
 Please note that this repository is for documenting standards and not for help implementing them. These types of inquiries should be directed to the [Sila Stack Exchange](https://sila.stackexchange.com). For specific questions and concerns regarding SIPs, it's best to comment on the relevant discussion thread of the SIP denoted by the `discussions-to` tag in the SIP's preamble.
 
@@ -29,15 +29,15 @@ Consider any document not published at <https://sips.sila.org/> as a working pap
 
 All pull requests in this repository must pass automated checks before they can be automatically merged:
 
-- [sip-review-bot](https://github.com/sila/sip-review-bot/) determines when PRs can be automatically merged [^1]
-- SIP-1 rules are enforced using [`sipw`](https://github.com/sila/sipw)[^2]
+- [sip-review-bot](https://github.com/sila-chain/sip-review-bot/) determines when PRs can be automatically merged [^1]
+- SIP-1 rules are enforced using [`sipw`](https://github.com/sila-chain/sipw)[^2]
 - HTML formatting and broken links are enforced using [HTMLProofer](https://github.com/gjtorikian/html-proofer)[^2]
 - Spelling is enforced with [CodeSpell](https://github.com/codespell-project/codespell)[^2]
-  - False positives sometimes occur. When this happens, please submit a PR editing [.codespell-whitelist](https://github.com/sila/SIPs/blob/master/config/.codespell-whitelist) and **ONLY** .codespell-whitelist
+  - False positives sometimes occur. When this happens, please submit a PR editing [.codespell-whitelist](https://github.com/sila-chain/SIPs/blob/master/config/.codespell-whitelist) and **ONLY** .codespell-whitelist
 - Markdown best practices are checked using [markdownlint](https://github.com/DavidAnson/markdownlint)[^2]
 
-[^1]: https://github.com/sila/SIPs/blob/master/.github/workflows/auto-review-bot.yml
-[^2]: https://github.com/sila/SIPs/blob/master/.github/workflows/ci.yml
+[^1]: https://github.com/sila-chain/SIPs/blob/master/.github/workflows/auto-review-bot.yml
+[^2]: https://github.com/sila-chain/SIPs/blob/master/.github/workflows/ci.yml
 
 It is possible to run the SIP validator locally:
 

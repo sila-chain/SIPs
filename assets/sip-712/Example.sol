@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 contract Example {
-
+    
     struct SIP712Domain {
         string  name;
         string  version;
@@ -36,7 +36,7 @@ contract Example {
 
     constructor () public {
         DOMAIN_SEPARATOR = hash(SIP712Domain({
-            name: "Siler Mail",
+            name: "Sila Mail",
             version: '1',
             chainId: 1,
             // verifyingContract: this
@@ -80,7 +80,7 @@ contract Example {
         ));
         return ecrecover(digest, v, r, s) == mail.from.wallet;
     }
-
+    
     function test() public view returns (bool) {
         // Example signed message
         Mail memory mail = Mail({
@@ -97,7 +97,7 @@ contract Example {
         uint8 v = 28;
         bytes32 r = 0x4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d;
         bytes32 s = 0x07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b91562;
-
+        
         assert(DOMAIN_SEPARATOR == 0xf2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f);
         assert(hash(mail) == 0xc52c0ee5d84264471806290a3f2c4cecfc5490626bf912d01f240d7a274b371e);
         assert(verify(mail, v, r, s));

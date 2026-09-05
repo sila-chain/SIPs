@@ -2,10 +2,10 @@
 pragma solidity ^0.7.1;
 import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
 import { ABDKMath64x64 } from "abdk-libraries-solidity/ABDKMath64x64.sol";
-import { ERC1155WithTotals } from "./ERC1155/ERC1155WithTotals.sol";
-import { ERC1155Holder } from "@openzeppelin/contracts/token/ERC1155/ERC1155Holder.sol";
-import { IERC1155 } from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
-import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol";
+import { SRC1155WithTotals } from "./SRC1155/SRC1155WithTotals.sol";
+import { SRC1155Holder } from "@openzeppelin/contracts/token/SRC1155/SRC1155Holder.sol";
+import { ISRC1155 } from "@openzeppelin/contracts/token/SRC1155/ISRC1155.sol";
+import { SRC721Holder } from "@openzeppelin/contracts/token/SRC721/SRC721Holder.sol";
 
 /// @title A base class to lock collaterals and distribute them proportional to an oracle result.
 /// @author Victor Porton
@@ -13,16 +13,16 @@ import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/ERC721Holder.
 ///
 /// One can also donate/bequest a smart wallet (explain how).
 ///
-/// We have two kinds of ERC-1155 token IDs:
+/// We have two kinds of SRC-1155 token IDs:
 /// - conditional tokens: numbers < 2**64
 /// - a combination of a collateral contract address and collateral token ID
 ///   (a counter of donated amount of collateral tokens, don't confuse with collateral tokens themselves)
 ///
 /// Inheriting from here don't forget to create `createOracle()` external method.
 abstract contract BaseLock is
-    ERC1155WithTotals,
-    ERC1155Holder, // You are recommended to use `donate()` function instead.
-    ERC721Holder // It can be used through an ERC-1155 wrapper.
+    SRC1155WithTotals,
+    SRC1155Holder, // You are recommended to use `donate()` function instead.
+    SRC721Holder // It can be used through an SRC-1155 wrapper.
 {
     using ABDKMath64x64 for int128;
     using SafeMath for uint256;
@@ -43,14 +43,14 @@ abstract contract BaseLock is
     event ConditionCreated(address indexed sender, address indexed customer, uint256 indexed condition);
 
     /// Emitted when a collateral is donated.
-    /// @param collateralContractAddress The ERC-1155 contract of the donated token.
-    /// @param collateralTokenId The ERC-1155 ID of the donated token.
+    /// @param collateralContractAddress The SRC-1155 contract of the donated token.
+    /// @param collateralTokenId The SRC-1155 ID of the donated token.
     /// @param sender Who donated.
     /// @param amount The amount donated.
     /// @param to Whose account the donation is assigned to.
     /// @param data Additional transaction data.
     event DonateCollateral(
-        IERC1155 indexed collateralContractAddress,
+        ISRC1155 indexed collateralContractAddress,
         uint256 indexed collateralTokenId,
         address indexed sender,
         uint256 amount,
@@ -63,13 +63,13 @@ abstract contract BaseLock is
     event OracleFinished(uint64 indexed oracleId);
 
     /// Emitted when collateral is withdrawn.
-    /// @param contractAddress The ERC-1155 contract of the collateral token.
-    /// @param collateralTokenId The ERC-1155 token ID of the collateral.
+    /// @param contractAddress The SRC-1155 contract of the collateral token.
+    /// @param collateralTokenId The SRC-1155 token ID of the collateral.
     /// @param oracleId The oracle ID for which withdrawal is done.
     /// @param user Who has withdrawn.
     /// @param amount The amount withdrawn.
     event CollateralWithdrawn(
-        IERC1155 indexed contractAddress,
+        ISRC1155 indexed contractAddress,
         uint256 indexed collateralTokenId,
         uint64 indexed oracleId,
         address user,
@@ -97,8 +97,8 @@ abstract contract BaseLock is
     mapping(uint256 => address) public conditionOwners;
 
     /// Constructor.
-    /// @param _uri Our ERC-1155 tokens description URI.
-    constructor(string memory _uri) ERC1155WithTotals(_uri) {
+    /// @param _uri Our SRC-1155 tokens description URI.
+    constructor(string memory _uri) SRC1155WithTotals(_uri) {
         _registerInterface(
             BaseLock(0).onERC1155Received.selector ^
             BaseLock(0).onERC1155BatchReceived.selector ^
@@ -129,21 +129,21 @@ abstract contract BaseLock is
         gracePeriodEnds[_oracleId] = _time;
     }
 
-    /// Donate funds in an ERC-1155 token.
+    /// Donate funds in an SRC-1155 token.
     ///
     /// First, the collateral token need to be approved to be spent by this contract from the address `_from`.
     ///
     /// It also mints a token (with a different ID), that counts donations in that token.
     ///
-    /// @param _collateralContractAddress The collateral ERC-1155 contract address.
-    /// @param _collateralTokenId The collateral ERC-1155 token ID.
+    /// @param _collateralContractAddress The collateral SRC-1155 contract address.
+    /// @param _collateralTokenId The collateral SRC-1155 token ID.
     /// @param _oracleId The oracle ID to whose ecosystem to donate to.
     /// @param _amount The amount to donate.
     /// @param _from From whom to take the donation.
     /// @param _to On whose account the donation amount is assigned.
     /// @param _data Additional transaction data.
     function donate(
-        IERC1155 _collateralContractAddress,
+        ISRC1155 _collateralContractAddress,
         uint256 _collateralTokenId,
         uint64 _oracleId,
         uint256 _amount,
@@ -160,13 +160,13 @@ abstract contract BaseLock is
     }
 
     /// Gather a DeFi profit of a token previous donated to this contract.
-    /// @param _collateralContractAddress The collateral ERC-1155 contract address.
-    /// @param _collateralTokenId The collateral ERC-1155 token ID.
+    /// @param _collateralContractAddress The collateral SRC-1155 contract address.
+    /// @param _collateralTokenId The collateral SRC-1155 token ID.
     /// @param _oracleId The oracle ID to whose ecosystem to donate to.
     /// @param _data Additional transaction data.
     /// TODO: Batch calls in several tokens and/or to several oracles for less gas usage?
     function gatherDeFiProfit(
-        IERC1155 _collateralContractAddress,
+        ISRC1155 _collateralContractAddress,
         uint256 _collateralTokenId,
         uint64 _oracleId,
         bytes calldata _data) external
@@ -196,13 +196,13 @@ abstract contract BaseLock is
     }
 
     /// Calculate how much collateral is owed to a user.
-    /// @param _collateralContractAddress The ERC-1155 collateral token contract.
-    /// @param _collateralTokenId The ERC-1155 collateral token ID.
+    /// @param _collateralContractAddress The SRC-1155 collateral token contract.
+    /// @param _collateralTokenId The SRC-1155 collateral token ID.
     /// @param _oracleId From which oracle's "account" to withdraw.
     /// @param _condition The condition (the original receiver of a conditional token).
     /// @param _user The user to which we may owe.
     function collateralOwing(
-        IERC1155 _collateralContractAddress,
+        ISRC1155 _collateralContractAddress,
         uint256 _collateralTokenId,
         uint64 _oracleId,
         uint256 _condition,
@@ -214,11 +214,11 @@ abstract contract BaseLock is
         return _donated;
     }
 
-    /// Transfer to `msg.sender` the collateral ERC-1155 token.
+    /// Transfer to `msg.sender` the collateral SRC-1155 token.
     ///
     /// The amount transferred is proportional to the score of `_condition` by the oracle.
-    /// @param _collateralContractAddress The ERC-1155 collateral token contract.
-    /// @param _collateralTokenId The ERC-1155 collateral token ID.
+    /// @param _collateralContractAddress The SRC-1155 collateral token contract.
+    /// @param _collateralTokenId The SRC-1155 collateral token ID.
     /// @param _oracleId From which oracle's "account" to withdraw.
     /// @param _condition The condition.
     /// @param _data Additional data.
@@ -231,7 +231,7 @@ abstract contract BaseLock is
     /// - After this function is called, it becomes impossible to transfer the corresponding conditional token
     ///   of `msg.sender` (to prevent its repeated withdrawal).
     function withdrawCollateral(
-        IERC1155 _collateralContractAddress,
+        ISRC1155 _collateralContractAddress,
         uint256 _collateralTokenId,
         uint64 _oracleId,
         uint256 _condition,
@@ -269,7 +269,7 @@ abstract contract BaseLock is
         );
     }
 
-    /// An ERC-1155 function.
+    /// An SRC-1155 function.
     ///
     /// We disallow transfers of conditional tokens after redeem `_to` prevent "gathering" them before redeeming
     /// each oracle.
@@ -286,7 +286,7 @@ abstract contract BaseLock is
         _baseSafeTransferFrom(_from, _to, _id, _value, _data);
     }
 
-    /// An ERC-1155 function.
+    /// An SRC-1155 function.
     ///
     /// We disallow transfers of conditional tokens after redeem `_to` prevent "gathering" them before redeeming
     /// each oracle.
@@ -368,22 +368,22 @@ abstract contract BaseLock is
 
     // Internal //
 
-    /// Generate the ERC-1155 token ID that counts amount of donations per oracle for a ERC-1155 collateral token.
-    /// @param _collateralContractAddress The ERC-1155 contract of the collateral token.
-    /// @param _collateralTokenId The ERC-1155 ID of the collateral token.
+    /// Generate the SRC-1155 token ID that counts amount of donations per oracle for a SRC-1155 collateral token.
+    /// @param _collateralContractAddress The SRC-1155 contract of the collateral token.
+    /// @param _collateralTokenId The SRC-1155 ID of the collateral token.
     /// @param _oracleId The oracle ID.
     /// Note: It does not conflict with other tokens kinds, because the only other one is the uint64 conditional.
-    function _collateralDonatedPerOracleTokenId(IERC1155 _collateralContractAddress, uint256 _collateralTokenId, uint64 _oracleId)
+    function _collateralDonatedPerOracleTokenId(ISRC1155 _collateralContractAddress, uint256 _collateralTokenId, uint64 _oracleId)
         internal pure returns (uint256)
     {
         return uint256(keccak256(abi.encodePacked(_collateralContractAddress, _collateralTokenId, _oracleId)));
     }
 
-    /// Generate the ERC-1155 token ID that counts amount of donations for a ERC-1155 collateral token.
-    /// @param _collateralContractAddress The ERC-1155 contract of the collateral token.
-    /// @param _collateralTokenId The ERC-1155 ID of the collateral token.
+    /// Generate the SRC-1155 token ID that counts amount of donations for a SRC-1155 collateral token.
+    /// @param _collateralContractAddress The SRC-1155 contract of the collateral token.
+    /// @param _collateralTokenId The SRC-1155 ID of the collateral token.
     /// Note: It does not conflict with other tokens kinds, because the only other one is the uint64 conditional.
-    function _collateralDonatedTokenId(IERC1155 _collateralContractAddress, uint256 _collateralTokenId)
+    function _collateralDonatedTokenId(ISRC1155 _collateralContractAddress, uint256 _collateralTokenId)
         internal pure returns (uint256)
     {
         return uint256(keccak256(abi.encodePacked(_collateralContractAddress, _collateralTokenId)));
@@ -394,10 +394,10 @@ abstract contract BaseLock is
     }
 
     function _baseSafeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes memory _data) private {
-        require(_to != address(0), "ERC1155: target address must be non-zero");
+        require(_to != address(0), "SRC1155: target address must be non-zero");
         require(
             _from == msg.sender || _operatorApprovals[_from][msg.sender] == true,
-            "ERC1155: need operator approval for 3rd party transfers."
+            "SRC1155: need operator approval for 3rd party transfers."
         );
 
         _doTransfer(_id, _from, _to, _value);
@@ -416,11 +416,11 @@ abstract contract BaseLock is
     )
         private
     {
-        require(_ids.length == _values.length, "ERC1155: IDs and _values must have same lengths");
-        require(_to != address(0), "ERC1155: target address must be non-zero");
+        require(_ids.length == _values.length, "SRC1155: IDs and _values must have same lengths");
+        require(_to != address(0), "SRC1155: target address must be non-zero");
         require(
             _from == msg.sender || _operatorApprovals[_from][msg.sender] == true,
-            "ERC1155: need operator approval for 3rd party transfers."
+            "SRC1155: need operator approval for 3rd party transfers."
         );
 
         for (uint256 _i = 0; _i < _ids.length; ++_i) {
@@ -464,7 +464,7 @@ abstract contract BaseLock is
     }
 
     function _collateralOwingBase(
-        IERC1155 _collateralContractAddress,
+        ISRC1155 _collateralContractAddress,
         uint256 _collateralTokenId,
         uint64 _oracleId,
         uint256 _condition,

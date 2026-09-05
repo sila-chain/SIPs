@@ -31,21 +31,21 @@ If `block.number >= HOMESTEAD_FORK_BLKNUM`, do the following:
 
 # Rationale
 
-Currently, there is an excess incentive to create contracts via transactions, where the cost is 21,000, rather than contracts, where the cost is 32,000. Additionally, with the help of suicide refunds, it is currently possible to make a simple siler value transfer using only 11,664 gas; the code for doing this is as follows:
+Currently, there is an excess incentive to create contracts via transactions, where the cost is 21,000, rather than contracts, where the cost is 32,000. Additionally, with the help of suicide refunds, it is currently possible to make a simple sila value transfer using only 11,664 gas; the code for doing this is as follows:
 
 ```python
 from sila import tester as t
 > from sila import utils
 > s = t.state()
 > c = s.abi_contract('def init():\n suicide(0x47e25df8822538a8596b28c637896b4d143c351e)', endowment=10**15)
-> s.block.get_recsipts()[-1].gas_used
+> s.block.get_receipts()[-1].gas_used
 11664
 > s.block.get_balance(utils.normalize_address(0x47e25df8822538a8596b28c637896b4d143c351e))
 1000000000000000
 ```
 This is not a particularly serious problem, but it is nevertheless arguably a bug.
 
-Allowing transactions with any s value with `0 < s < secp256k1n`, as is currently the case, opens a transaction malleability concern, as one can take any transaction, flip the s value from `s` to `secp256k1n - s`, flip the v value (`27 -> 28`, `28 -> 27`), and the resulting signature would still be valid. This is not a serious security flaw, especially since Sila uses addresses and not transaction hashes as the input to an siler value transfer or other transaction, but it nevertheless creates a UI inconvenience as an attacker can cause the transaction that gets confirmed in a block to have a different hash from the transaction that any user sends, interfering with user interfaces that use transaction hashes as tracking IDs. Preventing high s values removes this problem.
+Allowing transactions with any s value with `0 < s < secp256k1n`, as is currently the case, opens a transaction malleability concern, as one can take any transaction, flip the s value from `s` to `secp256k1n - s`, flip the v value (`27 -> 28`, `28 -> 27`), and the resulting signature would still be valid. This is not a serious security flaw, especially since Sila uses addresses and not transaction hashes as the input to an sila value transfer or other transaction, but it nevertheless creates a UI inconvenience as an attacker can cause the transaction that gets confirmed in a block to have a different hash from the transaction that any user sends, interfering with user interfaces that use transaction hashes as tracking IDs. Preventing high s values removes this problem.
 
 Making contract creation go out-of-gas if there is not enough gas to pay for the final gas fee has the benefits that:
 - (i) it creates a more intuitive "success or fail" distinction in the result of a contract creation process, rather than the current "success, fail, or empty contract" trichotomy;
@@ -60,7 +60,7 @@ The use of `(block_timestamp - parent_timestamp) // 10` as the main input variab
 
 This is implemented in Python here:
 
-1. https://github.com/sila/pysila/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila/processblock.py#L130
-2. https://github.com/sila/pysila/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila/processblock.py#L129
-3. https://github.com/sila/pysila/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila/processblock.py#L304
-4. https://github.com/sila/pysila/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila/blocks.py#L42
+1. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L130
+2. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L129
+3. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/processblock.py#L304
+4. https://github.com/sila-chain/pyethereum/blob/d117c8f3fd93359fc641fd850fa799436f7c43b5/sila-chain/blocks.py#L42

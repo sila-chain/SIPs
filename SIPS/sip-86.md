@@ -30,7 +30,7 @@ If `block.number >= METROPOLIS_FORK_BLKNUM`, then:
 
 The goal of these changes is to set the stage for abstraction of account security. Instead of having an in-protocol mechanism where ECDSA and the default nonce scheme are enshrined as the only "standard" way to secure an account, we take initial steps toward a model where in the long term all accounts are contracts, contracts can pay for gas, and users are free to define their own security model.
 
-Under SIP 86, we can expect users to store their siler in contracts, whose code might look like the following (example in Serpent):
+Under SIP 86, we can expect users to store their sila in contracts, whose code might look like the following (example in Serpent):
 
 ```python
 # Get signature from tx data
@@ -87,7 +87,7 @@ One example would be to check as follows:
 2. Check that the signature in the transaction data verifies with that key hash.
 3. Check that the gasprice in the transaction data is sufficiently high
 4. Check that the nonce in the state matches the nonce in the transaction data
-5. Check that there is enough siler in the account to pay for the fee
+5. Check that there is enough sila in the account to pay for the fee
 
 If all five checks pass, relay and/or mine the transaction.
 

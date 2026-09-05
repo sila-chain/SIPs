@@ -1,6 +1,6 @@
 ## SIP-7745 wire protocol extension
 
-This document specifies the extensions to the [Sila Wire Protocol](https://github.com/sila/devp2p/blob/master/caps/sil.md) required to initialize the log index.
+This document specifies the extensions to the [Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/master/caps/sil.md) required to initialize the log index.
 
 ### Proposed new messages
 
@@ -22,7 +22,7 @@ This is the response to __GetLogIndexProof__, providing the RLP encoded log inde
 
 #### EpochBoundaryProof (proofType = 0x01)
 
-This proof allows the client to initialize log index rendering at epoch boundaries. It does not prove any filter row data, only index entries, typically of __BlockEntry__ type. Epoch boundary `i` is defined as the boundary between epochs `i` and `i+1` and allows the client to start rendering the index from epoch `i+1`. Epoch boundaries `0 <= i < epoch_count` can be proven, where `epoch_count = next_index // (MAPS_PER_EPOCH * VALUES_PER_MAP)` is the number of completed epochs. Note that every proof proves `next_index` and thereby also `epoch_count`.
+This proof allows the client to initialize log index rendering at epoch boundaries. It does not prove any filter row data, only index entries, typically of __BlockEntry__ type. Epoch boundary `i` is defined as the boundary between epochs `i` and `i+1` and allows the client to start rendering the index from epoch `i+1`. Epoch boundaries `0 <= i < epoch_count` can be proven, where `epoch_count = next_index // (MAPS_PER_EPOCH * VALUES_PER_MAP)` is the number of completed epochs. Note that every proof proves `next_index` and thereby also `epoch_count`. 
 
 The range of proven boundaries is determined by the `proofSubset` parameter; boundaries `proofSubset * 128` to `min((proofSubset+1) * 128, epoch_count) - 1` are proven by the returned log index proof. Except for some corner cases listed below, each boundary `i` is proven by two adjacent __BlockEntry__ entries: the last one whose `map_entry_index < i * MAPS_PER_EPOCH * VALUES_PER_MAP` and the first one whose `map_entry_index >= i * MAPS_PER_EPOCH * VALUES_PER_MAP`. This proves the `map_entry_index` position of the last block boundary in the previous epoch, which allows the client to start processing the next block, skip the appropriate number of _map values_ and _index entries_ until the epoch boundary, then start rendering the next epoch.
 
@@ -38,7 +38,7 @@ The typical scenario described above assumes that there is at least one __BlockE
 
 In any other case the proof should be considered invalid.
 
-Note that rendering an epoch as a part of a log index Merkle tree requires the sibling of the rendered epoch's root node to be known. This is automatically true if a `BlockEntry` in the rendered epoch (the one after the boundary) is proven. Otherwise it is not always guaranteed, therefore if there is no __BlockEntry__ in the next epoch after a proven boundary then the first index entry of that epoch should be proven, either as an __empty entry__, a __FalsePositiveLogEntry__ or a __TxEntry__.
+Note that rendering an epoch as a part of a log index Merkle tree requires the sibling of the rendered epoch's root node to be known. This is automatically true if a `BlockEntry` in the rendered epoch (the one after the boundary) is proven. Otherwise it is not always guaranteed, therefore if there is no __BlockEntry__ in the next epoch after a proven boundary then the first index entry of that epoch should be proven, either as an __empty entry__, a __FalsePositiveLogEntry__ or a __TxEntry__. 
 
 #### CurrentMapProof (proofType = 0x02)
 

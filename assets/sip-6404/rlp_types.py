@@ -1,4 +1,4 @@
-from sil_hash.auto import keccak
+from eth_hash.auto import keccak
 from remerkleable.byte_arrays import Bytes32
 from rlp import encode, Serializable
 from rlp.sedes import Binary, CountableList, List as RLPList, big_endian_int, binary

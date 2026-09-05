@@ -23,7 +23,7 @@ abstract contract BaseRestorableSalary is BaseSalary {
     mapping(address => address) public newToOldAccount;
 
     /// Constructor.
-    /// @param _uri Our ERC-1155 tokens description URI.
+    /// @param _uri Our SRC-1155 tokens description URI.
     constructor (string memory _uri) BaseSalary(_uri) { }
 
     /// Below copied from https://github.com/vporton/restorable-funds/blob/f6192fd23cad529b84155d52ae202430cd97db23/contracts/RestorableERC1155.sol
@@ -70,7 +70,7 @@ abstract contract BaseRestorableSalary is BaseSalary {
     /// Move the entire balance of a token from an old account to a new account of the same user.
     /// @param _oldAccount Old account.
     /// @param _newAccount New account.
-    /// @param _token The ERC-1155 token ID.
+    /// @param _token The SRC-1155 token ID.
     /// This function can be called by the affected user.
     ///
     /// Remark: We don't need to create new tokens like as on a regular transfer,
@@ -89,7 +89,7 @@ abstract contract BaseRestorableSalary is BaseSalary {
     /// Move the entire balance of tokens from an old account to a new account of the same user.
     /// @param _oldAccount Old account.
     /// @param _newAccount New account.
-    /// @param _tokens The ERC-1155 token IDs.
+    /// @param _tokens The SRC-1155 token IDs.
     /// This function can be called by the affected user.
     ///
     /// Remark: We don't need to create new tokens like as on a regular transfer,

@@ -10,9 +10,9 @@
   ],
   "ignoreDeps": [
     "Pandapip1/jekyll-label-action",
-    "sila/sipw-action",
-    "sila/sip-review-bot",
-    "sila/SIP-Bot"
+    "sila-chain/sipw-action",
+    "sila-chain/sip-review-bot",
+    "sila-chain/SIP-Bot"
   ],
   "enabled": false
 }

@@ -1,12 +1,12 @@
 # Going multidimensional - an empirical analysis on gas metering in the SVM
 
-**This document is a copy-paste from this Sila Research post.**
+**This document is a copy-paste from this ethresearch post in Sila Research**
 
 This post summarizes the key takeaways from an empirical analysis focused on understanding how different SVM gas metering schemes impact network throughput and block utilization. Concretely, we were focused on multidimensional schemes, where the usage of different resources is metered separately.
 
 For conciseness, I am jumping over many technical details. Please refer to the [project documentation](https://hackmd.io/@nightingale/evm-gas-meter) for more details.
 
-I would like to thank @dcrapis for the valuable review, comments, and discussion, [Shouqiao Wang](https://x.com/qiaoqiao2001?lang=en) for the early discussions and for sharing his initial analysis, and the silPandaOps team for access to their amazing data. This project was supported by the grant [ROP-15: SVM Gas Metering](https://blog.sila.org/2025/05/08/allocation-q1-25) provided by the [Robust Incentives Group](https://rig.sila.org/).
+I would like to thank @dcrapis for the valuable review, comments, and discussion, [Shouqiao Wang](https://x.com/qiaoqiao2001?lang=en) for the early discussions and for sharing his initial analysis, and the ethPandaOps team for access to their amazing data. This project was supported by the grant [ROP-15: SVM Gas Metering](https://blog.sila.org/2025/05/08/allocation-q1-25) provided by the [Robust Incentives Group](https://rig.sila.org/).
 
 ## Gas metering and block utilization
 
@@ -16,13 +16,13 @@ An essential component of this process is the gas metering scheme, i.e., the fun
 
 In Sila, the current metering scheme attributes a cost to each operation (measured in units of gas) and adds the gas of each transaction. Then, it compares this sum against a fixed limit of 36 million gas units. Once a block reaches 36 million gas units, it is considered completely full. In addition to this limit, the protocol also compares the gas utilized by the block against a target of 18 million, which is used to set the base fee all transactions must pay.
 
-This scheme has the advantage of being simple and, thus, easy to interface with. However, it has the drawback of overestimating how close a block is to being at the limits of the network resources.
+This scheme has the advantage of being simple and, thus, easy to interface with. However, it has the drawback of overestimating how close a block is to being at the limits of the network resources. 
 
 To illustrate this point, let us start with a simple example. In this example, we have two blocks, $B_1$ and $B_2$, and a network that only cares about two resources, $x$ and $y$, which with a limit of 1. $B_1$ has a usage by resource of $(x=1, y=0)$ and $B_2$ has a usage by resource of $(x=0.5, y=0.5)$. According to the current scheme, both blocks have the same usage of 1 unit. However, we can see that neither block is reaching the limits of the available resources. $B_1$ is at the limit of resource $x$, but it does not use resource $y$. On the other hand, $B_2$ is only using half of both resources.
 
 This lack of expressivity in the current scheme led to the idea of replacing it with a scheme in which the usage and limits of different resources are considered separately. These are commonly referred to as "multidimensional schemes".
 
-A possible approach is a scheme similar to the one [described by Vitalik](https://vitalik.sil.limo/general/2024/05/09/multidim.html). In this approach, we separate the resources into groups (in our previous example, resource $x$ would be one group, and resource $y$ would be the other). Then, for each block, we add the gas units for each group ($g_x$ and $g_y$) and define the block resource utilization as the maximum of the groups ( $\text{utilization}=\max(c_x*r_x+c_y*r_y, c'_x*r_x, g_y)$). Note however that Vitalik's approach is at transaction-level, instead of at block-level. We can see that in our previous example, this metering scheme would allow us to fill both blocks with more transactions: $B_1$ can additionally include 0.5 units of each resource, while block $B_2$ can include 1 unit of resource $y$ without reaching the block limit.
+A possible approach is a scheme similar to the one [described by Vitalik](https://vitalik.eth.limo/general/2024/05/09/multidim.html). In this approach, we separate the resources into groups (in our previous example, resource $x$ would be one group, and resource $y$ would be the other). Then, for each block, we add the gas units for each group ($g_x$ and $g_y$) and define the block resource utilization as the maximum of the groups ( $\text{utilization}=\max(c_x*r_x+c_y*r_y, c'_x*r_x, g_y)$). Note however that Vitalik's approach is at transaction-level, instead of at block-level. We can see that in our previous example, this metering scheme would allow us to fill both blocks with more transactions: $B_1$ can additionally include 0.5 units of each resource, while block $B_2$ can include 1 unit of resource $y$ without reaching the block limit.
 
 This example highlights a potential advantage of multidimensional metering. By allowing for a more efficient account of resource utilization, we can increase network throughput (i.e., process more transactions in a block) without significantly impacting the risk of resource overuse. However, there are two key questions to consider here:
 
@@ -35,7 +35,7 @@ We will try to address each of these questions in the following sections.
 
 ### Historical gas usage by resource
 
-To understand the potential throughput gains of multidimensional metering, we first need to examine how much gas is being used by each resource. To this end, we designed a data pipeline that collects raw transaction data from [Xatu’s dataset](https://silpandaops.io/data/xatu/) and the [debug traces](https://github.com/akegaviar/Erigon-Gsil-debug_traceTransaction-guide/) from an Erigon node, processes and aggregates this data to compute individual gas cost components (intrinsic costs, input data, opcodes, and refunds) by transaction and maps these costs to specific SVM resources (compute, memory, state, history, access, and bloom topics).
+To understand the potential throughput gains of multidimensional metering, we first need to examine how much gas is being used by each resource. To this end, we designed a data pipeline that collects raw transaction data from [Xatu’s dataset](https://ethpandaops.io/data/xatu/) and the [debug traces](https://github.com/akegaviar/Erigon-Geth-debug_traceTransaction-guide/) from an Erigon node, processes and aggregates this data to compute individual gas cost components (intrinsic costs, input data, opcodes, and refunds) by transaction and maps these costs to specific SVM resources (compute, memory, state, history, access, and bloom topics).
 
 The mapping between operations and resources is a major assumption underlying this analysis; different mappings will have a significant impact on the final resource breakdown. Our mapping is based on the knowledge of the underlying operations (e.g., we know that some opcodes only use compute resources) and a partial breakdown of the [cost of some opcodes by resource](https://docs.google.com/spreadsheets/d/1IBf9qD0VUQErsw-oPtaEFa2P3L5w-K46cGPB_n8j0jU/edit?usp=sharing) made when the gas model was first designed.
 

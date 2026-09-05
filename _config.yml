@@ -18,8 +18,9 @@ description: >-
   Sila Improvement Proposals (SIPs) describe standards for the Sila
   platform, such as core protocol specifications.
 url: "https://sips.sila.org"
+"baseurl": ""
 github_username:  sila
-repository: sila/SIPs
+repository: sila-chain/SIPs
 lang: en
 timezone: UTC
 
@@ -28,7 +29,7 @@ header_pages:
  - core.html
  - networking.html
  - interface.html
- - erc.html
+ - src.html
  - meta.html
  - informational.html
 
@@ -52,6 +53,11 @@ defaults:
       path: "SIPS"
     values:
       layout: "sip"
+  -
+    scope:
+      path: "SIPS/sip-7730.md"
+    values:
+      render_with_liquid: false
 
 exclude:
   - .github
@@ -66,7 +72,7 @@ exclude:
   - ISSUE_TEMPLATE.md
   - PULL_REQUEST_TEMPLATE.md
   - README.md
-
+  
 include:
   - LICENSE
 

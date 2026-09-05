@@ -20,8 +20,8 @@ This behaviour makes it possible to subject a contract to a "call stack attack" 
 
 Example:
 
-1. Contract `A` wants to be invoked regularly, and pays Siler to the invoker in every block.
-2. When contract `A` is invoked, it calls contracts `B` and `C`, which consumes a lot of gas. After invocation, contract `A` pays Siler to the caller.
+1. Contract `A` wants to be invoked regularly, and pays Sila to the invoker in every block.
+2. When contract `A` is invoked, it calls contracts `B` and `C`, which consumes a lot of gas. After invocation, contract `A` pays Sila to the caller.
 3. Malicious user `X` ensures that the stack depth is shallow before invoking A. Both calls to `B` and `C` fail, but `X` can still collect the reward.
 
 It is possible to defend against this in two ways:
@@ -32,7 +32,7 @@ It is possible to defend against this in two ways:
 
 [1] a.k.a "shallow stack attack" and "stack attack". However, to be precise, the word ''stack'' has a different meaning within the SVM, and is not to be confused with the ''call stack''.
 
-[2] https://github.com/pipermerriam/sila-stack-depth-lib
+[2] https://github.com/pipermerriam/ethereum-stack-depth-lib
 
 # Specification
 
