@@ -1,0 +1,45 @@
+name: Finalize Identity Validator Import
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@47fbe2df0ad0e27efb67a70beac3555f192b062f
+        with:
+          fetch-depth: 0
+          ref: main
+      - name: Add required regex import
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/ci.yml')
+          s = p.read_text()
+          old = "          import hashlib\n          import os\n"
+          new = "          import hashlib\n          import os\n          import re\n"
+          if old not in s:
+              raise SystemExit('IMPORT_ANCHOR_MISSING')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+          ruby -e "require 'yaml'; YAML.load_file('.github/workflows/ci.yml'); puts 'CI_YAML_GATE=PASS'"
+      - name: Commit and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/sila-ci-import-re-fix.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -u
+          git commit -m 'ci: import regex for Sila-native identity audit'
+          git push origin HEAD:main
