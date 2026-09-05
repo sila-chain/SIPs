@@ -29,8 +29,8 @@ jobs:
           test "$LIVE" = "$EXPECTED"
 
           git fetch --quiet origin refs/heads/sila/sips-pure-identity-generator-20260905:refs/remotes/origin/sila/sips-pure-identity-generator-20260905
-          git cat-file -e '5209c21f97dbf59018ad38dce58fe1ba93b8d7e7^{commit}'
-          git show '5209c21f97dbf59018ad38dce58fe1ba93b8d7e7:.sila/sips_regenerate_v2.py' > /tmp/generator.py
+          git cat-file -e '151f92146fb3fbcd333ecc514eeb4378844a3039^{commit}'
+          git show '151f92146fb3fbcd333ecc514eeb4378844a3039:.sila/sips_regenerate_v2.py' > /tmp/generator.py
           python3 -m py_compile /tmp/generator.py
 
           rm -rf /tmp/source /tmp/generated
