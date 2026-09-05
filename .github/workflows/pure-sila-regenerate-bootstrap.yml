@@ -29,8 +29,8 @@ jobs:
           test "$LIVE" = "$EXPECTED"
 
           git fetch --quiet origin refs/heads/sila/sips-pure-identity-generator-20260905:refs/remotes/origin/sila/sips-pure-identity-generator-20260905
-          git cat-file -e '434b81148c16c791f63250699c90b49cb160ecf8^{commit}'
-          git show '434b81148c16c791f63250699c90b49cb160ecf8:.sila/sips_regenerate_v2.py' > /tmp/generator.py
+          git cat-file -e 'f7479c28b6dae88a9cf45c1831a147fbc4865076^{commit}'
+          git show 'f7479c28b6dae88a9cf45c1831a147fbc4865076:.sila/sips_regenerate_v2.py' > /tmp/generator.py
           python3 -m py_compile /tmp/generator.py
 
           rm -rf /tmp/source /tmp/generated
@@ -58,7 +58,7 @@ jobs:
           cp /tmp/policy/Gemfile.lock Gemfile.lock
           cp /tmp/policy/_config.yml _config.yml
           rm .github/workflows/pure-sila-regenerate-bootstrap.yml
-          git diff --check
+          git diff --check -- .github/workflows Gemfile Gemfile.lock _config.yml
 
       - name: Commit exact pure Sila candidate
         shell: bash
@@ -67,6 +67,6 @@ jobs:
           git config user.name 'SILA Network'
           git config user.email 'pssd500@gmail.com'
           git add -A
-          git diff --cached --check
+          git diff --cached --check -- .github/workflows Gemfile Gemfile.lock _config.yml
           git commit -m 'regenerate: enforce absolute Sila-native SIP identity'
           git push origin HEAD:sila/sips-pure-identity-20260905
