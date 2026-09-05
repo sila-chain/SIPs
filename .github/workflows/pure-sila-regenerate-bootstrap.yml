@@ -60,9 +60,6 @@ jobs:
           cp /tmp/policy/_config.yml _config.yml
           rm .github/workflows/pure-sila-regenerate-bootstrap.yml
 
-          # Historical upstream Markdown contains trailing whitespace. This stage
-          # validates exact Sila identity/materialization; formatting remains
-          # governed by the repository CI projection and is not bypassed here.
           test ! -e .github/workflows/pure-sila-regenerate-bootstrap.yml
           test -f SIPS/sip-8390.md
           test -f assets/sip-7543/gasSVMPlusEmulate.go
