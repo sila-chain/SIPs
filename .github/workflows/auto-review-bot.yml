@@ -24,7 +24,7 @@ jobs:
 
       - name: Auto Review Bot
         id: auto-review-bot
-        uses: sila/sip-review-bot@dist
+        uses: sila-chain/sip-review-bot@e9399a6005fabe0d4869c75ae16d038dbbb16761
         continue-on-error: true
         with:
           token: ${{ secrets.TOKEN }}
