@@ -1,6 +1,6 @@
 # Test Vectors for SIP-1057 - ProgPow
 
-Many of these vectors are derived from [chfast/ethash](https://github.com/chfast/ethash)
+Many of these vectors are derived from chfast/silash
 
 ## fnv1a
 

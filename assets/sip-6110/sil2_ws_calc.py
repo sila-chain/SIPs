@@ -1,8 +1,8 @@
 """
-This script calculates the Sil2 Weak Subjectivity period as defined by eth2.0-specs: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/weak-subjectivity.md
+This script calculates the Sil2 Weak Subjectivity period as defined by consensus-specs: https://github.com/sila-chain/consensus-specs/blob/dev/specs/phase0/weak-subjectivity.md
 """
 
-from eth2spec.phase0.sila-mainnet import (
+from consensus-specs.phase0.sila-mainnet import (
     uint64, Sila,
     SIL_TO_GWEI, 
     MAX_DEPOSITS, 

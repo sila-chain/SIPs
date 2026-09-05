@@ -11,7 +11,7 @@ In terms of the two-cache approach, `unfinalizedIndex2Pubkey` is not needed sinc
 | onBlock - state_transition - process_block - process_operations - process_attester_slashing - is_valid_indexed_attestation | N/A | No |
 | onBlock - state_transition - process_block - process_operations - process_attestation - is_valid_indexed_attestation | N/A | No |
 | onBlock - state_transition - process_block - process_operations - process_deposit - apply_deposit | Yes | N/A |
-| onBlock - state_transition - process_block - process_operations - process_sync_aggregate - eth_fast_aggregate_verify | No | No |
+| onBlock - state_transition - process_block - process_operations - process_sync_aggregate - sil_fast_aggregate_verify | No | No |
 | onBlock - state_transition - process_block - process_bls_to_execution_change | N/A | N/A |
 | onBlock - state_transition - process_block - process_voluntary_exit | N/A | No |
 | p2p - beacon_block ---- onBlock | N/A | No |

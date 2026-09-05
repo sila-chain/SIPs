@@ -45,7 +45,7 @@ requires: <SIP number(s)> # Only required when you reference an SIP in the `Spec
 ## Specification
 
 <!--
-  The Specification section should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-ethereum, nethermind, or others).
+  The Specification section should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-sila, nethermind, or others).
 
   It is recommended to follow RFC 2119 and RFC 8174. Do not remove the key word definitions if RFC 2119 and RFC 8174 are followed.
 

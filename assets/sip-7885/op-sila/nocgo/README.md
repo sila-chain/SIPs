@@ -1,6 +1,6 @@
-# Optimism-geth with Pure Go NTT Precompiles
+# Optimism-sila with Pure Go NTT Precompiles
 
-Fork of `op-geth` with precompiled contracts for Number Theoretic Transform (NTT) operations implemented in pure Go, enabling efficient on-chain post-quantum cryptographic operations without external dependencies.
+Fork of `op-sila` with precompiled contracts for Number Theoretic Transform (NTT) operations implemented in pure Go, enabling efficient on-chain post-quantum cryptographic operations without external dependencies.
 
 ## Precompiled Contracts
 

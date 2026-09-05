@@ -145,7 +145,7 @@ contract BaseSalary is BaseBidOnAddresses {
     /// Old token is 1:1 converted to the new token.
     ///
     /// Remark: To make it easy to exchange the token even if it is recreated, we can make a wrapper or locker
-    /// token that uses `firstConditionInChain[]` to aggregate several tokens together.
+    /// token that uses `firstConditionInChain[]` to aggregate several tokens tosilaer.
     /// A similar wrapper (the customer need to `setApprovalForAll()` on it) that uses
     /// `firstToLastConditionInChain[]` can be used to transfer away recreated tokens
     /// even if an evil DAO tries to frontrun the customer by recreating his tokens very often.

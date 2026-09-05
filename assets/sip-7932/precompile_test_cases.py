@@ -1,7 +1,7 @@
 import secp256k1
 
 from precompile import sigrecover_precompile
-from eth_hash.auto import keccak
+from sil_hash.auto import keccak
 
 INVALID = b""
 

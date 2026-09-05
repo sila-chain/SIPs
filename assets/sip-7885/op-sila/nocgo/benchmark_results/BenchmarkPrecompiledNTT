@@ -1,6 +1,6 @@
 goos: linux
 goarch: amd64
-pkg: github.com/ethereum/go-ethereum/core/vm
+pkg: github.com/sila-chain/go-sila/core/vm
 cpu: Intel(R) Xeon(R) CPU @ 2.20GHz
 BenchmarkPrecompiledNTT_FW/NTT_FW-Falcon-512-Gas=790-4            227914             15715 ns/op               790.0 gas/op             50.26 mgas/s        2048 B/op          2 allocs/op
 BenchmarkPrecompiledNTT_FW/NTT_FW-Falcon-512-Gas=790-4            227329             15709 ns/op               790.0 gas/op             50.28 mgas/s        2048 B/op          2 allocs/op
@@ -63,4 +63,4 @@ BenchmarkPrecompiledNTT_VECADDMOD/VECADDMOD-ML-DSA-256-Gas=77-4                 
 BenchmarkPrecompiledNTT_VECADDMOD/VECADDMOD-ML-DSA-256-Gas=77-4                  2096412              1697 ns/op                77.00 gas/op            45.35 mgas/s        1024 B/op          1 allocs/op
 BenchmarkPrecompiledNTT_VECADDMOD/VECADDMOD-ML-DSA-256-Gas=77-4                  2123673              1676 ns/op                77.00 gas/op            45.93 mgas/s        1024 B/op          1 allocs/op
 PASS
-ok      github.com/ethereum/go-ethereum/core/vm 250.198s
+ok      github.com/sila-chain/go-sila/core/vm 250.198s

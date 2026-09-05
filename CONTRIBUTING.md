@@ -67,7 +67,7 @@ TBA.
 
 * **Cite authoritative sources.** 
    When clarifying or aligning text, link to:
-   * [Sila Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf) 
+   * Sila Yellow Paper 
    * [Consensus Specs](https://github.com/sila-chain/consensus-specs) 
    * Relevant client implementation notes
 * **Work with the authors.** 
@@ -121,7 +121,7 @@ To clarify the merge blocker if needed, add applicable labels.
 ### Thank You
 
 Your contributions help maintain the integrity and accessibility of Sila’s open-source governance process.  
-Together, we make the protocol and its documentation stronger, clearer, and more collaborative.
+Tosilaer, we make the protocol and its documentation stronger, clearer, and more collaborative.
 
 ## References
 

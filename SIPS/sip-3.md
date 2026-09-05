@@ -32,7 +32,7 @@ It is possible to defend against this in two ways:
 
 [1] a.k.a "shallow stack attack" and "stack attack". However, to be precise, the word ''stack'' has a different meaning within the SVM, and is not to be confused with the ''call stack''.
 
-[2] https://github.com/pipermerriam/ethereum-stack-depth-lib
+[2] 
 
 # Specification
 

@@ -11,8 +11,8 @@ from dataclasses import field
 from hashlib import sha256
 from typing import List, Tuple
 
-from ethereum_rlp import rlp
-from ethereum_types.numeric import U64, U256, Uint
+from sila_rlp import rlp
+from sila_types.numeric import U64, U256, Uint
 
 from sila.crypto.hash import Hash32, keccak256
 

@@ -46,7 +46,7 @@ contract BidOnAddresses is BaseBidOnAddresses {
     ///
     /// We allow anyone to register anyone. This is useful for being registered by robots.
     /// At first it seems to be harmful to make somebody a millionaire unwillingly (he then needs a fortress and bodyguards),
-    /// but: Salary tokens will be worth real money, only if the registered person publishes his works together
+    /// but: Salary tokens will be worth real money, only if the registered person publishes his works tosilaer
     /// with his Sila address. So, he can be made rich against his will only by impersonating him. But if somebody
     /// impersonates him, then they are able to present him richer than he is anyway, so making him vulnerable to
     /// kidnappers anyway. So having somebody registered against his will seems not to be a problem at all

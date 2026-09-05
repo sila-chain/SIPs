@@ -1,4 +1,4 @@
-"""EVM64 as pure opcode addition: no modes, no prefixes.
+"""SVM64 as pure opcode addition: no modes, no prefixes.
 
 The 64-bit twin of an arithmetic or comparison opcode x in
 0x01..0x1C is 0xC0+x, operating modulo 2^64; CALLDATALOAD64=0xE0,
@@ -51,5 +51,5 @@ class Compiler64(Compiler):
 
 
 def compile_yul64(src, mode="7979"):
-    """Compile a Yul-subset source text to EVM64 bytecode."""
+    """Compile a Yul-subset source text to SVM64 bytecode."""
     return Compiler64(mode).program(Parser(src).parse())

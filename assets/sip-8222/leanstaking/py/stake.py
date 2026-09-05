@@ -11,7 +11,7 @@ ROOT_SIZE = 8
 NULLIFIER_PREIMAGE_SIZE = 8
 
 # located at (NONRESERVED_PROGRAM_INPUT_START + inputs.public_inputs.len()).next_power_of_two()
-# see https://github.com/leanEthereum/leanMultisig/blob/24a09fa9d884648fe8188383f9ae9781268d3b4c/crates/lean_vm/src/execution/runner.rs#L168
+# see 
 NONRESERVED_PROGRAM_PRIVATE_INPUT_START = 128
 
 

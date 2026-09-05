@@ -1,18 +1,18 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2014 The go-sila Authors
+// This file is part of the go-sila library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The go-sila library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The go-sila library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-sila library. If not, see <http://www.gnu.org/licenses/>.
 
 package vm
 
@@ -29,16 +29,16 @@ import (
 	bls12381 "github.com/consensys/gnark-crypto/ecc/bls12-381"
 	"github.com/consensys/gnark-crypto/ecc/bls12-381/fp"
 	"github.com/consensys/gnark-crypto/ecc/bls12-381/fr"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/bitutil"
-	"github.com/ethereum/go-ethereum/core/tracing"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/blake2b"
-	"github.com/ethereum/go-ethereum/crypto/bn256"
-	"github.com/ethereum/go-ethereum/crypto/kzg4844"
-	"github.com/ethereum/go-ethereum/crypto/ntt"
-	"github.com/ethereum/go-ethereum/crypto/secp256r1"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/sila-chain/go-sila/common"
+	"github.com/sila-chain/go-sila/common/bitutil"
+	"github.com/sila-chain/go-sila/core/tracing"
+	"github.com/sila-chain/go-sila/crypto"
+	"github.com/sila-chain/go-sila/crypto/blake2b"
+	"github.com/sila-chain/go-sila/crypto/bn256"
+	"github.com/sila-chain/go-sila/crypto/kzg4844"
+	"github.com/sila-chain/go-sila/crypto/secp256r1"
+	"github.com/sila-chain/go-sila/params"
+	ntt "github.com/yhl125/liboqs/bindings/go/ntt"
 	"golang.org/x/crypto/ripemd160"
 )
 
@@ -225,27 +225,6 @@ var PrecompiledContractsIsthmus = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x0f}):       &bls12381PairingIsthmus{},
 	common.BytesToAddress([]byte{0x10}):       &bls12381MapG1{},
 	common.BytesToAddress([]byte{0x11}):       &bls12381MapG2{},
-	common.BytesToAddress([]byte{0x01, 0x00}): &p256VerifyFjord{},
-}
-
-var PrecompiledContractsJovian = map[common.Address]PrecompiledContract{
-	common.BytesToAddress([]byte{1}):          &ecrecover{},
-	common.BytesToAddress([]byte{2}):          &sha256hash{},
-	common.BytesToAddress([]byte{3}):          &ripemd160hash{},
-	common.BytesToAddress([]byte{4}):          &dataCopy{},
-	common.BytesToAddress([]byte{5}):          &bigModExp{sip2565: true},
-	common.BytesToAddress([]byte{6}):          &bn256AddIstanbul{},
-	common.BytesToAddress([]byte{7}):          &bn256ScalarMulIstanbul{},
-	common.BytesToAddress([]byte{8}):          &bn256PairingJovian{},
-	common.BytesToAddress([]byte{9}):          &blake2F{},
-	common.BytesToAddress([]byte{0x0a}):       &kzgPointEvaluation{},
-	common.BytesToAddress([]byte{0x0b}):       &bls12381G1Add{},
-	common.BytesToAddress([]byte{0x0c}):       &bls12381G1MultiExpJovian{},
-	common.BytesToAddress([]byte{0x0d}):       &bls12381G2Add{},
-	common.BytesToAddress([]byte{0x0e}):       &bls12381G2MultiExpJovian{},
-	common.BytesToAddress([]byte{0x0f}):       &bls12381PairingJovian{},
-	common.BytesToAddress([]byte{0x10}):       &bls12381MapG1{},
-	common.BytesToAddress([]byte{0x11}):       &bls12381MapG2{},
 	common.BytesToAddress([]byte{0x12}):       &NTT_FW{},
 	common.BytesToAddress([]byte{0x13}):       &NTT_INV{},
 	common.BytesToAddress([]byte{0x14}):       &NTT_VECMULMOD{},
@@ -254,7 +233,6 @@ var PrecompiledContractsJovian = map[common.Address]PrecompiledContract{
 }
 
 var (
-	PrecompiledAddressesJovian    []common.Address
 	PrecompiledAddressesIsthmus   []common.Address
 	PrecompiledAddressesGranite   []common.Address
 	PrecompiledAddressesFjord     []common.Address
@@ -298,16 +276,11 @@ func init() {
 	for k := range PrecompiledContractsIsthmus {
 		PrecompiledAddressesIsthmus = append(PrecompiledAddressesIsthmus, k)
 	}
-	for k := range PrecompiledContractsJovian {
-		PrecompiledAddressesJovian = append(PrecompiledAddressesJovian, k)
-	}
 }
 
 func activePrecompiledContracts(rules params.Rules) PrecompiledContracts {
 	// note: the order of these switch cases is important
 	switch {
-	case rules.IsOptimismJovian:
-		return PrecompiledContractsJovian
 	case rules.IsOptimismIsthmus:
 		return PrecompiledContractsIsthmus
 	case rules.IsOptimismGranite:
@@ -341,8 +314,6 @@ func ActivePrecompiledContracts(rules params.Rules) PrecompiledContracts {
 // ActivePrecompiles returns the precompile addresses enabled with the current configuration.
 func ActivePrecompiles(rules params.Rules) []common.Address {
 	switch {
-	case rules.IsOptimismJovian:
-		return PrecompiledAddressesJovian
 	case rules.IsOptimismIsthmus:
 		return PrecompiledAddressesIsthmus
 	case rules.IsOptimismGranite:
@@ -857,23 +828,6 @@ func (c *bn256PairingGranite) Name() string {
 	return "BN254_PAIRING"
 }
 
-type bn256PairingJovian struct{}
-
-func (c *bn256PairingJovian) RequiredGas(input []byte) uint64 {
-	return new(bn256PairingIstanbul).RequiredGas(input)
-}
-
-func (c *bn256PairingJovian) Run(input []byte) ([]byte, error) {
-	if len(input) > int(params.Bn256PairingMaxInputSizeJovian) {
-		return nil, errBadPairingInputSize
-	}
-	return runBn256Pairing(input)
-}
-
-func (c *bn256PairingJovian) Name() string {
-	return "BN254_PAIRING"
-}
-
 // bn256PairingIstanbul implements a pairing pre-compile for the bn256 curve
 // conforming to Istanbul consensus rules.
 type bn256PairingIstanbul struct{}
@@ -1037,25 +991,6 @@ func (c *bls12381G1MultiExpIsthmus) Name() string {
 	return "BLS12_G1MSM"
 }
 
-type bls12381G1MultiExpJovian struct {
-}
-
-func (c *bls12381G1MultiExpJovian) RequiredGas(input []byte) uint64 {
-	return new(bls12381G1MultiExp).RequiredGas(input)
-}
-
-func (c *bls12381G1MultiExpJovian) Run(input []byte) ([]byte, error) {
-	if len(input) > int(params.Bls12381G1MulMaxInputSizeJovian) {
-		return nil, errBLS12381MaxG1Size
-	}
-
-	return new(bls12381G1MultiExp).Run(input)
-}
-
-func (c *bls12381G1MultiExpJovian) Name() string {
-	return "BLS12_G1MSM"
-}
-
 // bls12381G1MultiExp implements SIP-2537 G1MultiExp precompile for SilaPrague (no size limits).
 func (c *bls12381G1Add) Name() string {
 	return "BLS12_G1ADD"
@@ -1185,25 +1120,6 @@ func (c *bls12381G2MultiExpIsthmus) Name() string {
 	return "BLS12_G2MSM"
 }
 
-type bls12381G2MultiExpJovian struct {
-}
-
-func (c *bls12381G2MultiExpJovian) RequiredGas(input []byte) uint64 {
-	return new(bls12381G2MultiExp).RequiredGas(input)
-}
-
-func (c *bls12381G2MultiExpJovian) Run(input []byte) ([]byte, error) {
-	if len(input) > int(params.Bls12381G2MulMaxInputSizeJovian) {
-		return nil, errBLS12381MaxG2Size
-	}
-
-	return new(bls12381G2MultiExp).Run(input)
-}
-
-func (c *bls12381G2MultiExpJovian) Name() string {
-	return "BLS12_G2MSM"
-}
-
 // bls12381G2MultiExp implements SIP-2537 G2MultiExp precompile.
 type bls12381G2MultiExp struct{}
 
@@ -1284,25 +1200,6 @@ func (c *bls12381PairingIsthmus) Run(input []byte) ([]byte, error) {
 }
 
 func (c *bls12381PairingIsthmus) Name() string {
-	return "BLS12_PAIRING_CHECK"
-}
-
-type bls12381PairingJovian struct {
-}
-
-func (c *bls12381PairingJovian) RequiredGas(input []byte) uint64 {
-	return new(bls12381Pairing).RequiredGas(input)
-}
-
-func (c *bls12381PairingJovian) Run(input []byte) ([]byte, error) {
-	if len(input) > int(params.Bls12381PairingMaxInputSizeJovian) {
-		return nil, errBLS12381MaxPairingSize
-	}
-
-	return new(bls12381Pairing).Run(input)
-}
-
-func (c *bls12381PairingJovian) Name() string {
 	return "BLS12_PAIRING_CHECK"
 }
 
@@ -1649,12 +1546,12 @@ func (c *p256Verify) Name() string {
 // NTT_FW implements forward NTT for Falcon and ML-DSA (Dilithium) parameters.
 //
 // This precompile automatically detects the cryptographic scheme based on
-// ring degree and modulus, then dispatches to the appropriate Go NTT function.
+// ring degree and modulus, then dispatches to the appropriate liboqs forward NTT function.
 //
 // Supported parameters:
 //   - Falcon-512:  ringDegree=512,  modulus=12289
 //   - Falcon-1024: ringDegree=1024, modulus=12289
-//   - ML-DSA: ringDegree=256,  modulus=8380417
+//   - ML-DSA (all): ringDegree=256,  modulus=8380417
 //
 // Input format:
 //
@@ -1670,7 +1567,17 @@ func (c *p256Verify) Name() string {
 //	        - Falcon: ringDegree × uint16 (2 bytes each, big-endian)
 //	        - ML-DSA: ringDegree × int32 (4 bytes each, big-endian, signed as uint32)
 //
-// Gas cost: Variable based on scheme (224-1810 gas, calibrated for ~52 mgas/s)
+// Example (Falcon-512):
+//
+//	Input:  00000200 0000000000003001 0001 0002 0003 ... (512 uint16 values)
+//	Output: 0feb 0760 0836 ... (512 uint16 values in NTT domain)
+//
+// Example (ML-DSA):
+//
+//	Input:  00000100 0000000000007fe101 00000001 00000002 ... (256 int32 values)
+//	Output: ffc0e5f5 ffccf7a7 ... (256 int32 values in NTT domain)
+//
+// Gas cost: Variable based on scheme (256-1080 gas, calibrated for ~50 mgas/s)
 type NTT_FW struct{}
 
 func (c *NTT_FW) RequiredGas(input []byte) uint64 {
@@ -1682,14 +1589,14 @@ func (c *NTT_FW) RequiredGas(input []byte) uint64 {
 	modulus := binary.BigEndian.Uint64(input[4:12])
 
 	// Detect scheme and return appropriate gas cost
-	// Gas costs calibrated for 50-52 mgas/s throughput (similar to ecrecover)
+	// Gas costs calibrated for 50 mgas/s throughput
 	switch {
 	case ringDegree == 512 && modulus == 12289:
-		return 790 // Falcon-512
+		return 500 // Falcon-512
 	case ringDegree == 1024 && modulus == 12289:
-		return 1750 // Falcon-1024
+		return 1080 // Falcon-1024
 	case ringDegree == 256 && modulus == 8380417:
-		return 220 // ML-DSA
+		return 256 // ML-DSA
 	default:
 		return 0 // Invalid parameters
 	}
@@ -1708,9 +1615,9 @@ func (c *NTT_FW) Run(input []byte) ([]byte, error) {
 	// Detect scheme and dispatch to appropriate implementation
 	switch {
 	case ringDegree == 512 && modulus == 12289:
-		return c.runFalconNTT(input[12:], 9) // logn = 9 for n=512
+		return c.runFalconNTT(input[12:], ntt.Falcon512LogN)
 	case ringDegree == 1024 && modulus == 12289:
-		return c.runFalconNTT(input[12:], 10) // logn = 10 for n=1024
+		return c.runFalconNTT(input[12:], ntt.Falcon1024LogN)
 	case ringDegree == 256 && modulus == 8380417:
 		return c.runMLDSANTT(input[12:])
 	default:
@@ -1726,13 +1633,15 @@ func (c *NTT_FW) runFalconNTT(coeffData []byte, logn uint) ([]byte, error) {
 	}
 
 	// Parse uint16 coefficients
-	poly := make([]uint16, n)
+	poly := make(ntt.FalconPolynomial, n)
 	for i := 0; i < n; i++ {
 		poly[i] = binary.BigEndian.Uint16(coeffData[i*2 : (i+1)*2])
 	}
 
-	// Execute Falcon forward NTT using Go implementation
-	ntt.FalconNTT(poly, logn)
+	// Execute Falcon forward NTT
+	if err := ntt.Falcon_NTT(&poly, logn); err != nil {
+		return nil, fmt.Errorf("Falcon_NTT failed: %v", err)
+	}
 
 	// Encode result
 	result := make([]byte, n*2)
@@ -1751,13 +1660,16 @@ func (c *NTT_FW) runMLDSANTT(coeffData []byte) ([]byte, error) {
 	}
 
 	// Parse int32 coefficients
-	poly := make([]int32, n)
+	var poly ntt.MLDSAPolynomial
 	for i := 0; i < n; i++ {
 		poly[i] = int32(binary.BigEndian.Uint32(coeffData[i*4 : (i+1)*4]))
 	}
 
-	// Execute ML-DSA forward NTT using Go implementation
-	ntt.DilithiumNTT(poly)
+	// Execute ML-DSA forward NTT
+	// Note: All ML-DSA security levels use the same NTT, so we use MLDSA44 as default
+	if err := ntt.MLDSA_NTT(&poly, ntt.MLDSA44); err != nil {
+		return nil, fmt.Errorf("MLDSA_NTT failed: %v", err)
+	}
 
 	// Encode result
 	result := make([]byte, n*4)
@@ -1775,12 +1687,12 @@ func (c *NTT_FW) Name() string {
 // NTT_INV implements inverse NTT for Falcon and ML-DSA (Dilithium) parameters.
 //
 // This precompile automatically detects the cryptographic scheme based on
-// ring degree and modulus, then dispatches to the appropriate Go inverse NTT function.
+// ring degree and modulus, then dispatches to the appropriate liboqs inverse NTT function.
 //
 // Supported parameters:
 //   - Falcon-512:  ringDegree=512,  modulus=12289
 //   - Falcon-1024: ringDegree=1024, modulus=12289
-//   - ML-DSA: ringDegree=256,  modulus=8380417
+//   - ML-DSA (all): ringDegree=256,  modulus=8380417
 //
 // Input format:
 //
@@ -1794,7 +1706,7 @@ func (c *NTT_FW) Name() string {
 //
 //	[0:*]   transformed coefficients (same format as input)
 //
-// Gas cost: Variable based on scheme (270-1720 gas, calibrated for ~52 mgas/s)
+// Gas cost: Variable based on scheme (340-1080 gas, calibrated for ~50 mgas/s)
 type NTT_INV struct{}
 
 func (c *NTT_INV) RequiredGas(input []byte) uint64 {
@@ -1806,14 +1718,14 @@ func (c *NTT_INV) RequiredGas(input []byte) uint64 {
 	modulus := binary.BigEndian.Uint64(input[4:12])
 
 	// Detect scheme and return appropriate gas cost
-	// Gas costs calibrated for 50-52 mgas/s throughput (similar to ecrecover)
+	// Gas costs calibrated for 50 mgas/s throughput
 	switch {
 	case ringDegree == 512 && modulus == 12289:
-		return 790 // Falcon-512
+		return 500 // Falcon-512
 	case ringDegree == 1024 && modulus == 12289:
-		return 1750 // Falcon-1024
+		return 1080 // Falcon-1024
 	case ringDegree == 256 && modulus == 8380417:
-		return 270 // ML-DSA
+		return 340 // ML-DSA
 	default:
 		return 0 // Invalid parameters
 	}
@@ -1832,9 +1744,9 @@ func (c *NTT_INV) Run(input []byte) ([]byte, error) {
 	// Detect scheme and dispatch to appropriate implementation
 	switch {
 	case ringDegree == 512 && modulus == 12289:
-		return c.runFalconINTT(input[12:], 9) // logn = 9 for n=512
+		return c.runFalconINTT(input[12:], ntt.Falcon512LogN)
 	case ringDegree == 1024 && modulus == 12289:
-		return c.runFalconINTT(input[12:], 10) // logn = 10 for n=1024
+		return c.runFalconINTT(input[12:], ntt.Falcon1024LogN)
 	case ringDegree == 256 && modulus == 8380417:
 		return c.runMLDSAINTT(input[12:])
 	default:
@@ -1850,13 +1762,15 @@ func (c *NTT_INV) runFalconINTT(coeffData []byte, logn uint) ([]byte, error) {
 	}
 
 	// Parse uint16 coefficients
-	poly := make([]uint16, n)
+	poly := make(ntt.FalconPolynomial, n)
 	for i := 0; i < n; i++ {
 		poly[i] = binary.BigEndian.Uint16(coeffData[i*2 : (i+1)*2])
 	}
 
-	// Execute Falcon inverse NTT using Go implementation
-	ntt.FalconINTT(poly, logn)
+	// Execute Falcon inverse NTT
+	if err := ntt.Falcon_InvNTT(&poly, logn); err != nil {
+		return nil, fmt.Errorf("Falcon_INTT failed: %v", err)
+	}
 
 	// Encode result
 	result := make([]byte, n*2)
@@ -1875,13 +1789,16 @@ func (c *NTT_INV) runMLDSAINTT(coeffData []byte) ([]byte, error) {
 	}
 
 	// Parse int32 coefficients
-	poly := make([]int32, n)
+	var poly ntt.MLDSAPolynomial
 	for i := 0; i < n; i++ {
 		poly[i] = int32(binary.BigEndian.Uint32(coeffData[i*4 : (i+1)*4]))
 	}
 
-	// Execute ML-DSA inverse NTT using Go implementation (with freeze)
-	ntt.DilithiumInvNTT(poly)
+	// Execute ML-DSA inverse NTT
+	// Note: All ML-DSA security levels use the same NTT, so we use MLDSA44 as default
+	if err := ntt.MLDSA_InvNTT(&poly, ntt.MLDSA44); err != nil {
+		return nil, fmt.Errorf("MLDSA_INTT failed: %v", err)
+	}
 
 	// Encode result
 	result := make([]byte, n*4)

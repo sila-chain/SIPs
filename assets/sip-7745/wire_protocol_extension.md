@@ -1,6 +1,6 @@
 ## SIP-7745 wire protocol extension
 
-This document specifies the extensions to the [Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/master/caps/sil.md) required to initialize the log index.
+This document specifies the extensions to the [Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/master/caps/eth.md) required to initialize the log index.
 
 ### Proposed new messages
 
@@ -10,7 +10,7 @@ This document specifies the extensions to the [Sila Wire Protocol](https://githu
 
 Require peer to return a __LogIndexProof__ message containing a log index proof that proves the specified subset of the specified type of initialization data from the log index tree belonging to the specified _reference block_.
 
-Note that all clients are expected to be able to serve log index proofs using either the current finalized block or the previous one as _reference block_. Also note that the initialization data served by this protocol are split into a limited number of pre-defined subsets so that proofs can be pre-generated for each potential _reference block_. This, together with the limited size of each individual response, makes it easy to ensure that serving this data will not be an excessive burden on the clients.
+Note that all clients are expected to be able to serve log index proofs using either the current finalized block or the previous one as _reference block_. Also note that the initialization data served by this protocol are split into a limited number of pre-defined subsets so that proofs can be pre-generated for each potential _reference block_. This, tosilaer with the limited size of each individual response, makes it easy to ensure that serving this data will not be an excessive burden on the clients.
 
 #### LogIndexProof (0x13)
 

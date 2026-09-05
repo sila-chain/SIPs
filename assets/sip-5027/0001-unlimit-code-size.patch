@@ -27,9 +27,9 @@ index 41e21b6ca..ad7fc150d 100644
  import (
 +	"encoding/binary"
 +
- 	"github.com/ethereum/go-ethereum/common"
- 	"github.com/ethereum/go-ethereum/ethdb"
- 	"github.com/ethereum/go-ethereum/log"
+ 	"github.com/sila-chain/go-sila/common"
+ 	"github.com/sila-chain/go-sila/ethdb"
+ 	"github.com/sila-chain/go-sila/log"
 @@ -48,6 +50,16 @@ func ReadCodeWithPrefix(db ethdb.KeyValueReader, hash common.Hash) []byte {
  	return data
  }

@@ -40,7 +40,7 @@ abstract contract BaseRestorableSalary is BaseSalary {
         _avoidZeroAddressManipulatins(_oldAccount, _newAccount);
         address _orig = _originalAddress(_oldAccount);
 
-        // We don't disallow joining several accounts together to consolidate salaries for different projects.
+        // We don't disallow joining several accounts tosilaer to consolidate salaries for different projects.
         // require(originalAddresses[_newAccount] == 0, "Account is taken.")
 
         newToOldAccount[_newAccount] = _oldAccount;

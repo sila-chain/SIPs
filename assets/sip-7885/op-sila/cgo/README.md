@@ -1,6 +1,6 @@
-# Optimism-geth with NTT Precompiles (liboqs Implementation)
+# Optimism-sila with NTT Precompiles (liboqs Implementation)
 
-Fork of `op-geth` with precompiled contracts for Number Theoretic Transform (NTT) operations using open-quantum-safe liboqs via CGO bindings, enabling efficient on-chain post-quantum cryptographic operations.
+Fork of `op-sila` with precompiled contracts for Number Theoretic Transform (NTT) operations using open-quantum-safe liboqs via CGO bindings, enabling efficient on-chain post-quantum cryptographic operations.
 
 ## Precompiled Contracts
 
@@ -42,10 +42,10 @@ export DYLD_LIBRARY_PATH=/path/to/liboqs/build/lib:$DYLD_LIBRARY_PATH  # macOS
 export LD_LIBRARY_PATH=/path/to/liboqs/build/lib:$LD_LIBRARY_PATH      # Linux
 ```
 
-### 3. Build op-geth
+### 3. Build op-sila
 
 ```bash
-make geth
+make sila
 ```
 
 ## API Reference

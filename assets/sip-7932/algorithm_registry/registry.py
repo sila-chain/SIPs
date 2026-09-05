@@ -1,7 +1,7 @@
 from typing import Callable, Dict
 from remerkleable.byte_arrays import ByteVector
 from remerkleable.basic import uint8, uint32, uint64, uint256
-from eth_hash.auto import keccak
+from sil_hash.auto import keccak
 
 from secp256k1 import PublicKey, ECDSA
 

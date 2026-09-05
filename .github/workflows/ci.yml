@@ -113,7 +113,7 @@ jobs:
           gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' > /tmp/pr-files.txt
           COUNT="$(wc -l < /tmp/pr-files.txt | tr -d ' ')"
           echo "CHANGED_FILE_COUNT=$COUNT"
-          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-100pct-completion-20260905" ]; then
+          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-20260905" ]; then
             echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
           else
             echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
@@ -179,14 +179,14 @@ jobs:
           unchecked: 1, 5069, 5757
           options-file: config/sipw.toml
 
-      - name: Exact protected-safe authority validation for source mega-sync
+      - name: Exact pure-Sila authority validation for source mega-sync
         if: env.MEGA_SYNC == 'true'
         shell: bash
         run: |
           set -euo pipefail
           EXPECTED_UPSTREAM='9207c6011f526bd40abd79649484a1a342585bd4'
-          GENERATOR_COMMIT='b9c063e02ee8d88d320513a57b5c7420584527a2'
-          CONTROL_REF='refs/heads/sila/sips-100pct-ci-base-20260905'
+          GENERATOR_COMMIT='5c18e6a2a61680422a59beadfbfdb4e0f2a26a35'
+          CONTROL_REF='refs/heads/sila/sips-pure-identity-generator-20260905'
 
           LIVE_UPSTREAM="$(git ls-remote https://github.com/ethereum/EIPs.git refs/heads/master | awk '{print $1}')"
           echo "LIVE_UPSTREAM=$LIVE_UPSTREAM"
@@ -233,9 +233,7 @@ jobs:
                   continue
               actual_blob = git_blob_sha(current_path.read_bytes())
               if actual_blob != expected_blob:
-                  override_failures.append(
-                      f'BLOB_DRIFT:{rel}:expected={expected_blob}:actual={actual_blob}'
-                  )
+                  override_failures.append(f'BLOB_DRIFT:{rel}:expected={expected_blob}:actual={actual_blob}')
 
           print(f'MEGA_SYNC_POST_REGENERATION_OVERRIDE_COUNT={len(post_regeneration_overrides)}')
           print(f'MEGA_SYNC_POST_REGENERATION_OVERRIDE_FAILURE_COUNT={len(override_failures)}')
@@ -300,20 +298,26 @@ jobs:
               print('\n'.join(absent))
               raise SystemExit(1)
 
-          protected = {
-              'assets/sip-7543/gasEVMPlusEmulate.go',
-              'assets/sip-7979/riscv/evm64.py',
-              'assets/sip-8051/mldsa_evm.rsp',
-          }
-          old_bad = {
+          pure_required = {
               'assets/sip-7543/gasSVMPlusEmulate.go',
               'assets/sip-7979/riscv/svm64.py',
               'assets/sip-8051/mldsa_svm.rsp',
+              'assets/sip-8052/kat_silfalcon512.rsp',
+              'assets/sip-1884/sila_processing.png',
+              'assets/sip-3607/sila.diff',
           }
-          if any(not (cur / x).is_file() for x in protected):
-              raise SystemExit('PROTECTED_EVM_PATH_MISSING')
-          if any((cur / x).exists() for x in old_bad):
-              raise SystemExit('OLD_EVM_OVERCONVERSION_PATH_PRESENT')
+          legacy_forbidden = {
+              'assets/sip-7543/gasEVMPlusEmulate.go',
+              'assets/sip-7979/riscv/evm64.py',
+              'assets/sip-8051/mldsa_evm.rsp',
+              'assets/sip-8052/kat_ethfalcon512.rsp',
+              'assets/sip-1884/geth_processing.png',
+              'assets/sip-3607/geth.diff',
+          }
+          if any(not (cur / x).is_file() for x in pure_required):
+              raise SystemExit('PURE_SILA_REQUIRED_PATH_MISSING')
+          if any((cur / x).exists() for x in legacy_forbidden):
+              raise SystemExit('LEGACY_IDENTITY_PATH_PRESENT')
 
           url_re = re.compile(r'https?://[^\s\)\]\}\>\"\']+')
           protected_identity_res = [
@@ -356,16 +360,18 @@ jobs:
           native_required_paths = {
               'assets/sip-3267/contracts/SRC1155/ISRC1155.sol',
               'assets/sip-3267/contracts/SRC1155/ISRC1155TokenReceiver.sol',
-              'assets/sip-7543/gasEVMPlusEmulate.go',
-              'assets/sip-7979/riscv/evm64.py',
-              'assets/sip-8051/mldsa_evm.rsp',
+              'assets/sip-7543/gasSVMPlusEmulate.go',
+              'assets/sip-7979/riscv/svm64.py',
+              'assets/sip-8051/mldsa_svm.rsp',
+              'assets/sip-8052/kat_silfalcon512.rsp',
           }
           native_forbidden_paths = {
               'assets/sip-3267/contracts/SRC1155/IERC1155.sol',
               'assets/sip-3267/contracts/SRC1155/IERC1155TokenReceiver.sol',
-              'assets/sip-7543/gasSVMPlusEmulate.go',
-              'assets/sip-7979/riscv/svm64.py',
-              'assets/sip-8051/mldsa_svm.rsp',
+              'assets/sip-7543/gasEVMPlusEmulate.go',
+              'assets/sip-7979/riscv/evm64.py',
+              'assets/sip-8051/mldsa_evm.rsp',
+              'assets/sip-8052/kat_ethfalcon512.rsp',
           }
           native_path_failures = [f'MISSING:{x}' for x in sorted(native_required_paths) if not (cur / x).is_file()]
           native_path_failures += [f'FORBIDDEN:{x}' for x in sorted(native_forbidden_paths) if (cur / x).exists()]
@@ -381,7 +387,7 @@ jobs:
           print('SILA_NATIVE_IDENTITY_GATE=PASS')
           print('MEGA_SYNC_EXACT_REGENERATION_GATE=PASS')
           print('MEGA_SYNC_BUILD_POLICY_GATE=PASS')
-          print('MEGA_SYNC_EVM_OVERCONVERSION_REGRESSION_GATE=PASS')
+          print('MEGA_SYNC_PURE_SILA_PATH_GATE=PASS')
           print('MEGA_SYNC_LATEST_SIP_GATE=PASS')
           PY
 
@@ -429,7 +435,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          printf '%s\n' '# Sila-native identity audit' '' '- Exact Sila regeneration and identity residuals are validated by the SIP authority gate.' '- Required external technical identifiers remain protected.' > .sila-owned-identity-audit.md
+          printf '%s\n' '# Sila-native identity audit' '' '- Exact Sila regeneration and identity residuals are validated by the SIP authority gate.' '- Legacy Ethereum/EVM technical identifiers are rejected; Sila-native equivalents are required.' > .sila-owned-identity-audit.md
 
       - name: Lint validated Sila-native mega-sync Markdown projection
         uses: DavidAnson/markdownlint-cli2-action@f5cf187ef11bd3a68a127321b794aa252ff23019
