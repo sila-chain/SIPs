@@ -1,0 +1,383 @@
+name: Sila SIPs 100 Percent Regeneration
+
+on:
+  push:
+    branches:
+      - sila/sips-100pct-completion-20260905
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Sila SIPs work branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: sila/sips-100pct-completion-20260905
+
+      - name: Regenerate from latest official EIPs with protected-safe Sila identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "sila-chain-automation"
+          git config user.email "sila-chain-automation@users.noreply.github.com"
+
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream https://github.com/ethereum/EIPs.git
+          git fetch --no-tags upstream refs/heads/master:refs/remotes/upstream/master
+          UPSTREAM_HEAD="$(git rev-parse refs/remotes/upstream/master)"
+          echo "UPSTREAM_HEAD=$UPSTREAM_HEAD"
+
+          rm -rf /tmp/eips-upstream /tmp/sila-generated
+          git worktree add --detach /tmp/eips-upstream "$UPSTREAM_HEAD"
+
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          from pathlib import Path
+          import hashlib
+          import os
+          import re
+          import shutil
+          import stat
+          import sys
+
+          SRC = Path('/tmp/eips-upstream')
+          OUT = Path('/tmp/sila-generated')
+
+          if OUT.exists():
+              shutil.rmtree(OUT)
+          OUT.mkdir(parents=True)
+
+          # The conversion is deliberately replacement-only. Protected protocol/client
+          # identifiers and third-party URLs are masked before identity replacement.
+          PROTECTED_RAW_PATTERNS = [
+              r'(?:(?:https?://)?github\.com/ethereum/go-ethereum(?:[^\s\)\]\}\>\"\']*)?)',
+              r'(?:(?:https?://)?github\.com/ethereum/eth2\.0-specs(?:[^\s\)\]\}\>\"\']*)?)',
+              r'(?:(?:https?://)?github\.com/ethereum/eth2spec(?:[^\s\)\]\}\>\"\']*)?)',
+              r'(?<![A-Za-z0-9_])ethereum/go-ethereum(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])ethereum/eth2\.0-specs(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])ethereum/eth2spec(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])go-ethereum(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])GETH_NAME(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])(?:geth|Geth|GETH)(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])eth_[A-Za-z0-9_]+(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])eth2spec(?![A-Za-z0-9_])',
+              r'(?<![A-Za-z0-9_])eth2\.0-specs(?![A-Za-z0-9_])',
+          ]
+          PROTECTED_RAW = [re.compile(p) for p in PROTECTED_RAW_PATTERNS]
+
+          URL_RE = re.compile(r'https?://[^\s\)\]\}\>\"\']+')
+          ETH_RESEARCH_MD_RE = re.compile(
+              r'\[([^\]]+)\]\(https?://ethresear\.ch/[^\)]+\)'
+          )
+
+          def mask_matches(text: str, patterns: list[re.Pattern[str]]):
+              saved: list[str] = []
+              def repl(m: re.Match[str]) -> str:
+                  token = f'__SILA_PROTECTED_{len(saved):06d}__'
+                  saved.append(m.group(0))
+                  return token
+              for pat in patterns:
+                  text = pat.sub(repl, text)
+              return text, saved
+
+          def restore_matches(text: str, saved: list[str]) -> str:
+              for i, value in enumerate(saved):
+                  text = text.replace(f'__SILA_PROTECTED_{i:06d}__', value)
+              return text
+
+          def transform_official_url(url: str) -> str | None:
+              lower = url.lower()
+              if 'ethresear.ch/' in lower:
+                  return None
+              official = (
+                  'github.com/ethereum/' in lower
+                  or 'raw.githubusercontent.com/ethereum/' in lower
+                  or 'ethereum.org' in lower
+                  or 'ethereum-magicians.org' in lower
+                  or 'ethereum.stackexchange.com' in lower
+                  or 'eips.ethereum.org' in lower
+              )
+              if not official:
+                  return url
+
+              # Preserve protected upstream client/spec URLs byte-for-byte.
+              if re.search(r'github\.com/ethereum/(?:go-ethereum|eth2\.0-specs|eth2spec)(?:/|$)', url):
+                  return url
+
+              url = re.sub(r'github\.com/ethereum/', 'github.com/sila-chain/', url)
+              url = re.sub(r'raw\.githubusercontent\.com/ethereum/', 'raw.githubusercontent.com/sila-chain/', url)
+              url = url.replace('eips.ethereum.org', 'sips.sila.org')
+              url = url.replace('ethereum-magicians.org', 'sila-magicians.org')
+              url = url.replace('ethereum.stackexchange.com', 'sila.stackexchange.com')
+              url = url.replace('notes.ethereum.org', 'notes.sila.org')
+              url = url.replace('blog.ethereum.org', 'blog.sila.org')
+              url = url.replace('ethereum.org', 'sila.org')
+              url = re.sub(r'(?<![A-Za-z0-9])EIPS(?![A-Za-z0-9])', 'SIPS', url)
+              url = re.sub(r'(?<![A-Za-z0-9])EIPs(?![A-Za-z0-9])', 'SIPs', url)
+              url = re.sub(r'(?<![A-Za-z0-9])eips(?![A-Za-z0-9])', 'sips', url)
+              url = re.sub(r'(?<![A-Za-z0-9])EIP(?![A-Za-z0-9])', 'SIP', url)
+              url = re.sub(r'(?<![A-Za-z0-9])eip(?![A-Za-z0-9])', 'sip', url)
+              url = re.sub(r'(?<![A-Za-z0-9])ERCS(?![A-Za-z0-9])', 'SRCS', url)
+              url = re.sub(r'(?<![A-Za-z0-9])ERCs(?![A-Za-z0-9])', 'SRCs', url)
+              url = re.sub(r'(?<![A-Za-z0-9])ercs(?![A-Za-z0-9])', 'srcs', url)
+              url = re.sub(r'(?<![A-Za-z0-9])ERC(?![A-Za-z0-9])', 'SRC', url)
+              url = re.sub(r'(?<![A-Za-z0-9])erc(?![A-Za-z0-9])', 'src', url)
+              return url
+
+          def transform_text(text: str) -> str:
+              # Preserve the established Sila Research treatment without inventing a URL.
+              text = ETH_RESEARCH_MD_RE.sub(lambda m: f'{m.group(1)} in Sila Research', text)
+
+              # Mask protected raw identifiers first.
+              text, protected = mask_matches(text, PROTECTED_RAW)
+
+              # Mask third-party URLs, while transforming official Ethereum-owned URLs.
+              urls: list[str] = []
+              def url_repl(m: re.Match[str]) -> str:
+                  original = m.group(0)
+                  transformed = transform_official_url(original)
+                  if transformed is None:
+                      transformed = 'Sila Research'
+                  if transformed != original:
+                      return transformed
+                  token = f'__SILA_URL_{len(urls):06d}__'
+                  urls.append(original)
+                  return token
+              text = URL_RE.sub(url_repl, text)
+
+              # Exact project/tool identities before generic word replacements.
+              exact = [
+                  ('eip-review-bot', 'sip-review-bot'),
+                  ('EIP-Review-Bot', 'SIP-Review-Bot'),
+                  ('eipw-action', 'sipw-action'),
+                  ('EIPW', 'SIPW'),
+                  ('eipw', 'sipw'),
+                  ('IWETH', 'IWSIL'),
+                  ('WETH', 'WSIL'),
+                  ('IERC', 'ISRC'),
+                  ('AERC', 'ASRC'),
+                  ('IEIP', 'ISIP'),
+                  ('Ethereum Foundation', 'Sila Foundation'),
+                  ('ethereum Foundation', 'Sila Foundation'),
+                  ('Ethereum Magicians', 'Sila Magicians'),
+                  ('Ethereum Stack Exchange', 'Sila Stack Exchange'),
+                  ('Ethereum Research', 'Sila Research'),
+                  ('Etherscan', 'SilaScan'),
+                  ('etherscan', 'silascan'),
+                  ('ethereumjs', 'silajs'),
+                  ('EthereumJS', 'SilaJS'),
+                  ('@ethereumjs', '@silajs'),
+                  ('/eth2/', '/sila/'),
+                  ('/eth/', '/sila/'),
+              ]
+              for a, b in exact:
+                  text = text.replace(a, b)
+
+              # GitHub owner shorthand outside URLs.
+              text = re.sub(r'(?<![A-Za-z0-9_.-])ethereum/', 'sila-chain/', text)
+
+              # Identity dictionary. Token boundaries avoid English words containing "eth".
+              word_rules = [
+                  ('ERCS', 'SRCS'), ('ERCs', 'SRCs'), ('ercs', 'srcs'),
+                  ('ERC', 'SRC'), ('erc', 'src'),
+                  ('EIPS', 'SIPS'), ('EIPs', 'SIPs'), ('eips', 'sips'),
+                  ('EIP', 'SIP'), ('eip', 'sip'),
+                  ('ETHEREUM', 'SILA'), ('Ethereum', 'Sila'), ('ethereum', 'sila'),
+                  ('Ether', 'Sila'), ('ether', 'sila'),
+                  ('ETH', 'SIL'), ('Eth', 'Sil'), ('eth', 'sil'),
+                  ('Mainnet', 'SilaMainnet'), ('MAINNET', 'SILA_MAINNET'), ('mainnet', 'sila-mainnet'),
+                  ('Sepolia', 'SilaSepolia'), ('Holesky', 'SilaHolesky'),
+                  ('Deneb', 'SilaDeneb'), ('Fulu', 'SilaFulu'), ('PeerDAS', 'SilaPeerDAS'),
+                  ('Cancun', 'SilaCancun'), ('Shanghai', 'SilaShanghai'),
+                  ('Prague', 'SilaPrague'), ('Osaka', 'SilaOsaka'),
+                  ('Paris', 'SilaParis'), ('Amsterdam', 'SilaAmsterdam'),
+                  ('Kovan', 'SilaKovan'),
+              ]
+              for a, b in word_rules:
+                  text = re.sub(
+                      rf'(?<![A-Za-z0-9_]){re.escape(a)}(?![A-Za-z0-9_])',
+                      b,
+                      text,
+                  )
+
+              # Restore third-party URLs and protected protocol/client identifiers.
+              for i, value in enumerate(urls):
+                  text = text.replace(f'__SILA_URL_{i:06d}__', value)
+              text = restore_matches(text, protected)
+              return text
+
+          def transform_path(rel: str) -> str:
+              text, protected = mask_matches(rel, PROTECTED_RAW)
+              text = text.replace('eip-review-bot', 'sip-review-bot')
+              text = text.replace('eipw', 'sipw')
+              text = text.replace('ethereumjs', 'silajs')
+              rules = [
+                  ('ERCS', 'SRCS'), ('ERCs', 'SRCs'), ('ercs', 'srcs'),
+                  ('ERC', 'SRC'), ('erc', 'src'),
+                  ('EIPS', 'SIPS'), ('EIPs', 'SIPs'), ('eips', 'sips'),
+                  ('EIP', 'SIP'), ('eip', 'sip'),
+                  ('ETHEREUM', 'SILA'), ('Ethereum', 'Sila'), ('ethereum', 'sila'),
+                  ('Mainnet', 'SilaMainnet'), ('MAINNET', 'SILA_MAINNET'), ('mainnet', 'sila-mainnet'),
+                  ('Sepolia', 'SilaSepolia'), ('Holesky', 'SilaHolesky'),
+                  ('Deneb', 'SilaDeneb'), ('Fulu', 'SilaFulu'), ('PeerDAS', 'SilaPeerDAS'),
+                  ('Cancun', 'SilaCancun'), ('Shanghai', 'SilaShanghai'),
+                  ('Prague', 'SilaPrague'), ('Osaka', 'SilaOsaka'),
+                  ('Paris', 'SilaParis'), ('Amsterdam', 'SilaAmsterdam'),
+                  ('Kovan', 'SilaKovan'),
+              ]
+              for a, b in rules:
+                  text = re.sub(
+                      rf'(?<![A-Za-z0-9_]){re.escape(a)}(?![A-Za-z0-9_])',
+                      b,
+                      text,
+                  )
+              return restore_matches(text, protected)
+
+          def file_is_text(data: bytes) -> bool:
+              if b'\x00' in data:
+                  return False
+              try:
+                  data.decode('utf-8')
+                  return True
+              except UnicodeDecodeError:
+                  return False
+
+          mapped: dict[str, str] = {}
+          upstream_files = 0
+          text_files = 0
+          binary_files = 0
+          transformed_text_files = 0
+          path_renames = 0
+
+          # Directories first, then files/symlinks.
+          entries = [p for p in SRC.rglob('*') if p.name != '.git' and '.git' not in p.parts]
+          entries.sort(key=lambda p: (len(p.relative_to(SRC).parts), str(p.relative_to(SRC))))
+
+          for src in entries:
+              rel = src.relative_to(SRC).as_posix()
+              dst_rel = transform_path(rel)
+              if dst_rel in mapped and mapped[dst_rel] != rel:
+                  raise SystemExit(f'PATH_COLLISION:{mapped[dst_rel]}::{rel}=>{dst_rel}')
+              mapped[dst_rel] = rel
+              if dst_rel != rel:
+                  path_renames += 1
+              dst = OUT / dst_rel
+
+              if src.is_symlink():
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  target = os.readlink(src)
+                  new_target = transform_path(target)
+                  os.symlink(new_target, dst)
+                  continue
+
+              if src.is_dir():
+                  dst.mkdir(parents=True, exist_ok=True)
+                  try:
+                      shutil.copystat(src, dst, follow_symlinks=False)
+                  except OSError:
+                      pass
+                  continue
+
+              upstream_files += 1
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              data = src.read_bytes()
+              if file_is_text(data):
+                  text_files += 1
+                  original = data.decode('utf-8')
+                  converted = transform_text(original)
+                  if converted != original:
+                      transformed_text_files += 1
+                  dst.write_bytes(converted.encode('utf-8'))
+              else:
+                  binary_files += 1
+                  dst.write_bytes(data)
+              shutil.copystat(src, dst, follow_symlinks=False)
+
+          generated_files = sum(1 for p in OUT.rglob('*') if p.is_file() or p.is_symlink())
+          if generated_files != upstream_files + sum(1 for p in SRC.rglob('*') if p.is_symlink() and '.git' not in p.parts):
+              raise SystemExit(f'FILE_COUNT_MISMATCH:{generated_files}:{upstream_files}')
+
+          # Fail closed on any actionable identity residual after masking protected
+          # identifiers and third-party URLs.
+          forbidden_patterns = [
+              re.compile(r'(?<![A-Za-z0-9_])(?:Ethereum|ETHEREUM|ethereum)(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])(?:EIP|EIPs|EIPS|eip|eips)(?![A-Za-z0-9_])'),
+              re.compile(r'(?<![A-Za-z0-9_])(?:ERC|ERCs|ERCS|erc|ercs)(?![A-Za-z0-9_])'),
+              re.compile(r'github\.com/ethereum/'),
+              re.compile(r'eips\.ethereum\.org'),
+          ]
+
+          residuals: list[str] = []
+          for p in OUT.rglob('*'):
+              if not p.is_file() or p.is_symlink():
+                  continue
+              data = p.read_bytes()
+              if not file_is_text(data):
+                  continue
+              text = data.decode('utf-8')
+              text, protected = mask_matches(text, PROTECTED_RAW)
+              # Mask all third-party URLs for the residual scan. Official URLs should
+              # already have been transformed by transform_text.
+              third_urls: list[str] = []
+              def residual_url_mask(m: re.Match[str]) -> str:
+                  token = f'__SILA_RESIDUAL_URL_{len(third_urls):06d}__'
+                  third_urls.append(m.group(0))
+                  return token
+              text = URL_RE.sub(residual_url_mask, text)
+              for pat in forbidden_patterns:
+                  if pat.search(text):
+                      residuals.append(f'{p.relative_to(OUT).as_posix()}::{pat.pattern}')
+                      break
+
+          # Path residual scan, respecting the same protected identifiers.
+          for rel in mapped:
+              masked, _ = mask_matches(rel, PROTECTED_RAW)
+              if re.search(r'(?<![A-Za-z0-9_])(?:EIPS|EIPs|eips|EIP|eip|ERCS|ERCs|ercs|ERC|erc|Ethereum|ethereum)(?![A-Za-z0-9_])', masked):
+                  residuals.append(f'PATH::{rel}')
+
+          if residuals:
+              print('ACTIONABLE_RESIDUALS_BEGIN')
+              for item in residuals[:200]:
+                  print(item)
+              print('ACTIONABLE_RESIDUALS_END')
+              raise SystemExit(f'ACTIONABLE_IDENTITY_RESIDUAL_COUNT={len(residuals)}')
+
+          print(f'UPSTREAM_FILE_COUNT={upstream_files}')
+          print(f'TEXT_FILE_COUNT={text_files}')
+          print(f'BINARY_FILE_COUNT={binary_files}')
+          print(f'TRANSFORMED_TEXT_FILE_COUNT={transformed_text_files}')
+          print(f'PATH_RENAME_COUNT={path_renames}')
+          print('PATH_COLLISION_COUNT=0')
+          print('ACTIONABLE_IDENTITY_RESIDUAL_COUNT=0')
+          print('GENERATION_GATE=PASS')
+          PY
+
+          # Replace the worktree with the generated one-to-one Sila snapshot.
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/sila-generated/. .
+
+          # Exact source topology: no temporary workflow/script survives in final tree.
+          test ! -e .github/workflows/sips-100pct-sync.yml
+
+          git add -A
+          echo '===== GENERATED DIFF ====='
+          git status --short
+          git diff --cached --stat
+
+          if git diff --cached --quiet; then
+            echo 'NO_TREE_CHANGE=YES'
+          else
+            git commit -m "Regenerate SIPs from latest official EIPs with protected-safe Sila identity"
+            git push origin HEAD:sila/sips-100pct-completion-20260905
+          fi
+
+          echo "## Sila SIPs regeneration" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Upstream EIPs head: \`$UPSTREAM_HEAD\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Final branch head: \`$(git rev-parse HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Protected-safe identity residuals: 0" >> "$GITHUB_STEP_SUMMARY"
