@@ -1,7 +1,7 @@
 import secp256k1
 
 from precompile import sigrecover_precompile
-from sil_hash.auto import keccak
+from eth_hash.auto import keccak
 
 INVALID = b""
 
@@ -23,7 +23,7 @@ test_cases = [
     #
     # Invalid algorithm
     #
-
+   
     # No data
     (b"", (INVALID, 3000)),
 
@@ -31,14 +31,14 @@ test_cases = [
     (b"\x7F", (INVALID, 3000)),
 
     # Invalid algorithm (with data at secp256k1 size)
-    (b"\x7F" + b"\x01" * 65 + b"\x00" * 32, (INVALID, 3000)),
+    (b"\x7F" + b"\x01" * 65 + b"\x00" * 32, (INVALID, 3000)), 
 
     # Invalid algorithm (with data greater than secp256k1 size)
     (b"\x7F" + b"\x01" * 66 + b"\x00" * 32, (INVALID, 3000)),
 
     #
     # secp256k1
-    #
+    # 
 
     # secp256k1 (without data)
     (b"\x00", (INVALID, 3000)),

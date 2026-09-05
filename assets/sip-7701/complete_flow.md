@@ -12,7 +12,7 @@ participant "Target Contract" as TC #darkred
 
 "User" -> "Sila": Submit AA transaction
 note right of "Sila": execute\nAA transaction\nstate transition
-"Sila" -> "AA_ENTRY_POINT":
+"Sila" -> "AA_ENTRY_POINT": 
 |||
 
 group Validation Phase
@@ -45,7 +45,7 @@ note over SC: ""ACCEPTROLE 0xA3""
 |||
 SC->TC: AA Transaction\nExecution Body
 |||
-opt PostOp
+opt PostOp 
 "AA_ENTRY_POINT"->PC: Paymaster PostOp Call
 note over PC: ""ACCEPTROLE 0xA4""
 |||

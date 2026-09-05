@@ -1,7 +1,7 @@
 from typing import Callable, Dict
 from remerkleable.byte_arrays import ByteVector
 from remerkleable.basic import uint8, uint32, uint64, uint256
-from sil_hash.auto import keccak
+from eth_hash.auto import keccak
 
 from secp256k1 import PublicKey, ECDSA
 
@@ -63,7 +63,7 @@ class Secp256k1(AlgorithmEntry):
         public_key = PublicKey(ecdsa.ecdsa_recover(signing_data, recover_sig, raw=True))
         uncompressed = public_key.serialize(compressed=False)
         return uncompressed
-
+    
     def merge_detached_signature(detached_signature: bytes, _public_key: bytes) -> bytes:
         # Secp256k1 uses recoverable signatures, this is a no-op.
         return detached_signature

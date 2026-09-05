@@ -72,7 +72,7 @@ contract BaseSalary is BaseBidOnAddresses {
     mapping(uint256 => uint256) public firstToLastConditionInChain;
 
     /// Constructor.
-    /// @param _uri The ERC-1155 token URI.
+    /// @param _uri The SRC-1155 token URI.
     constructor(string memory _uri) BaseBidOnAddresses(_uri) { }
 
     /// Mint a salary token.
@@ -134,7 +134,7 @@ contract BaseSalary is BaseBidOnAddresses {
     ///
     /// Problem to be solved later: There should be an advice to switch to a new token at each milestone of a project?
     ///
-    /// Anyone can create a ERC-1155 contract that allows to use any of the tokens in the list
+    /// Anyone can create a SRC-1155 contract that allows to use any of the tokens in the list
     /// by locking any of the tokens in the list as a new "general" token. We should recommend customers not to
     /// use such contracts, because it creates for them the killer exploit.
     ///

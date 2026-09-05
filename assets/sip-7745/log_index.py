@@ -11,8 +11,8 @@ from dataclasses import field
 from hashlib import sha256
 from typing import List, Tuple
 
-from sila_rlp import rlp
-from sila_types.numeric import U64, U256, Uint
+from ethereum_rlp import rlp
+from ethereum_types.numeric import U64, U256, Uint
 
 from sila.crypto.hash import Hash32, keccak256
 
@@ -99,7 +99,7 @@ def log_index_add_tx_entry(
     log_index: LogIndexState,
     block_number: Uint,
     tx_hash,
-    recsipt_hash: Hash32,
+    receipt_hash: Hash32,
     tx_index: Uint,
 ) -> None:
     """
@@ -113,7 +113,7 @@ def log_index_add_tx_entry(
         U256(block_number),
         U256(tx_hash),
         U256(tx_index),
-        U256(recsipt_hash),
+        U256(receipt_hash),
     )
     advance_index(log_index, 1)
 

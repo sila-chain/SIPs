@@ -4,7 +4,7 @@
 *Date: July, 2025*
 
 ## Dataset
-- **Period**: 6 months of SilaMainnet data (Q1 25)
+- **Period**: 6 months of Sila sila-mainnet data (Q1 25)
 - **Blocks analyzed**: 1,296,000
 - **Total transactions**: 251,922,669
 

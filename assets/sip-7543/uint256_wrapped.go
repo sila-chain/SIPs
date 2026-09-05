@@ -2,7 +2,7 @@ package vm
 
 import (
 	"github.com/holiman/uint256"
-	"github.com/sila/go-sila/params"
+	"github.com/ethereum/go-ethereum/params"
 )
 
 type int256 = uint256.Int
@@ -47,7 +47,7 @@ func Exp(a, b, out *int256, gas *uint64) *int256 {
 	out.Exp(a, b)
 
 	expByteLen := uint64((b.BitLen() + 7) / 8)
-	*gas += expByteLen * params.ExpByteSIP158
+	*gas += expByteLen * params.ExpByteEIP158
 
 	return out
 }

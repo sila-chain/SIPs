@@ -3,7 +3,7 @@
 ```
 goos: linux
 goarch: amd64
-pkg: github.com/sila/go-sila/core/vm
+pkg: github.com/ethereum/go-ethereum/core/vm
 cpu: Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz
 BenchmarkPrecompiledEcrecover/-Gas=3000-12         	   61453	     91486 ns/op	      3000 gas/op	        32.79 mgas/s	     800 B/op	       7 allocs/op
 BenchmarkPrecompiledFalcon512/Vector_0-Gas=2101-12 	  100734	     56717 ns/op	      2101 gas/op	        37.04 mgas/s	    2520 B/op	      11 allocs/op

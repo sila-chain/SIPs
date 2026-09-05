@@ -1,7 +1,7 @@
 ---
 sip: 5
 title: Gas Usage for `RETURN` and `CALL*`
-author: Christian Reitwiessner <c@sildev.com>
+author: Christian Reitwiessner <c@ethdev.com>
 status: Final
 type: Standards Track
 category: Core
@@ -75,7 +75,7 @@ At an earlier stage, it was proposed to also add the size of the returned data o
 but the `MSIZE` mechanism described above should be sufficient and is much better
 backwards compatible.
 
-Some comments are available at https://github.com/sila/SIPs/issues/8
+Some comments are available at https://github.com/sila-chain/SIPs/issues/8
 
 ### Backwards Compatibility
 

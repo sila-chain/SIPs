@@ -1,6 +1,6 @@
 # Block Access List (BAL) Size Analysis
 
-> Analysis done with the BAL version https://github.com/sila/SIPs/blob/5cff3c4c11d2e06a269ade5b9ca005bb674f6b5f/SIPS/sip-7928.md
+> Analysis done with the BAL version https://github.com/sila-chain/SIPs/blob/5cff3c4c11d2e06a269ade5b9ca005bb674f6b5f/SIPS/sip-7928.md
 
 ## Executive Summary
 
@@ -8,7 +8,7 @@ This report presents an empirical analysis of Block Access List (BAL) sizes acro
 
 ## Methodology
 
-- **Sample Size**: 100 blocks from the SilaMainnet
+- **Sample Size**: 100 blocks from the Sila sila-mainnet
 - **Block Range**: Blocks 22615032 to 22616022 (sampled every 10 blocks)
 - **Encoding Format**: SSZ
 - **Compression**: Snappy compression
@@ -23,7 +23,7 @@ This report presents an empirical analysis of Block Access List (BAL) sizes acro
 - **Compressed Size**: 42.7 KB average (11.7 - 78.7 KB range)
 - **Compression Ratio**: 2.1x
 
-#### Configuration: Without Storage Reads
+#### Configuration: Without Storage Reads  
 - **Raw Size**: 63.6 KB average (17.4 - 117.3 KB range)
 - **Compressed Size**: 29.3 KB average (7.9 - 56.2 KB range)
 - **Compression Ratio**: 2.2x
@@ -54,7 +54,7 @@ Average per block:
 
 Compressed BAL size percentiles (with reads):
 - **P10**: 21.7 KB
-- **P25**: 28.9 KB
+- **P25**: 28.9 KB  
 - **P50**: 42.6 KB (median)
 - **P75**: 54.6 KB
 - **P90**: 64.7 KB
@@ -100,7 +100,7 @@ BlockAccessList
 1. **Address Deduplication**: Each address appears only once, regardless of how many changes it has
 2. **Slot Deduplication**: Each storage slot appears only once per account
 3. **Transaction Indexing**: Uses uint16 (2 bytes) instead of full transaction hashes
-4. **Optimized Field Sizes**:
+4. **Optimized Field Sizes**: 
    - Balance: 12 bytes (sufficient for total SIL supply)
    - Transaction index: 2 bytes (supports up to 65,535 transactions)
    - Address: 20 bytes (standard Sila address)

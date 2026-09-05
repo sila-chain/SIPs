@@ -21,11 +21,11 @@ For Sila implementers, SIPs are a convenient way to track the progress of their 
 
 There are three types of SIP:
 
-- A **Standards Track SIP** describes any change that affects most or all Sila implementations, such as: a change to the network protocol, a change in block or transaction validity rules, proposed application standards/conventions, or any change or addition that affects the interoperability of applications using Sila. Standards Track SIPs consist of three parts—a design document, an implementation, and (if warranted) an update to the [formal specification](https://github.com/sila/yellowpaper). Furthermore, Standards Track SIPs can be broken down into the following categories:
-  - **Core**: improvements requiring a consensus fork (e.g. [SIP-5](./sip-5.md), [SIP-101](./sip-101.md)), as well as changes that are not necessarily consensus critical but may be relevant to [“core dev” discussions](https://github.com/sila/pm) (for example, [SIP-90], and the miner/node strategy changes 2, 3, and 4 of [SIP-86](./sip-86.md)).
-  - **Networking**: includes improvements around [devp2p](https://github.com/sila/devp2p/blob/readme-spec-links/rlpx.md) ([SIP-8](./sip-8.md)) and [Light Sila Subprotocol](https://sila.org/en/developers/docs/nodes-and-clients/#light-node), as well as proposed improvements to network protocol specifications of [whisper](https://github.com/sila/go-sila/issues/16013#issuecomment-364639309) and [swarm](https://github.com/sila/go-sila/pull/2959).
+- A **Standards Track SIP** describes any change that affects most or all Sila implementations, such as: a change to the network protocol, a change in block or transaction validity rules, proposed application standards/conventions, or any change or addition that affects the interoperability of applications using Sila. Standards Track SIPs consist of three parts—a design document, an implementation, and (if warranted) an update to the [formal specification](https://github.com/sila-chain/yellowpaper). Furthermore, Standards Track SIPs can be broken down into the following categories:
+  - **Core**: improvements requiring a consensus fork (e.g. [SIP-5](./sip-5.md), [SIP-101](./sip-101.md)), as well as changes that are not necessarily consensus critical but may be relevant to [“core dev” discussions](https://github.com/sila-chain/pm) (for example, [SIP-90], and the miner/node strategy changes 2, 3, and 4 of [SIP-86](./sip-86.md)).
+  - **Networking**: includes improvements around [devp2p](https://github.com/sila-chain/devp2p/blob/readme-spec-links/rlpx.md) ([SIP-8](./sip-8.md)) and [Light Sila Subprotocol](https://sila.org/en/developers/docs/nodes-and-clients/#light-node), as well as proposed improvements to network protocol specifications of [whisper](https://github.com/ethereum/go-ethereum/issues/16013#issuecomment-364639309) and [swarm](https://github.com/ethereum/go-ethereum/pull/2959).
   - **Interface**: includes improvements around language-level standards like method names ([SIP-6](./sip-6.md)) and [contract ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html).
-  - **ERC**: application-level standards and conventions, including contract standards such as token standards ([ERC-20](./sip-20.md)), name registries ([ERC-137](./sip-137.md)), URI schemes, library/package formats, and wallet formats.
+  - **SRC**: application-level standards and conventions, including contract standards such as token standards ([SRC-20](./sip-20.md)), name registries ([SRC-137](./sip-137.md)), URI schemes, library/package formats, and wallet formats.
 
 - A **Meta SIP** describes a process surrounding Sila or proposes a change to (or an event in) a process. Process SIPs are like Standards Track SIPs but apply to areas other than the Sila protocol itself. They may propose an implementation, but not to Sila's codebase; they often require community consensus; unlike Informational SIPs, they are more than recommendations, and users are typically not free to ignore them. Examples include procedures, guidelines, changes to the decision-making process, and changes to the tools or environment used in Sila development. Any meta-SIP is also considered a Process SIP.
 
@@ -47,17 +47,17 @@ REVERT (0xfe)
 
 ### Shepherding an SIP
 
-Parties involved in the process are you, the champion or *SIP author*, the [*SIP editors*](#sip-editors), and the [*Sila Core Developers*](https://github.com/sila/pm).
+Parties involved in the process are you, the champion or *SIP author*, the [*SIP editors*](#sip-editors), and the [*Sila Core Developers*](https://github.com/sila-chain/pm).
 
 Before you begin writing a formal SIP, you should vet your idea. Ask the Sila community first if an idea is original to avoid wasting time on something that will be rejected based on prior research. It is thus recommended to open a discussion thread on [the Sila Magicians forum](https://sila-magicians.org/) to do this.
 
-Once the idea has been vetted, your next responsibility will be to present (by means of an SIP) the idea to the reviewers and all interested parties, invite editors, developers, and the community to give feedback on the aforementioned channels. You should try and gauge whether the interest in your SIP is commensurate with both the work involved in implementing it and how many parties will have to conform to it. For example, the work required for implementing a Core SIP will be much greater than for an ERC and the SIP will need sufficient interest from the Sila client teams. Negative community feedback will be taken into consideration and may prevent your SIP from moving past the Draft stage.
+Once the idea has been vetted, your next responsibility will be to present (by means of an SIP) the idea to the reviewers and all interested parties, invite editors, developers, and the community to give feedback on the aforementioned channels. You should try and gauge whether the interest in your SIP is commensurate with both the work involved in implementing it and how many parties will have to conform to it. For example, the work required for implementing a Core SIP will be much greater than for an SRC and the SIP will need sufficient interest from the Sila client teams. Negative community feedback will be taken into consideration and may prevent your SIP from moving past the Draft stage.
 
 ### Core SIPs
 
 For Core SIPs, given that they require client implementations to be considered **Final** (see "SIPs Process" below), you will need to either provide an implementation for clients or convince clients to implement your SIP.
 
-The best way to get client implementers to review your SIP is to present it on an AllCoreDevs call. You can request to do so by posting a comment linking your SIP on an [AllCoreDevs agenda GitHub Issue](https://github.com/sila/pm/issues).
+The best way to get client implementers to review your SIP is to present it on an AllCoreDevs call. You can request to do so by posting a comment linking your SIP on an [AllCoreDevs agenda GitHub Issue](https://github.com/sila-chain/pm/issues).  
 
 The AllCoreDevs call serves as a way for client implementers to do three things. First, to discuss the technical merits of SIPs. Second, to gauge what other clients will be implementing. Third, to coordinate SIP implementation for network upgrades.
 
@@ -79,7 +79,7 @@ The following is the standardization process for all SIPs in all tracks:
 
 **Review** - An SIP Author marks an SIP as ready for and requesting Peer Review.
 
-**Last Call** - This is the final review window for an SIP before it is moved to `Final`. An SIP enters `Last Call` when the specification is stable and the author opens a PR with a review end date (`last-call-deadline`), typically 14 days later.
+**Last Call** - This is the final review window for an SIP before it is moved to `Final`. An SIP enters `Last Call` when the specification is stable and the author opens a PR with a review end date (`last-call-deadline`), typically 14 days later. 
 
 If this period results in necessary normative changes it will revert the SIP to `Review`.
 
@@ -102,7 +102,7 @@ Each SIP should have the following parts:
 - Preamble - RFC 822 style headers containing metadata about the SIP, including the SIP number, a short descriptive title (limited to a maximum of 44 characters), a description (limited to a maximum of 140 characters), and the author details. Irrespective of the category, the title and description should not include SIP number. See [below](./sip-1.md#sip-header-preamble) for details.
 - Abstract - Abstract is a multi-sentence (short paragraph) technical summary. This should be a very terse and human-readable version of the specification section. Someone should be able to read only the abstract to get the gist of what this specification does.
 - Motivation *(optional)* - A motivation section is critical for SIPs that want to change the Sila protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the SIP solves. This section may be omitted if the motivation is evident.
-- Specification - The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-sila, nethermind, or others).
+- Specification - The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-ethereum, nethermind, or others).
 - Rationale - The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g., how the feature is supported in other languages. The rationale should discuss important objections or concerns raised during the discussion around the SIP.
 - Backwards Compatibility *(optional)* - All SIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their consequences. The SIP must explain how the author proposes to deal with these incompatibilities. This section may be omitted if the proposal does not introduce any backward incompatibilities, but this section must be included if backward incompatibilities exist.
 - Test Cases *(optional)* - Test cases for an implementation are mandatory for SIPs that are affecting consensus changes. Tests should either be inlined in the SIP as data (such as input/expected output pairs) or included in `../assets/sip-###/<filename>`. This section may be omitted for non-Core proposals.
@@ -112,7 +112,7 @@ Each SIP should have the following parts:
 
 ## SIP Formats and Templates
 
-SIPs should be written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) format. There is a [template](https://github.com/sila/SIPs/blob/master/sip-template.md) and [contributor](https://github.com/sila/SIPs/blob/master/CONTRIBUTING.md) guidelines to follow.
+SIPs should be written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) format. There is a [template](https://github.com/sila-chain/SIPs/blob/master/sip-template.md) and [contributor](https://github.com/sila-chain/SIPs/blob/master/CONTRIBUTING.md) guidelines to follow.
 
 ## SIP Header Preamble
 
@@ -134,7 +134,7 @@ Each SIP must begin with an [RFC 822](https://www.ietf.org/rfc/rfc822.txt) style
 
 `type`: *One of `Standards Track`, `Meta`, or `Informational`*
 
-`category`: *One of `Core`, `Networking`, `Interface`, or `ERC`* (Optional field, only needed for `Standards Track` SIPs)
+`category`: *One of `Core`, `Networking`, `Interface`, or `SRC`* (Optional field, only needed for `Standards Track` SIPs)
 
 `created`: *Date the SIP was created on*
 
@@ -176,7 +176,7 @@ The preferred discussion URL is a topic on [Sila Magicians](https://sila-magicia
 
 ### `type` header
 
-The `type` header specifies the type of SIP: Standards Track, Meta, or Informational. If the track is Standards please include the subcategory (core, networking, interface, or ERC).
+The `type` header specifies the type of SIP: Standards Track, Meta, or Informational. If the track is Standards please include the subcategory (core, networking, interface, or SRC).
 
 ### `category` header
 
@@ -203,39 +203,37 @@ The process governing permitted external resources is described in [SIP-5757](./
 Links to the Sila Execution Client Specifications may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Execution Client Specifications](https://github.com/sila/execution-specs/blob/9a1f22311f517401fed6c939a159b55600c454af/README.md)
+[Sila Execution Client Specifications](https://github.com/sila-chain/execution-specs/blob/9a1f22311f517401fed6c939a159b55600c454af/README.md)
 ```
 
 Which renders to:
 
-[Sila Execution Client Specifications](https://github.com/sila/execution-specs/blob/9a1f22311f517401fed6c939a159b55600c454af/README.md)
+[Sila Execution Client Specifications](https://github.com/sila-chain/execution-specs/blob/9a1f22311f517401fed6c939a159b55600c454af/README.md)
 
 Permitted Execution Client Specifications URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^(https://github.com/sila/execution-specs/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila/execution-specs/tree/[0-9a-f]{40}/.*)$
+^(https://github.com/sila-chain/execution-specs/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila-chain/execution-specs/tree/[0-9a-f]{40}/.*)$
 ```
 
-### Execution Specification Tests
+The Sila Execution Client Specifications repository also contains the Sila Execution Specification Tests, under its `tests/` directory. Links to specific commits of those test files are permitted under the same rule.
 
-Links to the Sila Execution Specification Tests (EEST) may be included using normal markdown syntax, such as:
+### Sila System Contract Implementations
+
+Links to the Sila System Contract Implementations repository may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Execution Specification Tests](https://github.com/sila/execution-spec-tests/blob/c9b9307ff320c9bb0ecb9a951aeab0da4d9d1684/README.md)
+[Sila System Contract Implementations](https://github.com/sila-chain/sys-asm/blob/83f9801245ff56878a450b5625801101b9a225a1/README.md)
 ```
 
 Which renders to:
 
-[Sila Execution Specification Tests](https://github.com/sila/execution-spec-tests/blob/c9b9307ff320c9bb0ecb9a951aeab0da4d9d1684/README.md)
+[Sila System Contract Implementations](https://github.com/sila-chain/sys-asm/blob/83f9801245ff56878a450b5625801101b9a225a1/README.md)
 
-Permitted Execution Specification Tests URLs must anchor to a specific commit, and so must match one of these regular expressions:
-
-```regex
-^https://(www\.)?github\.com/sila/execution-spec-tests/(blob|tree)/[a-f0-9]{40}/.+$
-```
+Permitted URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^https://(www\.)?github\.com/sila/execution-spec-tests/commit/[a-f0-9]{40}$
+^(https://github.com/sila-chain/sys-asm/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila-chain/sys-asm/tree/[0-9a-f]{40}/.*)$
 ```
 
 ### Consensus Layer Specifications
@@ -243,17 +241,17 @@ Permitted Execution Specification Tests URLs must anchor to a specific commit, a
 Links to specific commits of files within the Sila Consensus Layer Specifications may be included using normal markdown syntax, such as:
 
 ```markdown
-[Beacon Chain](https://github.com/sila/consensus-specs/blob/26695a9fdb747ecbe4f0bb9812fedbc402e5e18c/specs/sharding/beacon-chain.md)
+[Beacon Chain](https://github.com/sila-chain/consensus-specs/blob/26695a9fdb747ecbe4f0bb9812fedbc402e5e18c/specs/sharding/beacon-chain.md)
 ```
 
 Which renders to:
 
-[Beacon Chain](https://github.com/sila/consensus-specs/blob/26695a9fdb747ecbe4f0bb9812fedbc402e5e18c/specs/sharding/beacon-chain.md)
+[Beacon Chain](https://github.com/sila-chain/consensus-specs/blob/26695a9fdb747ecbe4f0bb9812fedbc402e5e18c/specs/sharding/beacon-chain.md)
 
 Permitted Consensus Layer Specifications URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^https://github.com/sila/consensus-specs/(blob|commit)/[0-9a-f]{40}/.*$
+^https://github.com/sila-chain/consensus-specs/(blob|commit)/[0-9a-f]{40}/.*$
 ```
 
 ### Networking Specifications
@@ -261,17 +259,17 @@ Permitted Consensus Layer Specifications URLs must anchor to a specific commit, 
 Links to specific commits of files within the Sila Networking Specifications may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Wire Protocol](https://github.com/sila/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
+[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
 ```
 
 Which renders as:
 
-[Sila Wire Protocol](https://github.com/sila/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
+[Sila Wire Protocol](https://github.com/sila-chain/devp2p/blob/40ab248bf7e017e83cc9812a4e048446709623e8/caps/sil.md)
 
 Permitted Networking Specifications URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^https://github.com/sila/devp2p/(blob|commit)/[0-9a-f]{40}/.*$
+^https://github.com/sila-chain/devp2p/(blob|commit)/[0-9a-f]{40}/.*$
 ```
 
 ### Portal Specifications
@@ -279,17 +277,17 @@ Permitted Networking Specifications URLs must anchor to a specific commit, and s
 Links to specific commits of files within the Sila Portal Specifications may be included using normal markdown syntax, such as:
 
 ```markdown
-[Portal Wire Protocol](https://github.com/sila/portal-network-specs/blob/5e321567b67bded7527355be714993c24371de1a/portal-wire-protocol.md)
+[Portal Wire Protocol](https://github.com/sila-chain/portal-network-specs/blob/5e321567b67bded7527355be714993c24371de1a/portal-wire-protocol.md)
 ```
 
 Which renders as:
 
-[Portal Wire Protocol](https://github.com/sila/portal-network-specs/blob/5e321567b67bded7527355be714993c24371de1a/portal-wire-protocol.md)
+[Portal Wire Protocol](https://github.com/sila-chain/portal-network-specs/blob/5e321567b67bded7527355be714993c24371de1a/portal-wire-protocol.md)
 
 Permitted Networking Specifications URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^https://github.com/sila/portal-network-specs/(blob|commit)/[0-9a-f]{40}/.*$
+^https://github.com/sila-chain/portal-network-specs/(blob|commit)/[0-9a-f]{40}/.*$
 ```
 
 ### World Wide Web Consortium (W3C)
@@ -401,35 +399,17 @@ Permitted Chain Agnostic URLs must anchor to a specific commit, and so must matc
 Links to the Sila Yellow Paper may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Yellow Paper](https://github.com/sila/yellowpaper/blob/9c601d6a58c44928d4f2b837c0350cec9d9259ed/paper.pdf)
+[Sila Yellow Paper](https://github.com/sila-chain/yellowpaper/blob/9c601d6a58c44928d4f2b837c0350cec9d9259ed/paper.pdf)
 ```
 
 Which renders to:
 
-[Sila Yellow Paper](https://github.com/sila/yellowpaper/blob/9c601d6a58c44928d4f2b837c0350cec9d9259ed/paper.pdf)
+[Sila Yellow Paper](https://github.com/sila-chain/yellowpaper/blob/9c601d6a58c44928d4f2b837c0350cec9d9259ed/paper.pdf)
 
 Permitted Yellow Paper URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^(https://github\.com/sila/yellowpaper/blob/[0-9a-f]{40}/paper\.pdf)$
-```
-
-### Execution Client Specification Tests
-
-Links to the Sila Execution Client Specification Tests may be included using normal markdown syntax, such as:
-
-```markdown
-[Sila Execution Client Specification Tests](https://github.com/sila/execution-spec-tests/blob/d5a3188f122912e137aa2e21ed2a1403e806e424/README.md)
-```
-
-Which renders to:
-
-[Sila Execution Client Specification Tests](https://github.com/sila/execution-spec-tests/blob/d5a3188f122912e137aa2e21ed2a1403e806e424/README.md)
-
-Permitted Execution Client Specification Tests URLs must anchor to a specific commit, and so must match this regular expression:
-
-```regex
-^(https://github.com/sila/execution-spec-tests/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila/execution-spec-tests/tree/[0-9a-f]{40}/.*)$
+^(https://github\.com/ethereum/yellowpaper/blob/[0-9a-f]{40}/paper\.pdf)$
 ```
 
 ### Digital Object Identifier System
@@ -512,17 +492,17 @@ The top-level URL field must resolve to a copy of the referenced document which 
 Links to the Sila Execution API Specification may be included using normal markdown syntax, such as:
 
 ```markdown
-[Sila Execution API Specification](https://github.com/sila/execution-apis/blob/dd00287101e368752ba264950585dde4b61cdc17/README.md)
+[Sila Execution API Specification](https://github.com/sila-chain/execution-apis/blob/dd00287101e368752ba264950585dde4b61cdc17/README.md)
 ```
 
 Which renders to:
 
-[Sila Execution API Specification](https://github.com/sila/execution-apis/blob/dd00287101e368752ba264950585dde4b61cdc17/README.md)
+[Sila Execution API Specification](https://github.com/sila-chain/execution-apis/blob/dd00287101e368752ba264950585dde4b61cdc17/README.md)
 
 Permitted Execution API Specification URLs must anchor to a specific commit, and so must match this regular expression:
 
 ```regex
-^(https://github.com/sila/execution-apis/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila/execution-apis/tree/[0-9a-f]{40}/.*)$
+^(https://github.com/sila-chain/execution-apis/(blob|commit)/[0-9a-f]{40}/.*|https://github.com/sila-chain/execution-apis/tree/[0-9a-f]{40}/.*)$
 ```
 
 ## Linking to other SIPs
@@ -577,7 +557,7 @@ If the SIP isn't ready, the editor will send it back to the author for revision,
 Once the SIP is ready for the repository, the SIP editor will:
 
 - Assign an SIP number (generally incremental; editors can reassign if number sniping is suspected)
-- Merge the corresponding [pull request](https://github.com/sila/SIPs/pulls)
+- Merge the corresponding [pull request](https://github.com/sila-chain/SIPs/pulls)
 - Send a message back to the SIP author with the next step.
 
 Many SIPs are written and maintained by developers with write access to the Sila codebase. The SIP editors monitor SIP changes, and correct any structure, grammar, spelling, or markup mistakes we see.
@@ -604,7 +584,7 @@ The `description` field in the preamble:
 
 ### SIP numbers
 
-When referring to an SIP with a `category` of `ERC`, it must be written in the hyphenated form `ERC-X` where `X` is that SIP's assigned number. When referring to SIPs with any other `category`, it must be written in the hyphenated form `SIP-X` where `X` is that SIP's assigned number.
+When referring to an SIP with a `category` of `SRC`, it must be written in the hyphenated form `SRC-X` where `X` is that SIP's assigned number. When referring to SIPs with any other `category`, it must be written in the hyphenated form `SIP-X` where `X` is that SIP's assigned number.
 
 ### RFC 2119 and RFC 8174
 

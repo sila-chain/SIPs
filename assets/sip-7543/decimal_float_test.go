@@ -1,18 +1,18 @@
-// Copyright 2017 The go-sila Authors
-// This file is part of the go-sila library.
+// Copyright 2017 The go-ethereum Authors
+// This file is part of the go-ethereum library.
 //
-// The go-sila library is free software: you can redistribute it and/or modify
+// The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-sila library is distributed in the hope that it will be useful,
+// The go-ethereum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-sila library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 package vm
 
@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/sila/go-sila/params"
+	"github.com/ethereum/go-ethereum/params"
 	"github.com/holiman/uint256"
 )
 
@@ -94,13 +94,13 @@ func BenchmarkOpDecSin(b *testing.B) {
 
 func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 	var (
-		env            = NewSVM(BlockContext{}, TxContext{}, nil, params.TestChainConfig, Config{})
+		env            = NewEVM(BlockContext{}, TxContext{}, nil, params.TestChainConfig, Config{})
 		stack          = newstack()
 		scope          = &ScopeContext{nil, stack, nil}
-		evmInterpreter = NewSVMInterpreter(env)
+		svmInterpreter = NewEVMInterpreter(env)
 	)
 
-	env.interpreter = evmInterpreter
+	env.interpreter = svmInterpreter
 
 	pc := uint64(0)
 	b.ResetTimer()
@@ -108,7 +108,7 @@ func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 		for _, arg := range intArgs {
 			stack.push(arg)
 		}
-		op(&pc, evmInterpreter, scope)
+		op(&pc, svmInterpreter, scope)
 		stack.pop()
 		stack.pop()
 	}

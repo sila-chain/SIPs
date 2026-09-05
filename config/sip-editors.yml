@@ -9,7 +9,7 @@ core:
   - SamWilsn
   - g11tech
   - jochem-brouwer
-erc:
+src:
   - SamWilsn
   - xinbenlv
 networking:

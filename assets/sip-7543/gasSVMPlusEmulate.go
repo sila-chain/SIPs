@@ -4,7 +4,7 @@
 // double estimate gas for actual run
 // gas emulation cost
 type GasOpFunc func(inputs []int256, gas *uint64)
-func gasSVMPlusEmulate(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64, nStack int, op GasOpFunc) (uint64, error) {
+func gasSVMPlusEmulate(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64, nStack int, op GasOpFunc) (uint64, error) {
 
 	inputs := make([]int256, nStack)
 	for i := 0; i < nStack; i++ {
@@ -18,38 +18,38 @@ func gasSVMPlusEmulate(evm *SVM, contract *Contract, stack *Stack, mem *Memory, 
 
 	return 2*gas, nil // double to account for emulation plus actual compute
 }
-func gasSVMPlusDECADD(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECADD(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 5
 	op := func(inputs []int256, gas *uint64) {DecAdd(&inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECNEG(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECNEG(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 2
 	op := func(inputs []int256, gas *uint64) {DecNeg(&inputs[0], &inputs[1], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECMUL(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECMUL(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 5
 	op := func(inputs []int256, gas *uint64) {DecMul(&inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECINV(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECINV(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 3
 	op := func(inputs []int256, gas *uint64) {DecInv(&inputs[0], &inputs[1], &inputs[2], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECEXP(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECEXP(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 4
 	op := func(inputs []int256, gas *uint64) {DecExp(&inputs[0], &inputs[1], &inputs[2], &inputs[3], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECLN(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECLN(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 4
 	op := func(inputs []int256, gas *uint64) {DecLn(&inputs[0], &inputs[1], &inputs[2], &inputs[3], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }
-func gasSVMPlusDECSIN(evm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
+func gasSVMPlusDECSIN(svm *SVM, contract *Contract, stack *Stack, mem *Memory, memorySize uint64) (uint64, error) {
 	nStack := 4
 	op := func(inputs []int256, gas *uint64) {DecSin(&inputs[0], &inputs[1], &inputs[2], &inputs[3], gas)}
-	return gasSVMPlusEmulate(evm, contract, stack, mem, memorySize, nStack, op)
+	return gasSVMPlusEmulate(svm, contract, stack, mem, memorySize, nStack, op)
 }

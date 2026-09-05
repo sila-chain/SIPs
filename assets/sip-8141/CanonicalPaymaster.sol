@@ -7,7 +7,7 @@ pragma solidity ^0.8.24;
 ///      The signature is checked against TXPARAM(0x08), i.e. the canonical tx sig hash.
 ///      On success, the contract calls APPROVE with scope=0x1 and offset/length=0 to approve payment.
 ///      This implementation supports only a single secp256k1 signer recovered via ecrecover.
-///      ERC-1271 and other contract-signature schemes are not supported.
+///      SRC-1271 and other contract-signature schemes are not supported.
 contract CanonicalPaymaster {
     uint256 public constant WITHDRAWAL_DELAY = 12 hours;
 

@@ -5,7 +5,7 @@ author: <a comma separated list of the author's or authors' name + GitHub userna
 discussions-to: <URL>
 status: Draft
 type: <Standards Track, Meta, or Informational>
-category: <Core, Networking, Interface, or ERC> # Only required for Standards Track. Otherwise, remove this field.
+category: <Core, Networking, Interface, or SRC> # Only required for Standards Track. Otherwise, remove this field.
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires: <SIP number(s)> # Only required when you reference an SIP in the `Specification` section. Otherwise, remove this field.
 ---
@@ -45,7 +45,7 @@ requires: <SIP number(s)> # Only required when you reference an SIP in the `Spec
 ## Specification
 
 <!--
-  The Specification section should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-sila, nethermind, or others).
+  The Specification section should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current Sila platforms (besu, erigon, silajs, go-ethereum, nethermind, or others).
 
   It is recommended to follow RFC 2119 and RFC 8174. Do not remove the key word definitions if RFC 2119 and RFC 8174 are followed.
 

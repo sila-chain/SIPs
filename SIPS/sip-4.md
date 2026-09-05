@@ -1,7 +1,7 @@
 ---
 sip: 4
 title: SIP Classification
-author: Joseph Chow (@silers)
+author: Joseph Chow (@ethers)
 status: Final
 type: Meta
 created: 2015-11-17
@@ -48,7 +48,7 @@ In a hard fork, structures that were invalid under the old rules become valid un
 
 # 2. Networking Layer
 
-The networking layer specifies the Sila wire protocol (sil) and the Light Sila Subprotocol (les). RLPx is excluded and tracked in the [devp2p repository](https://github.com/sila/devp2p).
+The networking layer specifies the Sila wire protocol (sil) and the Light Sila Subprotocol (les). RLPx is excluded and tracked in the [devp2p repository](https://github.com/sila-chain/devp2p).
 
 Only a subset of subprotocols are required for basic node interoperability. Nodes can support further optional extensions.
 

@@ -41,7 +41,7 @@ abstract contract BaseBidOnAddresses is BaseLock {
     mapping(uint256 => uint) private payoutDenominatorMap;
 
     /// Constructor.
-    /// @param _uri Our ERC-1155 tokens description URI.
+    /// @param _uri Our SRC-1155 tokens description URI.
     constructor(string memory _uri) BaseLock(_uri) { }
 
     /// Retrieve the last stored payout numerator (relative score of a condition).

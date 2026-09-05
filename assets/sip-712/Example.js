@@ -1,5 +1,5 @@
 // using silajs-util 7.1.3
-const silUtil = require('silajs-util');
+const ethUtil = require('silajs-util');
 
 // using silajs-abi 0.6.9
 const abi = require('silajs-abi');
@@ -27,7 +27,7 @@ const typedData = {
     },
     primaryType: 'Mail',
     domain: {
-        name: 'Siler Mail',
+        name: 'Sila Mail',
         version: '1',
         chainId: 1,
         verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
@@ -81,7 +81,7 @@ function encodeType(primaryType) {
 }
 
 function typeHash(primaryType) {
-    return silUtil.keccakFromString(encodeType(primaryType), 256);
+    return ethUtil.keccakFromString(encodeType(primaryType), 256);
 }
 
 function encodeData(primaryType, data) {
@@ -97,11 +97,11 @@ function encodeData(primaryType, data) {
         let value = data[field.name];
         if (field.type == 'string' || field.type == 'bytes') {
             encTypes.push('bytes32');
-            value = silUtil.keccakFromString(value, 256);
+            value = ethUtil.keccakFromString(value, 256);
             encValues.push(value);
         } else if (types[field.type] !== undefined) {
             encTypes.push('bytes32');
-            value = silUtil.keccak256(encodeData(field.type, value));
+            value = ethUtil.keccak256(encodeData(field.type, value));
             encValues.push(value);
         } else if (field.type.lastIndexOf(']') === field.type.length - 1) {
             throw 'TODO: Arrays currently unimplemented in encodeData';
@@ -115,11 +115,11 @@ function encodeData(primaryType, data) {
 }
 
 function structHash(primaryType, data) {
-    return silUtil.keccak256(encodeData(primaryType, data));
+    return ethUtil.keccak256(encodeData(primaryType, data));
 }
 
 function signHash() {
-    return silUtil.keccak256(
+    return ethUtil.keccak256(
         Buffer.concat([
             Buffer.from('1901', 'hex'),
             structHash('SIP712Domain', typedData.domain),
@@ -128,26 +128,26 @@ function signHash() {
     );
 }
 
-const privateKey = silUtil.keccakFromString('cow', 256);
-const address = silUtil.privateToAddress(privateKey);
-const sig = silUtil.ecsign(signHash(), privateKey);
+const privateKey = ethUtil.keccakFromString('cow', 256);
+const address = ethUtil.privateToAddress(privateKey);
+const sig = ethUtil.ecsign(signHash(), privateKey);
 
 const expect = chai.expect;
 expect(encodeType('Mail')).to.equal('Mail(Person from,Person to,string contents)Person(string name,address wallet)');
-expect(silUtil.bufferToHex(typeHash('Mail'))).to.equal(
+expect(ethUtil.bufferToHex(typeHash('Mail'))).to.equal(
     '0xa0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2',
 );
-expect(silUtil.bufferToHex(encodeData(typedData.primaryType, typedData.message))).to.equal(
+expect(ethUtil.bufferToHex(encodeData(typedData.primaryType, typedData.message))).to.equal(
     '0xa0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1b5aadf3154a261abdd9086fc627b61efca26ae5702701d05cd2305f7c52a2fc8',
 );
-expect(silUtil.bufferToHex(structHash(typedData.primaryType, typedData.message))).to.equal(
+expect(ethUtil.bufferToHex(structHash(typedData.primaryType, typedData.message))).to.equal(
     '0xc52c0ee5d84264471806290a3f2c4cecfc5490626bf912d01f240d7a274b371e',
 );
-expect(silUtil.bufferToHex(structHash('SIP712Domain', typedData.domain))).to.equal(
+expect(ethUtil.bufferToHex(structHash('SIP712Domain', typedData.domain))).to.equal(
     '0xf2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f',
 );
-expect(silUtil.bufferToHex(signHash())).to.equal('0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2');
-expect(silUtil.bufferToHex(address)).to.equal('0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826');
+expect(ethUtil.bufferToHex(signHash())).to.equal('0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2');
+expect(ethUtil.bufferToHex(address)).to.equal('0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826');
 expect(sig.v).to.equal(28);
-expect(silUtil.bufferToHex(sig.r)).to.equal('0x4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d');
-expect(silUtil.bufferToHex(sig.s)).to.equal('0x07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b91562');
+expect(ethUtil.bufferToHex(sig.r)).to.equal('0x4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d');
+expect(ethUtil.bufferToHex(sig.s)).to.equal('0x07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b91562');

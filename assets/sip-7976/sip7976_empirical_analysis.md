@@ -5,7 +5,7 @@
 
 ## Dataset
 
-- **Period**: 150 days of SilaMainnet data (August 2025 - January 2026)
+- **Period**: 150 days of Sila sila-mainnet data (August 2025 - January 2026)
 - **Blocks analyzed**: 1,080,000 blocks
 - **Total transactions**: 245,624,335
 
@@ -46,38 +46,38 @@
 
 ### Top 30 Senders by Additional Cost Impact
 
-| Rank | Address | Transactions | Total Cost Increase (gas) | Avg Cost/Tx | Silerscan Link |
+| Rank | Address | Transactions | Total Cost Increase (gas) | Avg Cost/Tx | SilaScan Link |
 |------|---------|--------------|---------------------------|-------------|----------------|
-| 1 | 0x54b839d988c9e712cd36cbf7c95dedc2b9f9ae6c | 44,296 | 100,215,386,242 | 2,262,402 | [View](https://silerscan.io/address/0x54b839d988c9e712cd36cbf7c95dedc2b9f9ae6c) |
-| 2 | 0xcbe6fbf5e3c427013688e04d0fde56705890c4be | 27,031 | 93,199,568,422 | 3,447,877 | [View](https://silerscan.io/address/0xcbe6fbf5e3c427013688e04d0fde56705890c4be) |
-| 3 | 0xe08cdadd44440e32ef153956a7ec40804a32dd74 | 3,360 | 24,782,661,408 | 7,375,792 | [View](https://silerscan.io/address/0xe08cdadd44440e32ef153956a7ec40804a32dd74) |
-| 4 | 0xc17ea94008d5a8ee86f120e092cd35a679166416 | 59,548 | 12,647,040,432 | 212,383 | [View](https://silerscan.io/address/0xc17ea94008d5a8ee86f120e092cd35a679166416) |
-| 5 | 0x148ee7daf16574cd020afa34cc658f8f3fbd2800 | 4,409 | 11,475,576,948 | 2,602,761 | [View](https://silerscan.io/address/0x148ee7daf16574cd020afa34cc658f8f3fbd2800) |
-| 6 | 0x16f09b37b20bfbb07130bba8226299926e39b488 | 14,598 | 9,858,634,629 | 675,341 | [View](https://silerscan.io/address/0x16f09b37b20bfbb07130bba8226299926e39b488) |
-| 7 | 0x6860c4ee678d847ae67771f2e5eea96ccb7fdf8d | 81,588 | 8,129,909,932 | 99,645 | [View](https://silerscan.io/address/0x6860c4ee678d847ae67771f2e5eea96ccb7fdf8d) |
-| 8 | 0xf4ceb19b2467ef784b5e83b863418c50997b1646 | 18,119 | 7,588,481,162 | 418,813 | [View](https://silerscan.io/address/0xf4ceb19b2467ef784b5e83b863418c50997b1646) |
-| 9 | 0x646c4fbdf82b5766c5eaf1fab9a8927fb5992d38 | 118,451 | 7,384,356,334 | 62,341 | [View](https://silerscan.io/address/0x646c4fbdf82b5766c5eaf1fab9a8927fb5992d38) |
-| 10 | 0x0373b1ed3b9e601bb8b17afde70b0ccab76a981d | 158,514 | 7,277,663,018 | 45,911 | [View](https://silerscan.io/address/0x0373b1ed3b9e601bb8b17afde70b0ccab76a981d) |
-| 11 | 0xe2da046340e00264c4f0443243a0565007ae08ac | 3,944 | 5,940,541,350 | 1,506,222 | [View](https://silerscan.io/address/0xe2da046340e00264c4f0443243a0565007ae08ac) |
-| 12 | 0xa7ec2be4ed79ef315b4301aeca424a2dfdeaf09a | 65,856 | 5,616,659,491 | 85,286 | [View](https://silerscan.io/address/0xa7ec2be4ed79ef315b4301aeca424a2dfdeaf09a) |
-| 13 | 0x7835fb36a8143a014a2c381363cd1a4dee586d2a | 2,887 | 5,601,056,603 | 1,940,095 | [View](https://silerscan.io/address/0x7835fb36a8143a014a2c381363cd1a4dee586d2a) |
-| 14 | 0xf2099c4783921f44ac988b67e743daefd4a00efd | 1,436 | 4,201,896,151 | 2,926,111 | [View](https://silerscan.io/address/0xf2099c4783921f44ac988b67e743daefd4a00efd) |
-| 15 | 0x7804405f18e134c3c47d71ae02eb454d25722d88 | 678 | 4,153,379,856 | 6,125,928 | [View](https://silerscan.io/address/0x7804405f18e134c3c47d71ae02eb454d25722d88) |
-| 16 | 0xfe9dcec48761d2826e3e3d95597462dfb281db79 | 48,221 | 4,047,228,659 | 83,930 | [View](https://silerscan.io/address/0xfe9dcec48761d2826e3e3d95597462dfb281db79) |
-| 17 | 0x1346d9c6315f6c23fe280b49ef215aebd49338b2 | 6,211 | 3,673,122,501 | 591,389 | [View](https://silerscan.io/address/0x1346d9c6315f6c23fe280b49ef215aebd49338b2) |
-| 18 | 0x5f62d006c10c009ff50c878cd6157ac861c99990 | 7,952 | 3,655,219,300 | 459,660 | [View](https://silerscan.io/address/0x5f62d006c10c009ff50c878cd6157ac861c99990) |
-| 19 | 0x3f773dc3ccc70b3d2a549713ac8d556af949d4e8 | 1,323 | 3,653,595,781 | 2,761,599 | [View](https://silerscan.io/address/0x3f773dc3ccc70b3d2a549713ac8d556af949d4e8) |
-| 20 | 0xc8a5849a02ad01b572a0108aebf5a0d27777a552 | 63,707 | 3,484,943,560 | 54,702 | [View](https://silerscan.io/address/0xc8a5849a02ad01b572a0108aebf5a0d27777a552) |
-| 21 | 0x30c2f77eaa93aace5e56ea4dcba5f21f794b58be | 687 | 3,326,641,119 | 4,842,272 | [View](https://silerscan.io/address/0x30c2f77eaa93aace5e56ea4dcba5f21f794b58be) |
-| 22 | 0xcbeb5d484b54498d3893a0c3eb790331962e9e9d | 7,602 | 2,716,498,081 | 357,339 | [View](https://silerscan.io/address/0xcbeb5d484b54498d3893a0c3eb790331962e9e9d) |
-| 23 | 0xd312535f0104a45ebd16cd29756fe9e6f8fe633c | 42,892 | 2,461,082,112 | 57,378 | [View](https://silerscan.io/address/0xd312535f0104a45ebd16cd29756fe9e6f8fe633c) |
-| 24 | 0xb947d63b578fb48233de4076407dd0498dcf36ab | 584 | 2,431,099,134 | 4,162,840 | [View](https://silerscan.io/address/0xb947d63b578fb48233de4076407dd0498dcf36ab) |
-| 25 | 0x1c9a7a489f62a75e276d3790ba92aaf12af13469 | 6,923 | 2,145,392,271 | 309,893 | [View](https://silerscan.io/address/0x1c9a7a489f62a75e276d3790ba92aaf12af13469) |
-| 26 | 0xf3d021d51a725f5dbdce253248e826a8644be3c1 | 3,693 | 2,063,909,478 | 558,870 | [View](https://silerscan.io/address/0xf3d021d51a725f5dbdce253248e826a8644be3c1) |
-| 27 | 0x2b4820042fe6a5b8ab01b29ede19203181d625fa | 18,285 | 1,880,349,910 | 102,835 | [View](https://silerscan.io/address/0x2b4820042fe6a5b8ab01b29ede19203181d625fa) |
-| 28 | 0xf6309d5a91fa559cbf8f6ff3c5ec8fb67fe38577 | 628 | 1,830,917,976 | 2,915,474 | [View](https://silerscan.io/address/0xf6309d5a91fa559cbf8f6ff3c5ec8fb67fe38577) |
-| 29 | 0x000cb000e880a92a8f383d69da2142a969b93de7 | 5,223 | 1,787,396,594 | 342,216 | [View](https://silerscan.io/address/0x000cb000e880a92a8f383d69da2142a969b93de7) |
-| 30 | 0x785cd82bb016c740d41ca9e0b1bacc3a2439dc0d | 23,798 | 1,666,264,939 | 70,017 | [View](https://silerscan.io/address/0x785cd82bb016c740d41ca9e0b1bacc3a2439dc0d) |
+| 1 | 0x54b839d988c9e712cd36cbf7c95dedc2b9f9ae6c | 44,296 | 100,215,386,242 | 2,262,402 | [View](https://etherscan.io/address/0x54b839d988c9e712cd36cbf7c95dedc2b9f9ae6c) |
+| 2 | 0xcbe6fbf5e3c427013688e04d0fde56705890c4be | 27,031 | 93,199,568,422 | 3,447,877 | [View](https://etherscan.io/address/0xcbe6fbf5e3c427013688e04d0fde56705890c4be) |
+| 3 | 0xe08cdadd44440e32ef153956a7ec40804a32dd74 | 3,360 | 24,782,661,408 | 7,375,792 | [View](https://etherscan.io/address/0xe08cdadd44440e32ef153956a7ec40804a32dd74) |
+| 4 | 0xc17ea94008d5a8ee86f120e092cd35a679166416 | 59,548 | 12,647,040,432 | 212,383 | [View](https://etherscan.io/address/0xc17ea94008d5a8ee86f120e092cd35a679166416) |
+| 5 | 0x148ee7daf16574cd020afa34cc658f8f3fbd2800 | 4,409 | 11,475,576,948 | 2,602,761 | [View](https://etherscan.io/address/0x148ee7daf16574cd020afa34cc658f8f3fbd2800) |
+| 6 | 0x16f09b37b20bfbb07130bba8226299926e39b488 | 14,598 | 9,858,634,629 | 675,341 | [View](https://etherscan.io/address/0x16f09b37b20bfbb07130bba8226299926e39b488) |
+| 7 | 0x6860c4ee678d847ae67771f2e5eea96ccb7fdf8d | 81,588 | 8,129,909,932 | 99,645 | [View](https://etherscan.io/address/0x6860c4ee678d847ae67771f2e5eea96ccb7fdf8d) |
+| 8 | 0xf4ceb19b2467ef784b5e83b863418c50997b1646 | 18,119 | 7,588,481,162 | 418,813 | [View](https://etherscan.io/address/0xf4ceb19b2467ef784b5e83b863418c50997b1646) |
+| 9 | 0x646c4fbdf82b5766c5eaf1fab9a8927fb5992d38 | 118,451 | 7,384,356,334 | 62,341 | [View](https://etherscan.io/address/0x646c4fbdf82b5766c5eaf1fab9a8927fb5992d38) |
+| 10 | 0x0373b1ed3b9e601bb8b17afde70b0ccab76a981d | 158,514 | 7,277,663,018 | 45,911 | [View](https://etherscan.io/address/0x0373b1ed3b9e601bb8b17afde70b0ccab76a981d) |
+| 11 | 0xe2da046340e00264c4f0443243a0565007ae08ac | 3,944 | 5,940,541,350 | 1,506,222 | [View](https://etherscan.io/address/0xe2da046340e00264c4f0443243a0565007ae08ac) |
+| 12 | 0xa7ec2be4ed79ef315b4301aeca424a2dfdeaf09a | 65,856 | 5,616,659,491 | 85,286 | [View](https://etherscan.io/address/0xa7ec2be4ed79ef315b4301aeca424a2dfdeaf09a) |
+| 13 | 0x7835fb36a8143a014a2c381363cd1a4dee586d2a | 2,887 | 5,601,056,603 | 1,940,095 | [View](https://etherscan.io/address/0x7835fb36a8143a014a2c381363cd1a4dee586d2a) |
+| 14 | 0xf2099c4783921f44ac988b67e743daefd4a00efd | 1,436 | 4,201,896,151 | 2,926,111 | [View](https://etherscan.io/address/0xf2099c4783921f44ac988b67e743daefd4a00efd) |
+| 15 | 0x7804405f18e134c3c47d71ae02eb454d25722d88 | 678 | 4,153,379,856 | 6,125,928 | [View](https://etherscan.io/address/0x7804405f18e134c3c47d71ae02eb454d25722d88) |
+| 16 | 0xfe9dcec48761d2826e3e3d95597462dfb281db79 | 48,221 | 4,047,228,659 | 83,930 | [View](https://etherscan.io/address/0xfe9dcec48761d2826e3e3d95597462dfb281db79) |
+| 17 | 0x1346d9c6315f6c23fe280b49ef215aebd49338b2 | 6,211 | 3,673,122,501 | 591,389 | [View](https://etherscan.io/address/0x1346d9c6315f6c23fe280b49ef215aebd49338b2) |
+| 18 | 0x5f62d006c10c009ff50c878cd6157ac861c99990 | 7,952 | 3,655,219,300 | 459,660 | [View](https://etherscan.io/address/0x5f62d006c10c009ff50c878cd6157ac861c99990) |
+| 19 | 0x3f773dc3ccc70b3d2a549713ac8d556af949d4e8 | 1,323 | 3,653,595,781 | 2,761,599 | [View](https://etherscan.io/address/0x3f773dc3ccc70b3d2a549713ac8d556af949d4e8) |
+| 20 | 0xc8a5849a02ad01b572a0108aebf5a0d27777a552 | 63,707 | 3,484,943,560 | 54,702 | [View](https://etherscan.io/address/0xc8a5849a02ad01b572a0108aebf5a0d27777a552) |
+| 21 | 0x30c2f77eaa93aace5e56ea4dcba5f21f794b58be | 687 | 3,326,641,119 | 4,842,272 | [View](https://etherscan.io/address/0x30c2f77eaa93aace5e56ea4dcba5f21f794b58be) |
+| 22 | 0xcbeb5d484b54498d3893a0c3eb790331962e9e9d | 7,602 | 2,716,498,081 | 357,339 | [View](https://etherscan.io/address/0xcbeb5d484b54498d3893a0c3eb790331962e9e9d) |
+| 23 | 0xd312535f0104a45ebd16cd29756fe9e6f8fe633c | 42,892 | 2,461,082,112 | 57,378 | [View](https://etherscan.io/address/0xd312535f0104a45ebd16cd29756fe9e6f8fe633c) |
+| 24 | 0xb947d63b578fb48233de4076407dd0498dcf36ab | 584 | 2,431,099,134 | 4,162,840 | [View](https://etherscan.io/address/0xb947d63b578fb48233de4076407dd0498dcf36ab) |
+| 25 | 0x1c9a7a489f62a75e276d3790ba92aaf12af13469 | 6,923 | 2,145,392,271 | 309,893 | [View](https://etherscan.io/address/0x1c9a7a489f62a75e276d3790ba92aaf12af13469) |
+| 26 | 0xf3d021d51a725f5dbdce253248e826a8644be3c1 | 3,693 | 2,063,909,478 | 558,870 | [View](https://etherscan.io/address/0xf3d021d51a725f5dbdce253248e826a8644be3c1) |
+| 27 | 0x2b4820042fe6a5b8ab01b29ede19203181d625fa | 18,285 | 1,880,349,910 | 102,835 | [View](https://etherscan.io/address/0x2b4820042fe6a5b8ab01b29ede19203181d625fa) |
+| 28 | 0xf6309d5a91fa559cbf8f6ff3c5ec8fb67fe38577 | 628 | 1,830,917,976 | 2,915,474 | [View](https://etherscan.io/address/0xf6309d5a91fa559cbf8f6ff3c5ec8fb67fe38577) |
+| 29 | 0x000cb000e880a92a8f383d69da2142a969b93de7 | 5,223 | 1,787,396,594 | 342,216 | [View](https://etherscan.io/address/0x000cb000e880a92a8f383d69da2142a969b93de7) |
+| 30 | 0x785cd82bb016c740d41ca9e0b1bacc3a2439dc0d | 23,798 | 1,666,264,939 | 70,017 | [View](https://etherscan.io/address/0x785cd82bb016c740d41ca9e0b1bacc3a2439dc0d) |
 
 ### Key Observations
 

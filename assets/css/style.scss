@@ -110,14 +110,14 @@ h1 a {
 .home {
   max-width: 100%;
   overflow-x: hidden;
-
+  
   // Target all content that could overflow
   p, li, td, div {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
   }
-
+  
   // Specifically handle URLs in links
   a {
     word-wrap: break-word;
@@ -126,13 +126,13 @@ h1 a {
     display: inline-block;
     max-width: 100%;
   }
-
+  
   // Handle code blocks that might contain long strings
   pre {
     overflow-x: auto;
     max-width: 100%;
   }
-
+  
   // Inline code should wrap
   code {
     word-wrap: break-word;
@@ -144,12 +144,12 @@ h1 a {
 .home ul, .home ol {
   max-width: 100%;
   padding-right: 20px; // Give some breathing room
-
+  
   li {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
-
+    
     // Extra aggressive breaking for URLs
     a {
       word-break: break-all;

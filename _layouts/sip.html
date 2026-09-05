@@ -18,8 +18,8 @@ layout: default
 </svg>
 
 <div class="home">
-  {% if page.category == "ERC" %}
-    {% assign doc_prefix = "ERC" %}
+  {% if page.category == "SRC" %}
+    {% assign doc_prefix = "SRC" %}
   {% else %}
     {% assign doc_prefix = "SIP" %}
   {% endif %}
@@ -50,9 +50,9 @@ layout: default
     {% endif %}
     {% if page.status == "Living" %}
       <span class="badge text-light bg-success" data-bs-toggle="tooltip" data-bs-title="This SIP is Living and accepts infrequent updates. "> 🎉 Living</span>
-    {% endif %}
-    {% if page.category == "ERC" %}
-      <a class="badge text-light bg-primary" data-bs-toggle="tooltip" data-bs-title="Application-level standards and conventions, including contract standards such as token standards, name registries, URI schemes, library/package formats, and wallet formats." href="../erc">Standards Track: ERC</a>
+    {% endif %}   
+    {% if page.category == "SRC" %}
+      <a class="badge text-light bg-primary" data-bs-toggle="tooltip" data-bs-title="Application-level standards and conventions, including contract standards such as token standards, name registries, URI schemes, library/package formats, and wallet formats." href="../src">Standards Track: SRC</a>
     {% elsif page.category == "Interface" %}
       <a class="badge text-light bg-primary" data-bs-toggle="tooltip" data-bs-title="Improvements around client API/RPC specifications and standards, and also certain language-level standards like method names and contract ABIs." href="../interface">Standards Track: Interface</a>
     {% elsif page.category == "Networking" %}
@@ -102,7 +102,7 @@ layout: default
           <th scope="row">Withdrawal Reason</th>
           <td>{{ page.withdrawal-reason }}</td>
         </tr>
-      {% endif %}
+      {% endif %}       
       {% if page.status != "Review" and page.status != "Last Call" and page.status != "Final" and page.discussions-to != undefined %}
         <tr>
           <th scope="row">Discussion Link</th>

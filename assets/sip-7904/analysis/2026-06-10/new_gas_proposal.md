@@ -49,18 +49,18 @@ Worst client vs. second-worst client per gas parameter. The `Ratio` column is `w
 | OPCODE_SMOD | besu | 3 | erigon | 2 | 1.50× |
 | OPCODE_ADDMOD | besu | 3 | erigon | 2 | 1.50× |
 | OPCODE_MULMOD | besu | 4 | nethermind | 4 | 1.00× |
-| OPCODE_KECCAK256_BASE | besu | 12 | gsil | 9 | 1.33× |
+| OPCODE_KECCAK256_BASE | besu | 12 | geth | 9 | 1.33× |
 | OPCODE_KECCAK256_PER_WORD | nethermind | 3 | besu | 2 | 1.50× |
-| PRECOMPILE_ECRECOVER | erigon | 841 | gsil | 781 | 1.08× |
+| PRECOMPILE_ECRECOVER | erigon | 841 | geth | 781 | 1.08× |
 | PRECOMPILE_BLAKE2F_BASE | erigon | 94 | besu | 41 | 2.29× |
 | PRECOMPILE_BLAKE2F_PER_ROUND | besu | 1 | erigon | 1 | 1.00× |
-| PRECOMPILE_BLS_G1ADD | silrex | 236 | besu | 175 | 1.35× |
-| PRECOMPILE_BLS_G2ADD | silrex | 277 | besu | 212 | 1.31× |
-| PRECOMPILE_ECADD | erigon | 108 | rsil | 96 | 1.12× |
-| PRECOMPILE_ECPAIRING_BASE | rsil | 8247 | silrex | 8182 | 1.01× |
-| PRECOMPILE_ECPAIRING_PER_POINT | nethermind | 11712 | silrex | 6162 | 1.90× |
-| PRECOMPILE_POINT_EVALUATION | silrex | 23825 | nethermind | 23399 | 1.02× |
-| PRECOMPILE_P256VERIFY | silrex | 3814 | erigon | 1411 | 2.70× |
+| PRECOMPILE_BLS_G1ADD | ethrex | 236 | besu | 175 | 1.35× |
+| PRECOMPILE_BLS_G2ADD | ethrex | 277 | besu | 212 | 1.31× |
+| PRECOMPILE_ECADD | erigon | 108 | reth | 96 | 1.12× |
+| PRECOMPILE_ECPAIRING_BASE | reth | 8247 | ethrex | 8182 | 1.01× |
+| PRECOMPILE_ECPAIRING_PER_POINT | nethermind | 11712 | ethrex | 6162 | 1.90× |
+| PRECOMPILE_POINT_EVALUATION | ethrex | 23825 | nethermind | 23399 | 1.02× |
+| PRECOMPILE_P256VERIFY | ethrex | 3814 | erigon | 1411 | 2.70× |
 
 Per-client proposed gas for each parameter. Cells are colored by `log2(proposed / current)` — red means the proposal is more expensive than the current gas cost, green means cheaper, and white sits at unchanged. Annotations show the absolute proposed gas value; blank rows are parameters with no prior baseline (see warnings below).
 
@@ -156,16 +156,16 @@ _None._
 
 | Glue opcode | Affected clients | Affected gas params |
 | --- | --- | --- |
-| `AND` | `erigon` (R²), `silrex` (R²) | — |
-| `CALLDATALOAD` | `besu` (both), `erigon` (R²), `silrex` (R²), `gsil` (R²), `nethermind` (R²), `rsil` (R²) | `OPCODE_ADDMOD`, `OPCODE_MOD`, `OPCODE_MULMOD`, `OPCODE_SMOD` |
+| `AND` | `erigon` (R²), `ethrex` (R²) | — |
+| `CALLDATALOAD` | `besu` (both), `erigon` (R²), `ethrex` (R²), `geth` (R²), `nethermind` (R²), `reth` (R²) | `OPCODE_ADDMOD`, `OPCODE_MOD`, `OPCODE_MULMOD`, `OPCODE_SMOD` |
 | `EXP` | `erigon` (R²), `nethermind` (both) | — |
 | `GT` | `besu` (R²) | `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `JUMP` | `besu` (R²) | `OPCODE_ADDMOD`, `OPCODE_MULMOD` |
 | `JUMPDEST` | `besu` (R²) | `OPCODE_ADDMOD`, `OPCODE_MULMOD`, `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_ECRECOVER`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `JUMPI` | `besu` (R²), `erigon` (R²) | `PRECOMPILE_BLAKE2F_BASE`, `PRECOMPILE_ECADD`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
-| `KECCAK256` | `besu` (R²), `erigon` (R²), `silrex` (both), `gsil` (R²), `nethermind` (both), `rsil` (both) | — |
+| `KECCAK256` | `besu` (R²), `erigon` (R²), `ethrex` (both), `geth` (R²), `nethermind` (both), `reth` (both) | — |
 | `LT` | `besu` (R²) | — |
-| `MSTORE` | `rsil` (R²) | `OPCODE_KECCAK256_BASE`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_ECRECOVER`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
+| `MSTORE` | `reth` (R²) | `OPCODE_KECCAK256_BASE`, `PRECOMPILE_ECPAIRING_BASE`, `PRECOMPILE_ECRECOVER`, `PRECOMPILE_P256VERIFY`, `PRECOMPILE_POINT_EVALUATION` |
 | `RETURNDATASIZE` | `besu` (R²), `erigon` (R²) | — |
 | `SELFBALANCE` | `besu` (R²), `nethermind` (R²) | — |
 | `SWAP` | `besu` (R²) | — |
@@ -180,9 +180,9 @@ Rows where the winning fit's p-value exceeded `modeling.poor_fit_p_value_thresho
 
 | Gas param | Client | Test | Target opcode | Coef | runtime_ms | pvalue | rsquared | Failed |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `PRECOMPILE_BLAKE2F_PER_ROUND` | `rsil` | `test_blake2f_benchmark` | `BLAKE2F` | `num_rounds` | 0 | 1 | 0.9896 | p-value |
-| `PRECOMPILE_BLS_G1ADD` | `silrex` | `test_bls12_381` | `BLS12_G1ADD` | `target_coef` | 0.002351 | 0.001 | 0.05318 | R² |
-| `PRECOMPILE_BLS_G2ADD` | `silrex` | `test_bls12_381` | `BLS12_G2ADD` | `target_coef` | 0.00277 | 0.001 | 0.06885 | R² |
+| `PRECOMPILE_BLAKE2F_PER_ROUND` | `reth` | `test_blake2f_benchmark` | `BLAKE2F` | `num_rounds` | 0 | 1 | 0.9896 | p-value |
+| `PRECOMPILE_BLS_G1ADD` | `ethrex` | `test_bls12_381` | `BLS12_G1ADD` | `target_coef` | 0.002351 | 0.001 | 0.05318 | R² |
+| `PRECOMPILE_BLS_G2ADD` | `ethrex` | `test_bls12_381` | `BLS12_G2ADD` | `target_coef` | 0.00277 | 0.001 | 0.06885 | R² |
 
 ### Other weak candidates
 
@@ -191,6 +191,6 @@ Rows where the winning fit's p-value exceeded `modeling.poor_fit_p_value_thresho
 
 | Test | Target opcode | Coef | Combo | Failing clients |
 | --- | --- | --- | --- | --- |
-| `test_blake2f_uncachable` | `BLAKE2F` | `num_rounds` | — | `erigon` (p-value), `rsil` (p-value) |
+| `test_blake2f_uncachable` | `BLAKE2F` | `num_rounds` | — | `erigon` (p-value), `reth` (p-value) |
 
 </details>

@@ -1,8 +1,8 @@
-**ATTENTION: ERC-RELATED PULL REQUESTS NOW OCCUR IN [SILA/ERCS](https://github.com/sila/ercs)**
+**ATTENTION: SRC-RELATED PULL REQUESTS NOW OCCUR IN [SILA/SRCS](https://github.com/sila-chain/srcs)**
 
 --
 
-When opening a pull request to submit a new SIP, please use the suggested template: https://github.com/sila/SIPs/blob/master/sip-template.md
+When opening a pull request to submit a new SIP, please use the suggested template: https://github.com/sila-chain/SIPs/blob/master/sip-template.md
 
 We have a GitHub bot that automatically merges some PRs. It will merge yours immediately if certain criteria are met:
 

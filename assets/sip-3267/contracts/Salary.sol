@@ -6,7 +6,7 @@ import "./BaseSalary.sol";
 /// @author Victor Porton
 /// @notice Not audited, not enough tested.
 contract Salary is BaseSalary {
-    /// @param _uri The ERC-1155 token URI.
+    /// @param _uri The SRC-1155 token URI.
     constructor(string memory _uri) BaseSalary(_uri) { }
 
     /// Register a salary recipient.

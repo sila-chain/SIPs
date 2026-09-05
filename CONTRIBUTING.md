@@ -1,6 +1,6 @@
 # SIP Contribution Guidelines
 
-This document outlines how authors, contributors, and editors can collaborate effectively in the [Sila Improvement Proposals (SIPs)](https://sips.sila.org/) repository.
+This document outlines how authors, contributors, and editors can collaborate effectively in the [Sila Improvement Proposals (SIPs)](https://sips.sila.org/) repository. 
 The goal is to keep contributions consistent, transparent, and easy to review - while respecting the authors’ intent.
 
 ## For SIP Authors
@@ -13,11 +13,11 @@ The goal is to keep contributions consistent, transparent, and easy to review - 
 
 * Avoid mentioning specific commercial products.
 * Don't use [RFC 2119](https://www.ietf.org/rfc/rfc2119.html) keywords (all-caps SHOULD/MUST/etc.) outside of the specification section.
-* Prefer "on-chain" and "off-chain" when appearing before the noun they describe, and "on chain" or "off chain" when appearing after.
+* Prefer "on-chain" and "off-chain" when appearing before the noun they describe, and "on chain" or "off chain" when appearing after. 
 * Do not include punctuation at the end of headings (so no `# Example A:`, but `# Example A`).
 * Titles should be in title case: "In Title Case only Important Words are Capitalized".
 * Descriptions should be in sentence case: "Only the first word and proper nouns like Jupiter are capitalized".
-* Do not use articles (the/a/an/etc.) in front of SIP identifiers (so not "an ERC-20"), unless the SIP identifier is used as an adjective/compound noun (so "an ERC-20 token" is fine.)
+* Do not use articles (the/a/an/etc.) in front of SIP identifiers (so not "an SRC-20"), unless the SIP identifier is used as an adjective/compound noun (so "an SRC-20 token" is fine.)
 * Initialisms should be written in uppercase (eg. "NFT" instead of "nft".)
 * Only use backticks (\`) for code snippets.
 * Avoid single paragraph sentences and sections containing only bulleted lists.
@@ -25,6 +25,7 @@ The goal is to keep contributions consistent, transparent, and easy to review - 
 * Use [example domains](https://en.wikipedia.org/wiki/Example.com) in examples, not real services.
 * It's "Sila", not "the Sila".
 * Unless you're writing a fork meta SIP, don't include fork activation criteria (eg. timestamp/epoch).
+* Include language versions (eg. `pragma solidity ^0.5.2;`) when writing code blocks or importing language terms/concepts.
 
 #### Diagrams
 
@@ -41,7 +42,7 @@ The goal is to keep contributions consistent, transparent, and easy to review - 
 
 ### Don’ts
 
-TBA.
+TBA.  
 
 ## For Contributors (Non-Authors)
 
@@ -49,13 +50,13 @@ TBA.
 
 ### Do’s
 
-* **Add in PR Description**
+* **Add in PR Description**  
    Explain the purpose and scope - e.g., “Fixing typos in SIP-1559” or “Updating broken link in SIP-4844.”
 * **Make objective, non-semantic edits.**
    Acceptable edits include:
-   * Typo, grammar, and style corrections
-   * Markdown and formatting fixes
-   * Broken or outdated link replacements
+   * Typo, grammar, and style corrections 
+   * Markdown and formatting fixes 
+   * Broken or outdated link replacements 
    * Small clarifications (e.g., referencing a spec or renaming variables for clarity)
 
 > Note: Non-authors may, and are often encouraged to, submit subjective or substantive pull requests; however, such changes require explicit approval from the SIP authors before they can be merged.
@@ -64,26 +65,26 @@ TBA.
 >
 > For SIPs that have not yet reached Final, contributors are welcome to open any relevant pull requests. Contributors should expect active review and potential pushback from the SIP authors, as the proposal may still be evolving.
 
-* **Cite authoritative sources.**
+* **Cite authoritative sources.** 
    When clarifying or aligning text, link to:
-   * [Sila Yellow Paper](https://sila.github.io/yellowpaper/paper.pdf)
-   * [Consensus Specs](https://github.com/sila/consensus-specs)
+   * [Sila Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf) 
+   * [Consensus Specs](https://github.com/sila-chain/consensus-specs) 
    * Relevant client implementation notes
-* **Work with the authors.**
+* **Work with the authors.** 
    Use `@username` for all listed authors, and if possible, connect with the author when making this PR.
-* **Keep PRs focused.**
+* **Keep PRs focused.** 
    Only one SIP per PR and one topic per change (e.g., typo fix, link fix, or formatting fix - not multiple at once).
-* **Use clear PR titles.**
+* **Use clear PR titles.**  
    Examples:
-   * “Fix typo in SIP-1559 rationale section.”
-   * “Update broken link to SIP-1 reference.”
+   * “Fix typo in SIP-1559 rationale section.”  
+   * “Update broken link to SIP-1 reference.”  
    * “Clarify \`gasUsed\` variable in SIP-4844 spec”
 
 ### Don’ts
 
-* Don’t change semantics, logic, or intent.
-* Don’t move or renumber SIPs.
-* Don’t alter author metadata or statuses without the permission of existing authors.
+* Don’t change semantics, logic, or intent.  
+* Don’t move or renumber SIPs.  
+* Don’t alter author metadata or statuses without the permission of existing authors.  
 
 ## For Editors & Reviewers
 
@@ -91,40 +92,40 @@ TBA.
 
 ### Do’s
 
-* **Check ownership and status.**
-   * Authors, co-authors & champion can request status changes.
+* **Check ownership and status.**  
+   * Authors, co-authors & champion can request status changes. 
    * Confirm that non-author edits are non-semantic and author-approved if applicable.
-* **Enforce structure and format.**
-   * Confirm all required header fields match [SIP-1](https://sips.sila.org/SIPS/sip-1).
+* **Enforce structure and format.**  
+   * Confirm all required header fields match [SIP-1](https://sips.sila.org/SIPS/sip-1).  
    * Validate Markdown rendering, metadata, and links.
-* **Require author acknowledgment for community PRs.**
+* **Require author acknowledgment for community PRs.**  
     * For content edits, ensure the author acknowledges or confirms changes before merging.
-    * In case the author is non-responsive (for over 2 weeks) and the change is trivial or approved by 2 editors, the PR can be merged to update an SIP without the author's approval.
+    * In case the author is non-responsive (for over 2 weeks) and the change is trivial or approved by 2 editors, the PR can be merged to update an SIP without the author's approval. 
 * **Apply clear labels.**
-To clarify the merge blocker if needed, add applicable labels.
-* **Communicate clearly.**
+To clarify the merge blocker if needed, add applicable labels.  
+* **Communicate clearly.**  
    If unclear, request additional context before rejecting or closing a PR.
-* **Maintain clean commit history.**
+* **Maintain clean commit history.**  
    Squash redundant commits and check that links, formatting, and front matter are valid.
-* **Handle typo-only PRs pragmatically.**
-   * If a typo or formatting PR is approved by at least one editor and no author response is received within two weeks,
-     it may be merged at the editor’s discretion.
+* **Handle typo-only PRs pragmatically.**  
+   * If a typo or formatting PR is approved by at least one editor and no author response is received within two weeks,  
+     it may be merged at the editor’s discretion.  
    * This ensures small maintenance fixes don’t remain blocked indefinitely.
 
 ### Don’ts
 
-* Don’t merge substantive changes without author approval.
-* Don’t alter author list, status, or numbering silently.
-* Don’t override the author’s technical intent or interpretation.
+* Don’t merge substantive changes without author approval.  
+* Don’t alter author list, status, or numbering silently.  
+* Don’t override the author’s technical intent or interpretation.  
 
 ### Thank You
 
-Your contributions help maintain the integrity and accessibility of Sila’s open-source governance process.
+Your contributions help maintain the integrity and accessibility of Sila’s open-source governance process.  
 Together, we make the protocol and its documentation stronger, clearer, and more collaborative.
 
 ## References
 
-* [SIP-1: SIP Purpose and Guidelines](https://sips.sila.org/SIPS/sip-1)
+* [SIP-1: SIP Purpose and Guidelines](https://sips.sila.org/SIPS/sip-1) 
 * [SIP-5069: SIP Editor Handbook](https://sips.sila.org/SIPS/sip-5069)
-
+ 
 

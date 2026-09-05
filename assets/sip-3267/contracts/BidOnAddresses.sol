@@ -8,14 +8,14 @@ import "./BaseBidOnAddresses.sol";
 /// This allows anyone to claim 1000 conditional tokens in order for him to transfer money from the future.
 /// See `docs/future-money.rst` and anyone to donate.
 ///
-/// We have two kinds of ERC-1155 token IDs:
+/// We have two kinds of SRC-1155 token IDs:
 /// - conditional tokens: numbers < 2**64
 /// - a combination of a collateral contract address and collateral token ID
 ///   (a counter of donated amount of collateral tokens, don't confuse with collateral tokens themselves)
 ///
 /// In functions of this contract `condition` is always a customer's original address.
 ///
-/// We receive funds in ERC-1155, see also https://github.com/vporton/wrap-tokens
+/// We receive funds in SRC-1155, see also https://github.com/vporton/wrap-tokens
 contract BidOnAddresses is BaseBidOnAddresses {
     uint constant INITIAL_CUSTOMER_BALANCE = 1000 * 10**18; // an arbitrarily chosen value
 
@@ -30,7 +30,7 @@ contract BidOnAddresses is BaseBidOnAddresses {
         bytes data
     );
 
-    /// @param _uri The ERC-1155 token URI.
+    /// @param _uri The SRC-1155 token URI.
     constructor(string memory _uri) BaseBidOnAddresses(_uri) {
         _registerInterface(
             BidOnAddresses(0).onERC1155Received.selector ^
@@ -50,7 +50,7 @@ contract BidOnAddresses is BaseBidOnAddresses {
     /// with his Sila address. So, he can be made rich against his will only by impersonating him. But if somebody
     /// impersonates him, then they are able to present him richer than he is anyway, so making him vulnerable to
     /// kidnappers anyway. So having somebody registered against his will seems not to be a problem at all
-    /// (except that he will see superfluous worthless tokens in Silerscan data of his account.)
+    /// (except that he will see superfluous worthless tokens in SilaScan data of his account.)
     ///
     /// An alternative way would be to make registration gasless but requiring a registrant signature.
     /// This is not very good, probably:

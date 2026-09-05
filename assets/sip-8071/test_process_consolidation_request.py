@@ -1,4 +1,4 @@
-from sil2spec.test.context import (
+from eth2spec.test.context import (
     default_activation_threshold,
     scaled_churn_balances_exceed_activation_exit_churn_limit,
     single_phase,
@@ -8,8 +8,8 @@ from sil2spec.test.context import (
     with_electra_and_later,
     with_presets,
 )
-from sil2spec.test.helpers.constants import MINIMAL
-from sil2spec.test.helpers.withdrawals import (
+from eth2spec.test.helpers.constants import MINIMAL
+from eth2spec.test.helpers.withdrawals import (
     set_compounding_withdrawal_credential,
     set_compounding_withdrawal_credential_with_balance,
     set_sil1_withdrawal_credential_with_balance,
