@@ -31,8 +31,9 @@ jobs:
           SOURCE='https://github.com/ethereum/EIPs.git'
 
           def run(*args, cwd=None, capture=False):
-              return subprocess.run(args, cwd=cwd, check=True, text=True,
-                                    stdout=subprocess.PIPE if capture else None).stdout if capture else None
+              cp = subprocess.run(args, cwd=cwd, check=True, text=True,
+                                  stdout=subprocess.PIPE if capture else None)
+              return cp.stdout if capture else None
 
           live = run('git','ls-remote',SOURCE,'refs/heads/master',capture=True).split()[0]
           print(f'LIVE_SOURCE={live}')
