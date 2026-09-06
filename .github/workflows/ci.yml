@@ -113,7 +113,7 @@ jobs:
           gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' > /tmp/pr-files.txt
           COUNT="$(wc -l < /tmp/pr-files.txt | tr -d ' ')"
           echo "CHANGED_FILE_COUNT=$COUNT"
-          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-20260905" ]; then
+          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-20260905" ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-latest-20260907" ]; then
             echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
           else
             echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
@@ -160,7 +160,7 @@ jobs:
           PR_NUMBER="$(jq -r '.number' "$GITHUB_EVENT_PATH")"
           COUNT="$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' | wc -l | tr -d ' ')"
           echo "CHANGED_FILE_COUNT=$COUNT"
-          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-100pct-completion-20260905" ]; then
+          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-100pct-completion-20260905" ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-latest-20260907" ]; then
             echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
           else
             echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
@@ -184,8 +184,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED_UPSTREAM='9207c6011f526bd40abd79649484a1a342585bd4'
-          GENERATOR_COMMIT='5c18e6a2a61680422a59beadfbfdb4e0f2a26a35'
+          EXPECTED_UPSTREAM='a9031bdc85949321a9707dd59ba44cdcba4a0eb0'
+          GENERATOR_COMMIT='921b038391116fd2f65650b198b504e952067301'
           CONTROL_REF='refs/heads/sila/sips-pure-identity-generator-20260905'
 
           LIVE_UPSTREAM="$(git ls-remote https://github.com/ethereum/EIPs.git refs/heads/master | awk '{print $1}')"
@@ -346,7 +346,7 @@ jobs:
               scrubbed = url_re.sub('', raw)
               for rx in protected_identity_res:
                   scrubbed = rx.sub('', scrubbed)
-              if re.search(r'(?<![A-Za-z0-9_])(?:EVM|Evm|evm)(?![A-Za-z0-9_])', scrubbed):
+              if re.search(r'(?i)evm', scrubbed):
                   native_evm_residuals.append(rel)
               if re.search(r'(?<![A-Za-z0-9_])(?:Ethereum|ethereum|ETHEREUM)(?![A-Za-z0-9_])', scrubbed):
                   native_identity_residuals.append(rel + ':Ethereum')
@@ -409,7 +409,7 @@ jobs:
           gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename' > /tmp/pr-files.txt
           COUNT="$(wc -l < /tmp/pr-files.txt | tr -d ' ')"
           echo "CHANGED_FILE_COUNT=$COUNT"
-          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-100pct-completion-20260905" ]; then
+          if [ "$COUNT" -gt 300 ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-100pct-completion-20260905" ] || [ "${GITHUB_HEAD_REF:-}" = "sila/sips-pure-identity-latest-20260907" ]; then
             echo "MEGA_SYNC=true" >> "$GITHUB_ENV"
           else
             echo "MEGA_SYNC=false" >> "$GITHUB_ENV"
