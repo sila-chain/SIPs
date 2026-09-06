@@ -1,0 +1,28 @@
+name: CI Authority Bootstrap
+
+on:
+  push:
+    branches:
+      - sila/sips-pure-identity-latest-20260907
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: sila/sips-pure-identity-latest-20260907
+          fetch-depth: 0
+      - name: Prepare CI blob
+        run: python3 .sila/prepare_ci_patch.py
+      - name: Commit prepared blob
+        run: |
+          git config user.name 'SILA Network'
+          git config user.email 'pssd500@gmail.com'
+          git add .sila/ci-next.yml
+          git commit -m 'ci: prepare latest Sila authority policy blob'
+          git push origin HEAD:sila/sips-pure-identity-latest-20260907
