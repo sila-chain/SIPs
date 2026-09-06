@@ -1,0 +1,118 @@
+name: Sila Native Authority
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  authority:
+    name: Sila Native Authority
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout SIPs
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Verify exact Sila-native authority
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+          import shutil
+          import subprocess
+
+          EXPECTED='a9031bdc85949321a9707dd59ba44cdcba4a0eb0'
+          GENERATOR='921b038391116fd2f65650b198b504e952067301'
+          CONTROL='refs/heads/sila/sips-pure-identity-generator-20260905'
+          SOURCE='https://github.com/' + 'ethe' + 'reum/' + 'E' + 'IPs.git'
+
+          def run(*args, cwd=None, capture=False):
+              cp=subprocess.run(args,cwd=cwd,check=True,text=True,
+                                stdout=subprocess.PIPE if capture else None)
+              return cp.stdout if capture else None
+
+          live=run('git','ls-remote',SOURCE,'refs/heads/master',capture=True).split()[0]
+          print(f'LIVE_UPSTREAM={live}')
+          if live != EXPECTED:
+              raise SystemExit(f'UPSTREAM_AUTHORITY_MOVED:{live}')
+
+          run('git','fetch','--quiet','origin',f'{CONTROL}:{CONTROL}')
+          run('git','cat-file','-e',f'{GENERATOR}^{{commit}}')
+          generator=run('git','show',f'{GENERATOR}:.sila/sips_regenerate_v2.py',capture=True)
+          Path('/tmp/sila_generator.py').write_text(generator,encoding='utf-8')
+          run('python3','-m','py_compile','/tmp/sila_generator.py')
+
+          shutil.rmtree('/tmp/sila-source',ignore_errors=True)
+          shutil.rmtree('/tmp/sila-expected',ignore_errors=True)
+          run('git','clone','--quiet',SOURCE,'/tmp/sila-source')
+          run('git','checkout','--quiet','--detach',EXPECTED,cwd='/tmp/sila-source')
+          run('python3','/tmp/sila_generator.py','/tmp/sila-source','/tmp/sila-expected')
+
+          current=Path('.').resolve()
+          expected=Path('/tmp/sila-expected')
+          excluded={'Gemfile','Gemfile.lock','_config.yml'}
+
+          def manifest(root):
+              out={}
+              for p in sorted(root.rglob('*')):
+                  rel=p.relative_to(root).as_posix()
+                  if rel == '.git' or rel.startswith('.git/'):
+                      continue
+                  if rel.startswith('.github/workflows/'):
+                      continue
+                  if rel in excluded:
+                      continue
+                  if p.is_symlink():
+                      out[rel]=('L',os.readlink(p))
+                  elif p.is_file():
+                      out[rel]=('F',hashlib.sha256(p.read_bytes()).hexdigest())
+              return out
+
+          a=manifest(current)
+          b=manifest(expected)
+          missing=sorted(set(b)-set(a))
+          extra=sorted(set(a)-set(b))
+          changed=sorted(k for k in set(a)&set(b) if a[k] != b[k])
+          print(f'SILA_AUTHORITY_EXPECTED_FILE_COUNT={len(b)}')
+          print(f'SILA_AUTHORITY_CURRENT_FILE_COUNT={len(a)}')
+          print(f'SILA_AUTHORITY_MISSING_COUNT={len(missing)}')
+          print(f'SILA_AUTHORITY_EXTRA_COUNT={len(extra)}')
+          print(f'SILA_AUTHORITY_CHANGED_COUNT={len(changed)}')
+          if missing or extra or changed:
+              for label,items in [('MISSING',missing),('EXTRA',extra),('CHANGED',changed)]:
+                  for item in items[:100]:
+                      print(f'{label}:{item}')
+              raise SystemExit('SILA_AUTHORITY_TREE_MISMATCH')
+
+          required={
+              'SIPS/sip-8360.md',
+              'SIPS/sip-8390.md',
+              'assets/sip-7543/gasSVMPlusEmulate.go',
+              'assets/sip-7979/riscv/svm64.py',
+              'assets/sip-8051/mldsa_svm.rsp',
+              'assets/sip-8052/kat_silfalcon512.rsp',
+              'assets/sip-1884/sila_processing.png',
+              'assets/sip-3607/sila.diff',
+          }
+          absent=sorted(x for x in required if not (current/x).is_file())
+          print(f'SILA_REQUIRED_PATH_MISSING_COUNT={len(absent)}')
+          if absent:
+              print('\n'.join(absent))
+              raise SystemExit('SILA_REQUIRED_PATH_GATE_FAILED')
+
+          print('SILA_NATIVE_EXACT_REGENERATION_GATE=PASS')
+          print('SILA_NATIVE_AUTHORITY_GATE=PASS')
+          PY
