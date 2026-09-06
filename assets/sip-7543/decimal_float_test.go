@@ -94,13 +94,13 @@ func BenchmarkOpDecSin(b *testing.B) {
 
 func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 	var (
-		env            = NewEVM(BlockContext{}, TxContext{}, nil, params.TestChainConfig, Config{})
+		env            = NewSVM(BlockContext{}, TxContext{}, nil, params.TestChainConfig, Config{})
 		stack          = newstack()
 		scope          = &ScopeContext{nil, stack, nil}
-		evmInterpreter = NewEVMInterpreter(env)
+		SVMInterpreter = NewSVMInterpreter(env)
 	)
 
-	env.interpreter = evmInterpreter
+	env.interpreter = SVMInterpreter
 
 	pc := uint64(0)
 	b.ResetTimer()
@@ -108,7 +108,7 @@ func benchmarkOpDec(b *testing.B, intArgs []*uint256.Int, op executionFunc) {
 		for _, arg := range intArgs {
 			stack.push(arg)
 		}
-		op(&pc, evmInterpreter, scope)
+		op(&pc, SVMInterpreter, scope)
 		stack.pop()
 		stack.pop()
 	}

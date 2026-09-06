@@ -1,6 +1,6 @@
 // THE BELOW CODE IS ADDED TO core/vm/gas_table.go
 
-// emulate op for EVMPlus gas
+// emulate op for SVMPlus gas
 // double estimate gas for actual run
 // gas emulation cost
 type GasOpFunc func(inputs []int256, gas *uint64)

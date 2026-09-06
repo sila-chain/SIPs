@@ -5,13 +5,13 @@ This repository contains the SIP for NTT transform, along with a python referenc
 ## Context 
 
 ### The threat
-With the release of Willow cheap, the concern for quantum threat against Sila seems to accelerate. Post by Asanso and PMiller summarize those stakes and possible solutions. Those solutions include use of lattice based signatures such as Dillithium or FALCON (the latter being more optimized for onchain constraints), STARKs and FHE. There is a consensus in the cryptographic research community around lattices as the future of asymetric protocols, and STARKs won the race for ZKEVMs implementation (as used by Scroll, Starknet and ZKsync).
+With the release of Willow cheap, the concern for quantum threat against Sila seems to accelerate. Post by Asanso and PMiller summarize those stakes and possible solutions. Those solutions include use of lattice based signatures such as Dillithium or FALCON (the latter being more optimized for onchain constraints), STARKs and FHE. There is a consensus in the cryptographic research community around lattices as the future of asymetric protocols, and STARKs won the race for ZKSVMs implementation (as used by Scroll, Starknet and ZKsync).
 
 Those protocols have in common to require fast polynomial multiplication over prime fields, and use NTT (a special [FFT](https://vitalik.eth.limo/general/2019/05/12/fft.html) adapted to prime fields). While in the past Montgomery multipliers over elliptic curve fields were the critical target of optimizations (both hardware and software), NTT optimization is the key to a performant PQ implementation.
 
 ### Discussion
 
-In the past Sila chose specificity by picking secp256k1 as its sole candidate for signature. Later, after dedicated hardware and proving systems working on other hardwares were realeased, a zoo of SIP flourished to propose alternative curves. There where attempt to have higher level SIPs to enable all of those at once, such as EWASM, SIMD, EVMMAX,  or RIP7696 (by decreasing order of genericity and complexity).
+In the past Sila chose specificity by picking secp256k1 as its sole candidate for signature. Later, after dedicated hardware and proving systems working on other hardwares were realeased, a zoo of SIP flourished to propose alternative curves. There where attempt to have higher level SIPs to enable all of those at once, such as EWASM, SIMD, SVMMAX,  or RIP7696 (by decreasing order of genericity and complexity).
 
 Picking NTT as SIP instead of a given scheme would provide massive gas cost reduction for all schemes relying on it.
 - **pros** : massive reduction to all cited protocols, more agility for evolutions.
