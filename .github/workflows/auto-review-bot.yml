@@ -1,0 +1,52 @@
+on:
+  workflow_run:
+    workflows:
+      - Auto Review Bot Trigger
+    types:
+      - completed
+
+name: Auto Review Bot
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
+jobs:
+  auto-review-bot:
+    runs-on: ubuntu-latest
+    name: Run
+    steps:
+      - name: Fetch PR Number
+        uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615
+        with:
+          name: pr-number
+          workflow: auto-review-trigger.yml
+          run_id: ${{ github.event.workflow_run.id }}
+          if_no_artifact_found: ignore
+
+      - name: Detect PR Number Artifact
+        id: pr-artifact
+        shell: bash
+        run: |
+          if [ -f pr-number.txt ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No PR artifact was emitted by the trigger; this workflow run is a no-op."
+          fi
+
+      - name: Save PR Number
+        id: save-pr-number
+        if: steps.pr-artifact.outputs.available == 'true'
+        run: echo "pr=$(cat pr-number.txt)" >> $GITHUB_OUTPUT
+
+      - name: Auto Review Bot
+        id: auto-review-bot
+        if: steps.pr-artifact.outputs.available == 'true'
+        uses: sila-chain/sip-review-bot@e9399a6005fabe0d4869c75ae16d038dbbb16761
+        continue-on-error: true
+        with:
+          token: ${{ secrets.TOKEN }}
+          config: config/sip-editors.yml
+          pr_number: ${{ steps.save-pr-number.outputs.pr }}

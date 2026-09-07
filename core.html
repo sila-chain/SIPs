@@ -1,0 +1,7 @@
+---
+layout: page
+title: Core
+---
+
+{% assign sips=site.pages|where:"type","Standards Track"|where:"category","Core"|where_exp:"page","page.url contains '/SIPS/'" %}
+{% include siptable.html sips=sips %}

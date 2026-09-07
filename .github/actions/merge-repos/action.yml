@@ -1,0 +1,24 @@
+name: Merge SRCs
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout SRCs
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        repository: sila-chain/SRCs
+        path: SRCs
+    - name: Merge Repos
+      shell: bash
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/SRCs/SRCS
+        mkdir -p $GITHUB_WORKSPACE/SRCs/SIPS
+        cp -rp $GITHUB_WORKSPACE/SRCs/SRCS/. $GITHUB_WORKSPACE/SIPS
+        cp -rp $GITHUB_WORKSPACE/SRCs/SIPS/. $GITHUB_WORKSPACE/SIPS
+        cp -rp $GITHUB_WORKSPACE/SRCs/assets/. $GITHUB_WORKSPACE/assets
+        cd $GITHUB_WORKSPACE/SIPS
+        find . -name "src-*.md" -type f -exec sh -c 'echo mv "$1" "$(echo "$1" | sed s/src/sip/)"' _ {} \; | sh
+        cd $GITHUB_WORKSPACE/assets
+        find . -depth -name "src-*" -type d -exec sh -c 'echo mv "$1" "$(echo "$1" | sed s/src/sip/)"' _ {} \; | sh
+        cd $GITHUB_WORKSPACE
+        rm -rf SRCs

@@ -1,0 +1,7 @@
+---
+layout: page
+title: Meta
+---
+
+{% assign sips=site.pages|where:"type","Meta"|where_exp:"page","page.url contains '/SIPS/'" %}
+{% include siptable.html sips=sips %}

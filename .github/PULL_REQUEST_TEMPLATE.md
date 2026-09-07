@@ -1,0 +1,12 @@
+**ATTENTION: SRC-RELATED PULL REQUESTS NOW OCCUR IN [SILA/SRCS](https://github.com/sila-chain/srcs)**
+
+--
+
+When opening a pull request to submit a new SIP, please use the suggested template: https://github.com/sila-chain/SIPs/blob/master/sip-template.md
+
+We have a GitHub bot that automatically merges some PRs. It will merge yours immediately if certain criteria are met:
+
+ - The PR edits only existing draft PRs.
+ - The build passes.
+ - Your GitHub username or email address is listed in the 'author' header of all affected PRs, inside <triangular brackets>.
+ - If matching on email address, the email address is the one publicly listed on your GitHub profile.

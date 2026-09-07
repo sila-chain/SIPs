@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":disableDependencyDashboard"
+  ],
+  "prConcurrentLimit": 100,
+  "ignorePaths": [
+    "**/assets/**"
+  ],
+  "ignoreDeps": [
+    "Pandapip1/jekyll-label-action",
+    "sila-chain/sipw-action",
+    "sila-chain/sip-review-bot",
+    "sila-chain/SIP-Bot"
+  ],
+  "enabled": false
+}

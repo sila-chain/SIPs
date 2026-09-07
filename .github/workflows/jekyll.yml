@@ -1,0 +1,94 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Build the SIPs Jekyll site on main and deploy when GitHub Pages is enabled.
+name: Deploy Jekyll site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: "*/15 * * * *" # Every 15 minutes
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages_enabled: ${{ steps.pages-state.outputs.enabled }}
+    steps:
+      - name: Checkout SIPs
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: sila-chain/SIPs
+          path: ''
+
+      - name: Merge Repos
+        uses: ./.github/actions/merge-repos
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@f26937343756480a8cb3ae1f623b9c8d89ed6984 # v1.196.0
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+          cache-version: 0
+
+      - name: Detect GitHub Pages enablement
+        id: pages-state
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh api "repos/$GITHUB_REPOSITORY/pages" >/tmp/pages.json 2>/tmp/pages.err; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "PAGES_STATUS=ENABLED"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "PAGES_STATUS=UNCONFIGURED"
+            echo "PAGES_DEPLOYMENT_GATE=DEFERRED_EXTERNAL_INFRASTRUCTURE"
+            echo "GitHub Pages is not enabled for this repository; the site build remains mandatory and deployment is deferred."
+          fi
+
+      - name: Setup Pages
+        id: pages
+        if: steps.pages-state.outputs.enabled == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload artifact
+        if: steps.pages-state.outputs.enabled == 'true'
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    if: needs.build.outputs.pages_enabled == 'true'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

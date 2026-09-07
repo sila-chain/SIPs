@@ -1,0 +1,27 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sila SIPs</title>
+    <description>A feed of all SIPs</description>
+    <link>{{ site.url }}</link>
+    <atom:link href="{{ site.url }}/all.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    {% assign sips = site.pages | sort: 'sip' %}
+    {% for sip in sips %}
+      <item>
+        <title>{{ sip.title | xml_escape }}</title>
+        <category>{{ sip.type | xml_escape }}/{{ sip.category | xml_escape }}</category>
+        {% if sip.discussions-to %}
+          <comments>{{ sip.discussions-to | xml_escape }}</comments>
+        {% endif %}
+        <description>{{ sip.content | xml_escape }}</description>
+        <pubDate>{{ sip.created | date_to_rfc822 }}</pubDate>
+        <link>{{ site.url }}{{ sip.url }}</link>
+        <guid isPermaLink="true">{{ site.url }}{{ sip.url }}</guid>
+      </item>
+    {% endfor %}
+  </channel>
+</rss>
