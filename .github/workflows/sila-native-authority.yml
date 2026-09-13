@@ -34,7 +34,7 @@ jobs:
           import shutil
           import subprocess
 
-          EXPECTED='a9031bdc85949321a9707dd59ba44cdcba4a0eb0'
+          EXPECTED='c4f6cf42414ed3970d27c9e542384d94ade7736d'
           GENERATOR='2a7cc5e3537b5a1d194df4df706594b6b9f0a119'
           CONTROL='refs/heads/sila/sips-pure-identity-generator-20260905'
           SOURCE='https://github.com/' + 'ethe' + 'reum/' + 'E' + 'IPs.git'
